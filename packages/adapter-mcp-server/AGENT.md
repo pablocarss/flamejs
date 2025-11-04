@@ -1,20 +1,20 @@
-# AI Agent Maintenance Manual: `@igniter-js/adapter-mcp-server`
+# AI Agent Maintenance Manual: `@flame-js/adapter-mcp-server`
 
 **Version:** 2.0.0 (v0.3.0+)
-**For AI Agent:** You are an expert TypeScript software engineer. This document is your primary technical guide to the `@igniter-js/adapter-mcp-server` package. Read and understand it thoroughly before attempting any modifications. Your goal is to perform maintenance tasks accurately, respecting the architectural principles outlined here.
+**For AI Agent:** You are an expert TypeScript software engineer. This document is your primary technical guide to the `@flame-js/adapter-mcp-server` package. Read and understand it thoroughly before attempting any modifications. Your goal is to perform maintenance tasks accurately, respecting the architectural principles outlined here.
 
 ---
 
 ## 1. Package Overview
 
 ### 1.1. Package Name
-`@igniter-js/adapter-mcp-server`
+`@flame-js/adapter-mcp-server`
 
 ### 1.2. Purpose
-This package is an **Adapter** that exposes an entire Igniter.js `AppRouter` as a set of "tools" consumable by AI agents and clients that adhere to the **Model-Context-Protocol (MCP)**. Its primary function is to make your Igniter.js API "AI-native," allowing large language models to understand and execute your API actions to fulfill user requests.
+This package is an **Adapter** that exposes an entire Flame.js `AppRouter` as a set of "tools" consumable by AI agents and clients that adhere to the **Model-Context-Protocol (MCP)**. Its primary function is to make your Flame.js API "AI-native," allowing large language models to understand and execute your API actions to fulfill user requests.
 
 ### 1.3. New in v0.3.0: Builder Pattern API
-Version 0.3.0 introduces a new **Builder Pattern API** (`IgniterMcpServer`) alongside the existing function-based API (`createMcpAdapter`). The builder pattern provides:
+Version 0.3.0 introduces a new **Builder Pattern API** (`FlameMcpServer`) alongside the existing function-based API (`createMcpAdapter`). The builder pattern provides:
 - Full TypeScript type inference for tools, prompts, and resources
 - Fluent, chainable API for step-by-step configuration
 - Better IDE autocomplete and type safety
@@ -24,12 +24,12 @@ Version 0.3.0 introduces a new **Builder Pattern API** (`IgniterMcpServer`) alon
 
 ## 2. Architecture & Key Concepts
 
-This adapter acts as a translation and execution layer between the MCP standard and the Igniter.js framework.
+This adapter acts as a translation and execution layer between the MCP standard and the Flame.js framework.
 
 ### 2.1. The Adapter's Core Responsibility
 The fundamental responsibility of this adapter is to perform several main operations:
-1.  **Introspection & Tool Definition:** When initialized, the adapter inspects the provided `AppRouter` object. It iterates through every controller and action, transforming each `IgniterAction` into a formal "tool" definition that an MCP client can understand.
-2.  **Execution & Translation:** When an MCP client requests a tool to be executed, the adapter receives this request, translates the tool call back into an Igniter.js action call, executes it, and then translates the result back into an MCP-compliant format.
+1.  **Introspection & Tool Definition:** When initialized, the adapter inspects the provided `AppRouter` object. It iterates through every controller and action, transforming each `FlameAction` into a formal "tool" definition that an MCP client can understand.
+2.  **Execution & Translation:** When an MCP client requests a tool to be executed, the adapter receives this request, translates the tool call back into an Flame.js action call, executes it, and then translates the result back into an MCP-compliant format.
 3.  **Prompts & Resources:** The adapter supports registering custom prompts and resources, allowing AI agents to access structured guidance and data.
 4.  **OAuth Authorization:** The adapter can enforce OAuth-based authorization, requiring valid Bearer tokens and exposing protected resource metadata endpoints.
 5.  **Event Handling:** Comprehensive event hooks allow monitoring and logging of all MCP operations.
@@ -42,7 +42,7 @@ The adapter now supports two distinct API patterns:
 The builder pattern provides a fluent, chainable API:
 
 ```typescript
-const { handler, auth } = IgniterMcpServer
+const { handler, auth } = FlameMcpServer
   .create()
   .router(AppRouter)
   .withServerInfo({ name: 'My Server', version: '1.0.0' })
@@ -79,13 +79,13 @@ const { server, auth } = createMcpAdapter({
 ### 2.3. Introspection and Tool Generation
 This is the heart of the adapter.
 -   **Router Traversal:** Both APIs use the internal `extractToolsFromRouter` utility to traverse the `AppRouter.controllers` map.
--   **Action-to-Tool Mapping:** Each `IgniterAction` (from `igniter.query` or `igniter.mutation`) is converted into an MCP tool. The tool's name is derived from its path in the router, such as `users.list` or `posts.getById`.
--   **Schema Conversion:** The Zod schemas defined in the `body` and `query` properties of an `IgniterAction` are converted into **JSON Schema**. The JSON Schema standard is what MCP uses to describe the parameters a tool accepts.
+-   **Action-to-Tool Mapping:** Each `FlameAction` (from `Flame.query` or `Flame.mutation`) is converted into an MCP tool. The tool's name is derived from its path in the router, such as `users.list` or `posts.getById`.
+-   **Schema Conversion:** The Zod schemas defined in the `body` and `query` properties of an `FlameAction` are converted into **JSON Schema**. The JSON Schema standard is what MCP uses to describe the parameters a tool accepts.
 
 ### 2.4. The Execution Flow
 When an AI agent decides to call a tool, the following sequence occurs:
 1.  **Incoming MCP Request:** The adapter's handler receives an HTTP request from the MCP client with a payload indicating the tool to run and its arguments.
-2.  **Tool-to-Action Resolution:** The adapter looks up the requested tool name (e.g., `users.create`) and finds the corresponding `IgniterAction` in its internal map.
+2.  **Tool-to-Action Resolution:** The adapter looks up the requested tool name (e.g., `users.create`) and finds the corresponding `FlameAction` in its internal map.
 3.  **Server-Side Invocation:** The adapter uses the powerful `router.caller` property. The `caller` allows direct, type-safe, server-side invocation of any action, bypassing the HTTP stack entirely for maximum performance.
 4.  **Argument Passing:** The arguments from the MCP request are passed as the `input` to the `caller` method (e.g., `router.caller.users.create({ body: { ... } })`).
 5.  **Result Formatting:** The result from the action's execution is received. The adapter then formats this result into the expected MCP response format (typically a JSON object or a simple string) and sends it back to the client.
@@ -97,11 +97,11 @@ When an AI agent decides to call a tool, the following sequence occurs:
 The package has been refactored into a modular structure:
 
 *   **`src/index.ts`**
-    > **Purpose**: The public entry point. Exports both the builder pattern (`IgniterMcpServer`) and function API (`createMcpAdapter`).
+    > **Purpose**: The public entry point. Exports both the builder pattern (`FlameMcpServer`) and function API (`createMcpAdapter`).
     > **Maintenance**: Update when adding new public exports.
 
 *   **`src/builder/builder.ts`**
-    > **Purpose**: Implements the `IgniterMcpServer` builder class with all chainable methods.
+    > **Purpose**: Implements the `FlameMcpServer` builder class with all chainable methods.
     > **Key Methods**: `.router()`, `.withServerInfo()`, `.addTool()`, `.addPrompt()`, `.addResource()`, `.withOAuth()`, `.withEvents()`, `.build()`
     > **Maintenance**: This is where you add new builder methods or modify the fluent API.
 
@@ -161,9 +161,9 @@ This section provides explicit, step-by-step instructions for performing common 
 
 2.  **Update Builder Class** (`src/builder/builder.ts`):
     ```typescript
-    withTimeout(timeout: number): IgniterMcpServer<TRouter, TCustomTools, TCustomPrompts, TCustomResources> {
+    withTimeout(timeout: number): FlameMcpServer<TRouter, TCustomTools, TCustomPrompts, TCustomResources> {
       this._options.timeout = timeout;
-      return new IgniterMcpServer<TRouter, TCustomTools, TCustomPrompts, TCustomResources>({
+      return new FlameMcpServer<TRouter, TCustomTools, TCustomPrompts, TCustomResources>({
         ...this._options,
       });
     }
@@ -178,7 +178,7 @@ This section provides explicit, step-by-step instructions for performing common 
 
 ### Task 2: Add Support for a New Action Property in Tool Definitions
 
-**Scenario:** A new `summary` property has been added to the `IgniterAction` interface in `@igniter-js/core`. We need the MCP adapter to use this `summary` as the `description` for the generated tool.
+**Scenario:** A new `summary` property has been added to the `FlameAction` interface in `@flame-js/core`. We need the MCP adapter to use this `summary` as the `description` for the generated tool.
 
 **Steps:**
 
@@ -302,8 +302,8 @@ This section provides explicit, step-by-step instructions for performing common 
 
 **Scenario:** When the MCP server calls an action via `caller`, the action currently receives the default application context. We need a way to provide a custom, per-request context, for example, to pass the identity of the AI agent making the call.
 
-1.  **Objective Analysis:** The `router.caller` method needs a way to accept a custom context. This is a feature of `@igniter-js/core`. The adapter then needs to be updated to leverage this feature.
-2.  **Verify/Update Core Capability:** First, confirm that the `caller` in `@igniter-js/core` supports passing context. Let's assume it has been updated to `router.caller.users.create({ body: {...} }, { customContext: {...} })`.
+1.  **Objective Analysis:** The `router.caller` method needs a way to accept a custom context. This is a feature of `@flame-js/core`. The adapter then needs to be updated to leverage this feature.
+2.  **Verify/Update Core Capability:** First, confirm that the `caller` in `@flame-js/core` supports passing context. Let's assume it has been updated to `router.caller.users.create({ body: {...} }, { customContext: {...} })`.
 3.  **Update Adapter's Type Definitions:** The `createMcpAdapter` options should accept a context factory function.
     -   **File:** `packages/adapter-mcp-server/src/types.ts`.
     -   **Action:** Modify the `McpAdapterOptions` interface.
@@ -315,7 +315,7 @@ This section provides explicit, step-by-step instructions for performing common 
       /**
        * An async function that creates a custom context for each tool call.
        * It receives the incoming HTTP request.
-       * The returned object will be passed to the Igniter.js action handler.
+       * The returned object will be passed to the Flame.js action handler.
        */
       context?: (request: Request) => Promise<object>;
     }
@@ -353,4 +353,9 @@ This section provides explicit, step-by-step instructions for performing common 
         -   Simulate an MCP tool call to the mock action.
         -   Inside the mock action handler's test implementation, assert that `context.agentId` is equal to `'test-agent'`. This proves the context was correctly created and passed through the call stack.
 
-By following these detailed, methodical steps, you will ensure that all modifications are implemented correctly, are well-tested, and respect the architectural boundaries of the Igniter.js ecosystem.
+By following these detailed, methodical steps, you will ensure that all modifications are implemented correctly, are well-tested, and respect the architectural boundaries of the Flame.js ecosystem.
+
+
+
+
+

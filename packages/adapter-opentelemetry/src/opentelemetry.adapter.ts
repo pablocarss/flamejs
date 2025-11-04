@@ -1,18 +1,18 @@
 import {
-  type IgniterTelemetryProvider,
-  type IgniterTelemetrySpan,
-  type IgniterTimer,
-  type IgniterSpanOptions,
-  IgniterConsoleLogger,
-  IgniterLogLevel,
-} from '@igniter-js/core';
+  type FlameTelemetryProvider,
+  type FlameTelemetrySpan,
+  type FlameTimer,
+  type FlameSpanOptions,
+  FlameConsoleLogger,
+  FlameLogLevel,
+} from '@flame-js/core';
 
 import { OpenTelemetrySpanWrapper } from './span';
 import { OpenTelemetryTimer, NoOpTimer } from './timer';
 import type { OpenTelemetryConfig, OpenTelemetryAdapter } from './types';
 
 /**
- * OpenTelemetry adapter implementation for Igniter.js telemetry system
+ * OpenTelemetry adapter implementation for Flame.js telemetry system
  */
 export class OpenTelemetryAdapterImpl implements OpenTelemetryAdapter {
   private _config: OpenTelemetryConfig;
@@ -23,9 +23,9 @@ export class OpenTelemetryAdapterImpl implements OpenTelemetryAdapter {
   private _counters = new Map<string, any>();
   private _histograms = new Map<string, any>();
   private _gauges = new Map<string, any>();
-  private _activeSpan: IgniterTelemetrySpan | null = null;
-  private _logger = IgniterConsoleLogger.create({
-    level: process.env.NODE_ENV === 'production' ? IgniterLogLevel.INFO : IgniterLogLevel.DEBUG,
+  private _activeSpan: FlameTelemetrySpan | null = null;
+  private _logger = FlameConsoleLogger.create({
+    level: process.env.NODE_ENV === 'production' ? FlameLogLevel.INFO : FlameLogLevel.DEBUG,
     context: {
       provider: 'OpenTelemetryAdapter',
       package: 'adapter-opentelemetry'
@@ -126,7 +126,7 @@ export class OpenTelemetryAdapterImpl implements OpenTelemetryAdapter {
 
   // TRACING METHODS
 
-  startSpan(name: string, options?: IgniterSpanOptions): IgniterTelemetrySpan {
+  startSpan(name: string, options?: FlameSpanOptions): FlameTelemetrySpan {
     if (!this._isInitialized || !this._config.enableTracing) {
       return this._createNoOpSpan(name);
     }
@@ -150,15 +150,15 @@ export class OpenTelemetryAdapterImpl implements OpenTelemetryAdapter {
     }
   }
 
-  getActiveSpan(): IgniterTelemetrySpan | null {
+  getActiveSpan(): FlameTelemetrySpan | null {
     return this._activeSpan;
   }
 
-  setActiveSpan(span: IgniterTelemetrySpan): void {
+  setActiveSpan(span: FlameTelemetrySpan): void {
     this._activeSpan = span;
   }
 
-  withActiveSpan<T>(span: IgniterTelemetrySpan, fn: () => T): T {
+  withActiveSpan<T>(span: FlameTelemetrySpan, fn: () => T): T {
     const previousSpan = this._activeSpan;
     this._activeSpan = span;
     try {
@@ -239,7 +239,7 @@ export class OpenTelemetryAdapterImpl implements OpenTelemetryAdapter {
     }
   }
 
-  timer(metric: string, tags: Record<string, string> = {}): IgniterTimer {
+  timer(metric: string, tags: Record<string, string> = {}): FlameTimer {
     if (!this._isInitialized || !this._config.enableMetrics) {
       return new NoOpTimer(metric);
     }
@@ -454,7 +454,7 @@ export class OpenTelemetryAdapterImpl implements OpenTelemetryAdapter {
     return exporters;
   }
 
-  private _createNoOpSpan(name: string): IgniterTelemetrySpan {
+  private _createNoOpSpan(name: string): FlameTelemetrySpan {
     return {
       name,
       id: 'noop',
@@ -476,3 +476,8 @@ export class OpenTelemetryAdapterImpl implements OpenTelemetryAdapter {
     };
   }
 } 
+
+
+
+
+

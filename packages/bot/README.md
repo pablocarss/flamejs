@@ -1,6 +1,6 @@
-# @igniter-js/bot (Alpha)
+# @flame-js/bot (Alpha)
 
-A modern, type‑safe, multi‑platform bot framework for the Igniter.js ecosystem.
+A modern, type‑safe, multi‑platform bot framework for the Flame.js ecosystem.
 It provides a clean abstraction layer for building chatbot-style integrations with **Telegram**, **WhatsApp** (Cloud API), and future providers—featuring middleware chains, command handling with aliases, logging, strong typing (TypeScript + Zod), and an extensible adapter architecture.
 
 > Status: **alpha** – Public API may still evolve. Breaking changes may occur to improve DX and internal consistency before the first stable release.
@@ -54,11 +54,11 @@ It provides a clean abstraction layer for building chatbot-style integrations wi
 ## Installation
 
 ```bash
-npm install @igniter-js/bot
+npm install @flame-js/bot
 # or
-yarn add @igniter-js/bot
+yarn add @flame-js/bot
 # or
-pnpm add @igniter-js/bot
+pnpm add @flame-js/bot
 ```
 
 Peer requirements: TypeScript >= 5.x
@@ -68,7 +68,7 @@ Peer requirements: TypeScript >= 5.x
 ## Quick Start
 
 ```ts
-import { Bot, telegram } from '@igniter-js/bot'
+import { Bot, telegram } from '@flame-js/bot'
 
 const bot = Bot.create({
   id: 'demo-bot',
@@ -346,7 +346,7 @@ import type {
   BotEvent,
   BotContent,
   Middleware
-} from '@igniter-js/bot/types'
+} from '@flame-js/bot/types'
 ```
 
 Message content union: `BotTextContent | BotCommandContent | BotImageContent | BotAudioContent | BotDocumentContent`
@@ -376,7 +376,7 @@ Future: structured replies, interactive elements, attachments sending.
 Create a new adapter:
 
 ```ts
-import { Bot } from '@igniter-js/bot'
+import { Bot } from '@flame-js/bot'
 import { z } from 'zod'
 
 const MyAdapterParams = z.object({
@@ -505,16 +505,21 @@ Not yet. Wrap `bot.send` externally if you need resilience.
 
 ## License
 
-MIT © Felipe Barcelos & Igniter.js Contributors
+MIT © Felipe Barcelos & Flame.js Contributors
 
 ---
 
 ## Support & Links
 
-- Website: https://igniterjs.com
-- Issues: https://github.com/felipebarcelospro/igniter-js/issues
+- Website: https://Flamejs.com
+- Issues: https://github.com/felipebarcelospro/Flame-js/issues
 - Future Community: Discord / Telegram (planned)
 
 ---
 
 > This README reflects the **alpha** state. Expect rapid iteration. Feedback and issue reports are highly appreciated.
+
+
+
+
+

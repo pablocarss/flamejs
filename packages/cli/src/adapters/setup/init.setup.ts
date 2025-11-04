@@ -23,7 +23,7 @@ export async function handleInitCommand(
     const targetDir = targetPath ? path.resolve(targetPath) : process.cwd();
     const isExistingProject = (await fs.stat(path.join(targetDir, 'package.json')).catch(() => null)) !== null;
 
-    logger.info(`Starting Igniter.js project initialization (existing project: ${isExistingProject})`, {
+    logger.info(`Starting Flame.js project initialization (existing project: ${isExistingProject})`, {
       targetDir,
       options,
     });
@@ -32,7 +32,7 @@ export async function handleInitCommand(
     if (isExistingProject) {
       console.log();
       console.log(chalk.bold.blue('👋 Welcome back!'));
-      console.log(chalk.dim("Let's add Igniter.js to your existing project..."));
+      console.log(chalk.dim("Let's add Flame.js to your existing project..."));
       console.log();
     }
 
@@ -78,9 +78,9 @@ async function checkDirectoryAndConfirm(
     }
 
     if (isExistingProject) {
-      const igniterCoreFile = path.join(targetDir, 'src', 'igniter.ts');
-      if (await fs.stat(igniterCoreFile).catch(() => null)) {
-        console.log(chalk.yellow('⚠️  It looks like Igniter.js might already be set up here.'));
+      const FlameCoreFile = path.join(targetDir, 'src', 'Flame.ts');
+      if (await fs.stat(FlameCoreFile).catch(() => null)) {
+        console.log(chalk.yellow('⚠️  It looks like Flame.js might already be set up here.'));
         // The confirmOverwrite message is generic, so this console log adds context.
         return await confirmOverwrite(targetDir);
       }
@@ -187,17 +187,17 @@ export function validateProjectName(name: string): { valid: boolean; message?: s
  * Show help information for init command
  */
 export function showInitHelp(): void {
-  console.log(chalk.bold('\n🔥 Igniter.js Init Command\n'))
+  console.log(chalk.bold('\n🔥 Flame.js Init Command\n'))
 
   console.log(chalk.bold('Usage:'))
-  console.log('  igniter init [project-name] [options]')
-  console.log('  igniter init . [options]            # Initialize in current directory')
+  console.log('  Flame init [project-name] [options]')
+  console.log('  Flame init . [options]            # Initialize in current directory')
   console.log()
 
   console.log(chalk.bold('Examples:'))
-  console.log('  igniter init my-api                 # Create new project')
-  console.log('  igniter init .                      # Initialize current directory')
-  console.log('  igniter init my-api --force         # Skip confirmation prompts')
+  console.log('  Flame init my-api                 # Create new project')
+  console.log('  Flame init .                      # Initialize current directory')
+  console.log('  Flame init my-api --force         # Skip confirmation prompts')
   console.log()
 
   console.log(chalk.bold('Options:'))
@@ -230,3 +230,8 @@ export function showInitHelp(): void {
   console.log('  • None')
   console.log()
 }
+
+
+
+
+

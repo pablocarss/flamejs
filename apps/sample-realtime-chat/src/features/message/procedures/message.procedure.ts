@@ -1,7 +1,7 @@
-import { igniter } from '@/igniter';
+import { Flame } from '@/Flame';
 import type { CreateMessageInput, UpdateMessageInput } from '../message.interfaces';
 
-export const messageProcedure = igniter.procedure({
+export const messageProcedure = Flame.procedure({
   name: 'message',
   handler: async (_, { context }) => {
     // This procedure acts as a repository, centralizing database access logic.
@@ -16,3 +16,8 @@ export const messageProcedure = igniter.procedure({
     };
   }
 });
+
+
+
+
+

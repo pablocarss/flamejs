@@ -184,3 +184,8 @@ export interface SearchIndex {
   typeIndex: Map<MemoryType, Set<string>>; // type -> memory IDs
   lastBuiltAt: number;
 }
+
+
+
+
+

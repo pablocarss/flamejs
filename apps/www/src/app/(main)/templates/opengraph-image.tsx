@@ -1,7 +1,7 @@
 import { ImageResponse } from 'next/og';
 
 // Image metadata
-export const alt = 'Igniter.js Templates - Find your perfect starting point';
+export const alt = 'Flame.js Templates - Find your perfect starting point';
 export const size = {
   width: 1200,
   height: 630,
@@ -75,7 +75,7 @@ export default async function Image() {
                 letterSpacing: '-0.02em',
               }}
             >
-              Igniter.js
+              Flame.js
             </div>
           </div>
 
@@ -155,3 +155,8 @@ export default async function Image() {
     }
   );
 }
+
+
+
+
+

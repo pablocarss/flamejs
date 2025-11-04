@@ -43,7 +43,7 @@ export class GitHubService {
 
   constructor() {
     this.owner = "felipebarcelospro";
-    this.repo = "igniter-js";
+    this.repo = "Flame-js";
 
     this.octokit = new Octokit({
       auth: process.env.GITHUB_TOKEN,
@@ -159,3 +159,8 @@ export class GitHubService {
 }
 
 export const githubService = new GitHubService();
+
+
+
+
+

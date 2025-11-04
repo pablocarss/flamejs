@@ -9,7 +9,7 @@ import chokidar from 'chokidar';
 import { OpenAPIGenerator } from '../docs/openapi-generator';
 import chalk from 'chalk';
 
-export type IgniterBuildConfig = {
+export type FlameBuildConfig = {
   framework?: 'nextjs' | 'vite' | 'webpack' | 'generic'
   outputDir?: string
   controllerPatterns?: string[]
@@ -22,19 +22,19 @@ export type IgniterBuildConfig = {
 }
 
 /**
- * File watcher for Igniter controllers
+ * File watcher for Flame controllers
  * Monitors controller files and regenerates client schema on changes
  */
-export class IgniterWatcher {
+export class FlameWatcher {
   private watcher: any = null
-  private config: IgniterBuildConfig
+  private config: FlameBuildConfig
   private isGenerating = false
   private logger = createChildLogger({ component: 'watcher' })
   private watchingSpinner: any = null
   private watchingSpinnerActive = false
   private isInteractiveMode = false
 
-  constructor(config: IgniterBuildConfig) {
+  constructor(config: FlameBuildConfig) {
     this.config = {
       extractTypes: true,
       optimizeClientBundle: true,
@@ -49,7 +49,7 @@ export class IgniterWatcher {
     }
 
     this.isInteractiveMode = !!(
-      process.env.IGNITER_INTERACTIVE_MODE === 'true' ||
+      process.env.Flame_INTERACTIVE_MODE === 'true' ||
       process.argv.includes('--interactive')
     )
 
@@ -190,9 +190,9 @@ export class IgniterWatcher {
       // Step 1: Find and load router
       timeline.step('Loading router file')
       const possibleRouterPaths = [
-        'src/igniter.router.ts', 'src/igniter.router.js',
+        'src/Flame.router.ts', 'src/Flame.router.js',
         'src/router.ts', 'src/router.js',
-        'igniter.router.ts', 'igniter.router.js',
+        'Flame.router.ts', 'Flame.router.js',
         'router.ts', 'router.js'
       ]
 
@@ -242,7 +242,7 @@ export class IgniterWatcher {
       timeline.fail('Schema regeneration failed', error as Error)
 
       if (error instanceof RouterLoadError) {
-        console.error(chalk.red.bold('\n✗ Error loading your Igniter router:'));
+        console.error(chalk.red.bold('\n✗ Error loading your Flame router:'));
         console.error(chalk.gray('  The router file contains an error and could not be compiled.'));
         console.error(chalk.gray(`  File: ${error.message.split(' ').pop()}`));
 
@@ -291,3 +291,8 @@ export class IgniterWatcher {
     }
   }
 }
+
+
+
+
+

@@ -1,18 +1,18 @@
-import { IgniterLogLevel, type IgniterLogger } from "../types";
-import { IgniterError } from "../error";
-import { IgniterConsoleLogger } from "../services/logger.service";
+import { FlameLogLevel, type FlameLogger } from "../types";
+import { FlameError } from "../error";
+import { FlameConsoleLogger } from "../services/logger.service";
 import { resolveLogLevel, createLoggerContext } from "../utils/logger";
 
 /**
- * Body parser processor for the Igniter Framework.
+ * Body parser processor for the Flame Framework.
  * Handles parsing of request bodies based on content type.
  */
 export class BodyParserProcessor {
-  private static _logger: IgniterLogger;
+  private static _logger: FlameLogger;
 
-  private static get logger(): IgniterLogger {
+  private static get logger(): FlameLogger {
     if (!this._logger) {
-      this._logger = IgniterConsoleLogger.create({
+      this._logger = FlameConsoleLogger.create({
         level: resolveLogLevel(),
         context: createLoggerContext('BodyParser'),
         showTimestamp: true,
@@ -28,7 +28,7 @@ export class BodyParserProcessor {
    * @param request - The incoming HTTP request
    * @returns The parsed request body or undefined if no body
    *
-   * @throws {IgniterError} When body parsing fails
+   * @throws {FlameError} When body parsing fails
    *
    * @example
    * ```typescript
@@ -61,7 +61,7 @@ export class BodyParserProcessor {
           // Fazer o parse manual do texto para JSON
           return JSON.parse(text);
         } catch (jsonError) {
-          throw new IgniterError({
+          throw new FlameError({
             code: "BODY_PARSE_ERROR",
             message: "Failed to parse JSON request body",
             details:
@@ -130,7 +130,7 @@ export class BodyParserProcessor {
       this.logger.debug("Parsing as text");
       return await request.text();
     } catch (error) {
-      const igniterError = new IgniterError({
+      const FlameError = new FlameError({
         code: "BODY_PARSE_ERROR",
         message: "Failed to parse request body",
         details:
@@ -139,8 +139,13 @@ export class BodyParserProcessor {
             : "Invalid request body format",
       });
       // Throw structured error instead of returning undefined
-      this.logger.error("Body parsing failed", { error: igniterError });
-      throw igniterError;
+      this.logger.error("Body parsing failed", { error: FlameError });
+      throw FlameError;
     }
   }
 }
+
+
+
+
+

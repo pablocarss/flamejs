@@ -1,5 +1,5 @@
 /**
- * @igniter-js/bot
+ * @flame-js/bot
  *
  * Public entry-point (barrel file).
  *
@@ -14,7 +14,7 @@
  *  - Extensibility: adapters also remain individually importable if desired.
  *
  * Example:
- *  import { Bot, telegram, whatsapp, type BotContext } from '@igniter-js/bot'
+ *  import { Bot, telegram, whatsapp, type BotContext } from '@flame-js/bot'
  *
  *  const bot = Bot.create({
  *    id: 'demo',
@@ -33,7 +33,7 @@
  *          await ctx.bot.send({
  *            provider: ctx.provider,
  *            channel: ctx.channel.id,
- *            content: { type: 'text', content: '👋 Hello from Igniter Bot!' }
+ *            content: { type: 'text', content: '👋 Hello from Flame Bot!' }
  *          })
  *        }
  *      }
@@ -74,7 +74,7 @@ import { whatsapp } from './adapters/whatsapp'
  * Convenience collection of built-in adapter factories.
  *
  * Example:
- *   import { adapters } from '@igniter-js/bot'
+ *   import { adapters } from '@flame-js/bot'
  *   const bot = Bot.create({
  *     id: 'x',
  *     name: 'x',
@@ -94,7 +94,12 @@ export const adapters = {
 // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
 export const VERSION: string =
   // @ts-expect-error - Optional global replacement hook
-  (typeof __IGNITER_BOT_VERSION__ !== 'undefined'
+  (typeof __Flame_BOT_VERSION__ !== 'undefined'
     ? // @ts-expect-error - Provided by build tooling if configured
-      __IGNITER_BOT_VERSION__
+      __Flame_BOT_VERSION__
     : '0.0.0-dev')
+
+
+
+
+

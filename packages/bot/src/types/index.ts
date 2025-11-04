@@ -1,11 +1,11 @@
 /**
- * @igniter-js/bot - Public Types Barrel
+ * @flame-js/bot - Public Types Barrel
  *
  * This barrel file re‑exports all public type definitions for consumers.
  *
  * Design Goals:
  *  - Keep a single stable import path for all types:
- *       import type { BotContext, BotCommand, BotEvent } from '@igniter-js/bot/types'
+ *       import type { BotContext, BotCommand, BotEvent } from '@flame-js/bot/types'
  *  - Avoid leaking internal / future experimental types unintentionally.
  *  - Make it easy to evolve by adding explicit re-exports if we split files later.
  *
@@ -24,3 +24,8 @@ export * from './bot.types'
  *  requires at least a minor (if additive / backwards compatible)
  *  or major (if breaking) version bump once out of alpha.
  */
+
+
+
+
+

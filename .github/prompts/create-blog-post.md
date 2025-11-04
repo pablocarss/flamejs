@@ -4,7 +4,7 @@ mode: agent
 # Prompt: Create Blog Post (Draft in MDX)
 
 ## Purpose
-Automate the creation of high-quality blog posts for the Igniter.js website. Support multiple creation modes: from scratch, from a template (e.g., release announcement), or by transforming existing documentation into a narrative article. Generate a complete MDX draft in the correct location with all required frontmatter and content sections.
+Automate the creation of high-quality blog posts for the Flame.js website. Support multiple creation modes: from scratch, from a template (e.g., release announcement), or by transforming existing documentation into a narrative article. Generate a complete MDX draft in the correct location with all required frontmatter and content sections.
 
 ## Prerequisites
 - Website app located at `apps/www`.
@@ -42,7 +42,7 @@ Automate the creation of high-quality blog posts for the Igniter.js website. Sup
    - Collect version (e.g., `v0.12.0`), date, and highlights.
    - Fetch conventional commits since last tag if available to draft changes.
    - Structure:
-     - H1 `Igniter.js <version> Released`
+     - H1 `Flame.js <version> Released`
      - Intro: what’s new and why it matters
      - Highlights (bulleted list)
      - Detailed changes grouped by type (Features, Fixes, Docs, Refactor, Perf, etc.)
@@ -55,7 +55,7 @@ Automate the creation of high-quality blog posts for the Igniter.js website. Sup
    - Read the selected documentation files.
    - Create a narrative article:
      - Problem/Context
-     - How Igniter.js solves it
+     - How Flame.js solves it
      - Walkthrough with code examples
      - Tips, caveats, and best practices
      - Links back to the original docs
@@ -82,3 +82,8 @@ Automate the creation of high-quality blog posts for the Igniter.js website. Sup
 - The article is coherent, technically correct, and uses accurate code snippets.
 - For release posts, content aligns with the commit history and changelog.
 - The user reviews and approves the final content before saving.
+
+
+
+
+

@@ -1,5 +1,5 @@
 import type {
-  IgniterPlugin,
+  FlamePlugin,
   PluginRegistry,
   PluginEventBusListener,
   PluginDependencyNode,
@@ -12,15 +12,15 @@ import type {
   PluginActionDefinition,
   PluginControllerAction,
 } from "../types/plugin.interface";
-import type { ContextCallback, IgniterBaseContext } from "../types/context.interface";
+import type { ContextCallback, FlameBaseContext } from "../types/context.interface";
 import type { StandardSchemaV1 } from "../types/schema.interface";
-import type { IgniterStoreAdapter } from "../types/store.interface";
-import { IgniterLogLevel, type IgniterLogger } from "../types";
-import { IgniterConsoleLogger } from "./logger.service";
+import type { FlameStoreAdapter } from "../types/store.interface";
+import { FlameLogLevel, type FlameLogger } from "../types";
+import { FlameConsoleLogger } from "./logger.service";
 import { resolveLogLevel, createLoggerContext } from "../utils/logger";
 
 /**
- * 100% Type-Safe Plugin Manager for Igniter.js with StoreAdapter Integration
+ * 100% Type-Safe Plugin Manager for Flame.js with StoreAdapter Integration
  *
  * Manages plugin lifecycle, dependencies, events, and execution with complete type safety.
  * Uses StoreAdapter for event pub/sub and maintains Map registry for performance.
@@ -30,7 +30,7 @@ import { resolveLogLevel, createLoggerContext } from "../utils/logger";
  *
  * @example
  * ```typescript
- * const pluginManager = new IgniterPluginManager<MyContext>({
+ * const pluginManager = new FlamePluginManager<MyContext>({
  *   store: redisStoreAdapter,
  *   logger: customLogger,
  *   config: {
@@ -47,7 +47,7 @@ import { resolveLogLevel, createLoggerContext } from "../utils/logger";
  * await pluginManager.emit('user:login', payload, context);
  * ```
  */
-export class IgniterPluginManager<
+export class FlamePluginManager<
   TContext extends object | ContextCallback,
 > {
   // ============ PRIVATE PROPERTIES ============
@@ -68,19 +68,19 @@ export class IgniterPluginManager<
   private isInitialized = false;
 
   // ============ INJECTED DEPENDENCIES ============
-  private readonly store: IgniterStoreAdapter;
-  private readonly logger: IgniterLogger;
+  private readonly store: FlameStoreAdapter;
+  private readonly logger: FlameLogger;
 
   // ============ CONSTRUCTOR ============
   constructor(params: {
-    store: IgniterStoreAdapter;
-    logger?: IgniterLogger;
+    store: FlameStoreAdapter;
+    logger?: FlameLogger;
     config?: PluginManagerConfig<TContext>;
   }) {
     this.store = params.store;
     this.logger =
       params.logger ||
-      IgniterConsoleLogger.create({
+      FlameConsoleLogger.create({
         level: resolveLogLevel(),
         context: createLoggerContext("PluginManager"),
       });
@@ -121,7 +121,7 @@ export class IgniterPluginManager<
     TEventListeners extends PluginEventListenersCollection<any>,
     TEventEmitters extends PluginEventEmittersCollection,
   >(
-    plugin: IgniterPlugin<
+    plugin: FlamePlugin<
       TContext,
       TName,
       TMeta,
@@ -405,7 +405,7 @@ export class IgniterPluginManager<
   /**
    * Emit an event using StoreAdapter pub/sub system
    *
-   * Events are published to Redis channels with pattern: `igniter:plugin:events:{eventName}`
+   * Events are published to Redis channels with pattern: `Flame:plugin:events:{eventName}`
    * Local event listeners are also executed for immediate response
    *
    * @param eventName - Name of the event
@@ -466,7 +466,7 @@ export class IgniterPluginManager<
       }
 
       // 2. Publish to Store (Redis) for distributed handling
-      const eventChannel = `igniter:plugin:events:${eventName}`;
+      const eventChannel = `Flame:plugin:events:${eventName}`;
       const eventMessage = JSON.stringify({
         eventName,
         payload,
@@ -502,7 +502,7 @@ export class IgniterPluginManager<
   getPlugin<TName extends string>(
     name: TName,
   ):
-    | IgniterPlugin<
+    | FlamePlugin<
         TContext,
         TName,
         Record<string, any>,
@@ -524,7 +524,7 @@ export class IgniterPluginManager<
       >
     | undefined {
     return this.plugins.get(name) as
-      | IgniterPlugin<
+      | FlamePlugin<
           TContext,
           TName,
           Record<string, any>,
@@ -801,7 +801,7 @@ export class IgniterPluginManager<
    * Allows plugin actions, controllers, and hooks to access their own actions
    */
   private createPluginProxy<TActions extends PluginActionsCollection<any>>(
-    plugin: IgniterPlugin<any, any, any, any, any, any, any, any>,
+    plugin: FlamePlugin<any, any, any, any, any, any, any, any>,
   ): void {
     const proxy: PluginSelfContext<TContext, TActions> = {
       actions: {} as any,
@@ -944,3 +944,8 @@ export class IgniterPluginManager<
     });
   }
 }
+
+
+
+
+

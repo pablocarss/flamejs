@@ -97,3 +97,8 @@ export function TemplateCard({ template }: TemplateCardProps) {
     </Link>
   );
 }
+
+
+
+
+

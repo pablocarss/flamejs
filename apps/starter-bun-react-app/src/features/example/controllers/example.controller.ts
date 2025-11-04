@@ -1,18 +1,18 @@
-import { igniter } from '@/igniter'
+import { Flame } from '@/Flame'
 
 /**
- * @description Example controller demonstrating Igniter.js features
- * @see https://github.com/felipebarcelospro/igniter-js
+ * @description Example controller demonstrating Flame.js features
+ * @see https://github.com/felipebarcelospro/Flame-js
  */
-export const exampleController = igniter.controller({
+export const exampleController = Flame.controller({
   name: 'Example',
   path: '/example',
   actions: {
     // Health check action
-    health: igniter.query({
+    health: Flame.query({
       path: '/',
       handler: async ({ response }) => {
-        igniter.logger.info('Health check requested')
+        Flame.logger.info('Health check requested')
 
         return response.success({
           status: 'ok',
@@ -28,3 +28,8 @@ export const exampleController = igniter.controller({
     }),
   }
 })
+
+
+
+
+

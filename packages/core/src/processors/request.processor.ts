@@ -1,17 +1,17 @@
 import { addRoute, createRouter, type RouterContext } from "rou3";
-import { IgniterError } from "../error";
-import { IgniterResponseProcessor } from "./response.processor";
+import { FlameError } from "../error";
+import { FlameResponseProcessor } from "./response.processor";
 import { SSEProcessor } from "./sse.processor";
 import { parseURL } from "../utils/url";
 import { parseResponse } from "../utils/response";
 import {
-  IgniterLogLevel,
+  FlameLogLevel,
   type HTTPMethod,
-  type IgniterAction,
-  type IgniterControllerConfig,
-  type IgniterLogger,
-  type IgniterProcedure,
-  type IgniterRouter,
+  type FlameAction,
+  type FlameControllerConfig,
+  type FlameLogger,
+  type FlameProcedure,
+  type FlameRouter,
 } from "../types";
 import type {
   RequestProcessorConfig,
@@ -30,13 +30,13 @@ import {
   type TelemetrySpan,
 } from "./telemetry-manager.processor";
 import { ErrorHandlerProcessor } from "./error-handler.processor";
-import { IgniterRealtimeService } from "../services/realtime.service";
-import { IgniterConsoleLogger } from "../services/logger.service";
-import { IgniterPluginManager } from "../services/plugin.service";
+import { FlameRealtimeService } from "../services/realtime.service";
+import { FlameConsoleLogger } from "../services/logger.service";
+import { FlamePluginManager } from "../services/plugin.service";
 import { resolveLogLevel, createLoggerContext } from "../utils/logger";
 
 /**
- * Handles HTTP request processing for the Igniter Framework.
+ * Handles HTTP request processing for the Flame Framework.
  * This class manages route registration, request handling, and response processing.
  *
  * @template TRouter - Type of the router
@@ -56,7 +56,7 @@ import { resolveLogLevel, createLoggerContext } from "../utils/logger";
  * ```
  */
 export class RequestProcessor<
-  TRouter extends IgniterRouter<any, any, any, any, any>,
+  TRouter extends FlameRouter<any, any, any, any, any>,
   TConfig extends
     RequestProcessorConfig<TRouter> = RequestProcessorConfig<TRouter>,
 > implements RequestProcessorInterface<TRouter, TConfig>
@@ -64,18 +64,18 @@ export class RequestProcessor<
   public plugins: Map<string, any>;
   public config: TConfig;
   public router: RouterContext<
-    IgniterAction<any, any, any, any, any, any, any, any, any, any>
+    FlameAction<any, any, any, any, any, any, any, any, any, any>
   >;
-  public pluginManager?: IgniterPluginManager<any>;
+  public pluginManager?: FlamePluginManager<any>;
 
-  private logger: IgniterLogger;
+  private logger: FlameLogger;
 
   private static get isProduction() {
     return process.env.NODE_ENV === "production";
   }
 
   private static get isInteractiveMode() {
-    return process.env.IGNITER_INTERACTIVE_MODE === "true";
+    return process.env.Flame_INTERACTIVE_MODE === "true";
   }
 
   /**
@@ -86,8 +86,8 @@ export class RequestProcessor<
   constructor(config: TConfig) {
     this.config = config;
     this.plugins = new Map<string, any>();
-    this.logger = IgniterConsoleLogger.create({
-      level: process.env.IGNITER_LOG_LEVEL as IgniterLogLevel || IgniterLogLevel.INFO,
+    this.logger = FlameConsoleLogger.create({
+      level: process.env.Flame_LOG_LEVEL as FlameLogLevel || FlameLogLevel.INFO,
       context: {
         processor: 'RequestProcessor',
       },
@@ -98,7 +98,7 @@ export class RequestProcessor<
     this.initializePluginManager();
 
     // Initialize router with async plugin registration
-    this.router = createRouter<IgniterAction<any, any, any, any, any, any, any, any, any, any>>();
+    this.router = createRouter<FlameAction<any, any, any, any, any, any, any, any, any, any>>();
     this.logger.debug('Request processor instantiated', {
       controllersCount: Object.keys(this.config.controllers).length,
       basePATH: this.config.basePATH,
@@ -155,7 +155,7 @@ export class RequestProcessor<
         }
 
         // Initialize PluginManager with store and logger
-        this.pluginManager = new IgniterPluginManager({
+        this.pluginManager = new FlamePluginManager({
           store,
           logger,
           config: {
@@ -245,15 +245,15 @@ export class RequestProcessor<
    * Creates a routing table based on controller and plugin configurations.
    */
   private registerRoutes(): void {
-    const basePATH = this.config.basePATH || process.env.IGNITER_APP_BASE_PATH || "/api/v1";
+    const basePATH = this.config.basePATH || process.env.Flame_APP_BASE_PATH || "/api/v1";
     this.logger.debug('Registering routes', { basePATH });
     let routeCount = 0;
 
     // Register application controllers and actions
     for (const controller of Object.values(
       this.config.controllers,
-    ) as IgniterControllerConfig<any>[]) {
-      for (const endpoint of Object.values(controller.actions) as IgniterAction<
+    ) as FlameControllerConfig<any>[]) {
+      for (const endpoint of Object.values(controller.actions) as FlameAction<
         any,
         any,
         any,
@@ -282,7 +282,7 @@ export class RequestProcessor<
 
     // Register central SSE endpoint
     const sseEndpoint = parseURL(basePATH, "/sse/events");
-    const sseAction: IgniterAction<any, any, any, any, any, any, any, any, any, any> = {
+    const sseAction: FlameAction<any, any, any, any, any, any, any, any, any, any> = {
       method: "GET",
       type: "query",
       path: "/sse/events",
@@ -316,13 +316,13 @@ export class RequestProcessor<
 
       this.logger.debug('Plugin routes registering', { pluginName });
       for (const [controllerName, controllerActions] of Object.entries(plugin.$controllers)) {
-        for (const [actionName, actionConfig] of Object.entries(controllerActions as any) as [string, IgniterAction<any, any, any, any, any, any, any, any, any, any>][]) {
+        for (const [actionName, actionConfig] of Object.entries(controllerActions as any) as [string, FlameAction<any, any, any, any, any, any, any, any, any, any>][]) {
           try {
             // Create plugin route path: /api/v1/plugins/{pluginName}/{controllerName}{actionPath}
             const pluginPath = parseURL(basePATH, 'plugins', pluginName, controllerName, actionConfig.path);
 
             // Create wrapper action that injects self-reference
-            const wrappedAction: IgniterAction<any, any, any, any, any, any, any, any, any, any> = {
+            const wrappedAction: FlameAction<any, any, any, any, any, any, any, any, any, any> = {
               ...actionConfig,
               handler: async (ctx: any) => {
                 // Inject self-reference for the plugin
@@ -338,7 +338,7 @@ export class RequestProcessor<
                   self
                 });
               },
-              // Ensure required IgniterAction properties
+              // Ensure required FlameAction properties
               type: actionConfig.method === 'GET' ? 'query' : 'mutation',
               // @ts-ignore - $Caller will be set by framework
               $Caller: async () => ({}),
@@ -408,7 +408,7 @@ export class RequestProcessor<
     try {
       // Check if this is an SSE request to the central endpoint
       const basePATH =
-        this.config.basePATH || process.env.IGNITER_APP_BASE_PATH || "/api/v1";
+        this.config.basePATH || process.env.Flame_APP_BASE_PATH || "/api/v1";
       const sseEndpoint = parseURL(basePATH, "/sse/events");
 
       if (path === sseEndpoint && method === "GET") {
@@ -478,7 +478,7 @@ export class RequestProcessor<
       if (handler.use && Array.isArray(handler.use)) {
         const actionResult = await MiddlewareExecutorProcessor.executeAction(
           context,
-          handler.use as IgniterProcedure<unknown, unknown, unknown>[],
+          handler.use as FlameProcedure<unknown, unknown, unknown>[],
         );
 
         if (!actionResult.success) {
@@ -540,7 +540,7 @@ export class RequestProcessor<
    * @returns The action response
    */
   private async executeAction(
-    handler: IgniterAction<any, any, any, any, any, any, any, any, any, any>,
+    handler: FlameAction<any, any, any, any, any, any, any, any, any, any>,
     context: ProcessedContext,
   ): Promise<any> {
     this.logger.debug('Action handler executing');
@@ -569,15 +569,15 @@ export class RequestProcessor<
     // Execute handler with proper context structure
     this.logger.debug('Initializing response processor');
 
-    const responseProcessor = IgniterResponseProcessor.init(
+    const responseProcessor = FlameResponseProcessor.init(
       context.$plugins?.store || context.$context?.store,
     );
 
-    const realtimeService = new IgniterRealtimeService(
+    const realtimeService = new FlameRealtimeService(
       context.$plugins?.store || context.$context?.store
     );
 
-    // Execute handler with proper IgniterActionContext structure
+    // Execute handler with proper FlameActionContext structure
     const response = await handler.handler({
       request: {
         method: context.request.method as HTTPMethod,
@@ -626,9 +626,9 @@ export class RequestProcessor<
     }
 
     // Handle ResponseProcessor objects
-    if (actionResponse instanceof IgniterResponseProcessor) {
+    if (actionResponse instanceof FlameResponseProcessor) {
       this.logger.debug('Response processor returned', {
-        type: 'IgniterResponseProcessor'
+        type: 'FlameResponseProcessor'
       });
       const finalResponse = await actionResponse.toResponse();
 
@@ -691,7 +691,7 @@ export class RequestProcessor<
    * @param input - Input data for the action
    * @returns Promise resolving to the action's output
    *
-   * @throws {IgniterError} When controller or action not found
+   * @throws {FlameError} When controller or action not found
    */
   async call<
     TControllerKey extends keyof TConfig["controllers"],
@@ -707,9 +707,9 @@ export class RequestProcessor<
     // Get the controller
     const controller = this.config.controllers[
       controllerKey
-    ] as IgniterControllerConfig<any>;
+    ] as FlameControllerConfig<any>;
     if (!controller) {
-      throw new IgniterError({
+      throw new FlameError({
         code: "CONTROLLER_NOT_FOUND",
         message: `Controller ${controllerKey.toString()} not found`,
       });
@@ -718,7 +718,7 @@ export class RequestProcessor<
     // Get the action
     const action = controller.actions[actionKey] as TAction;
     if (!action) {
-      throw new IgniterError({
+      throw new FlameError({
         code: "ACTION_NOT_FOUND",
         message: `Action ${actionKey.toString()} not found`,
       });
@@ -726,10 +726,10 @@ export class RequestProcessor<
 
     // Get the base path and URL
     const basePATH =
-      this.config.basePATH || process.env.IGNITER_APP_PATH || "/api/v1";
+      this.config.basePATH || process.env.Flame_APP_PATH || "/api/v1";
     const baseURL =
       this.config.baseURL ||
-      process.env.IGNITER_APP_URL ||
+      process.env.Flame_APP_URL ||
       "http://localhost:3000";
 
     // Construct the URL with parameters
@@ -880,7 +880,7 @@ export class RequestProcessor<
       ) {
         try {
           await this.config.context.$plugins.realtime.publish(
-            "igniter:api-requests",
+            "Flame:api-requests",
             JSON.stringify({
               type: "api-request",
               data: requestData,
@@ -889,7 +889,7 @@ export class RequestProcessor<
         } catch (storeError) {
           this.logger.error('Failed to publish metrics to storage plugin', {
             error: storeError,
-            channel: 'igniter:api-requests'
+            channel: 'Flame:api-requests'
           });
         }
       }
@@ -1030,7 +1030,7 @@ export class RequestProcessor<
       statusCode = context.response?.status || 200;
 
       // This method is deprecated, so a warning is appropriate.
-      const deprecationLogger = IgniterConsoleLogger.create({
+      const deprecationLogger = FlameConsoleLogger.create({
         level: resolveLogLevel(),
         context: createLoggerContext('RequestProcessor')
       });
@@ -1048,8 +1048,13 @@ export class RequestProcessor<
       };
     } catch (err) {
       error = err as Error;
-      statusCode = error instanceof IgniterError ? 500 : 500;
+      statusCode = error instanceof FlameError ? 500 : 500;
       throw error;
     }
   }
 }
+
+
+
+
+

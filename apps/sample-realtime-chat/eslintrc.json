@@ -1,9 +1,14 @@
 {
   "extends": [
-    "@igniter-js/eslint-config/next",
+    "@flame-js/eslint-config/next",
     "next/core-web-vitals"
   ],
   "rules": {
     "@typescript-eslint/no-require-imports": "warn"
   }
 }
+
+
+
+
+

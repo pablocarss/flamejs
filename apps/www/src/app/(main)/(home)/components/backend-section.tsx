@@ -12,10 +12,10 @@ const codeExamples = [
     description: "Type-safe API endpoints with automatic validation",
     icon: Code2,
     code: `// features/users/controllers/users.controller.ts
-export const userController = igniter.controller({
+export const userController = Flame.controller({
   path: '/users',
   actions: {
-    getUser: igniter.query({
+    getUser: Flame.query({
       path: '/:id' as const,
       handler: async ({ request, response, context, query }) => {
         const user = await context.db.user.findUnique({
@@ -29,7 +29,7 @@ export const userController = igniter.controller({
         return user;
       },
     }),
-    createUser: igniter.muate({
+    createUser: Flame.muate({
       path: '/' as const,
       body: z.object({
         name: z.string(),
@@ -50,7 +50,7 @@ export const userController = igniter.controller({
     description: "Reusable middleware for authentication, validation, and more",
     icon: Zap,
     code: `// procedures/auth.procedure.ts
-export const auth = igniter.procedure({
+export const auth = Flame.procedure({
   handler: async (options: AuthOptions, { response }) => {
     const user = await getCurrentUser();
 
@@ -71,10 +71,10 @@ export const auth = igniter.procedure({
 });
 
 // Usage in controller
-export const userController = igniter.controller({
+export const userController = Flame.controller({
   path: '/users',
   actions: {
-    getCurrentUser: igniter.query({
+    getCurrentUser: Flame.query({
       path: '/',
       // Use the procedure created in the previous step.
       // TypeScript knows that context.auth.user is now available!
@@ -96,7 +96,7 @@ export const userController = igniter.controller({
     description: "Fully typed client with React hooks for seamless integration",
     icon: Code2,
     code: `// Frontend usage with React
-import { api } from './igniter.client';
+import { api } from './Flame.client';
 
 function UserProfile({ userId }: { userId: string }) {
   const currentUser = api.user.getCurrentUser.useQuery({
@@ -150,7 +150,7 @@ export const registeredJobs = jobs.merge({
 })
 
 // Enqueues the 'sendWelcome' job for execution, ensuring type safety
-await igniter.jobs.emails.enqueue({
+await Flame.jobs.emails.enqueue({
   task: 'sendWelcome', // Name of the job to be executed
   input: {
     userId: '123' // Input passed to the job (note: schema expects 'message', not 'userId')
@@ -163,10 +163,10 @@ await igniter.jobs.emails.enqueue({
     description: "Backend Pub/Sub messaging for distributed services using Redis.",
     icon: Zap,
     code: `// src/features/user/controllers/user.controller.ts
-export const userController = igniter.controller({
+export const userController = Flame.controller({
   path: '/users',
   actions: {
-    createUser: igniter.mutate({
+    createUser: Flame.mutate({
       path: '/' as const,
       body: z.object({
         name: z.string(),
@@ -177,10 +177,10 @@ export const userController = igniter.controller({
           data: input,
         });
 
-        // Publish an event via Igniter Store (backed by Redis)
+        // Publish an event via Flame Store (backed by Redis)
         // This event can be consumed by other services or instances
         // of your application for real-time updates or background processing.
-        await igniter.store.publish('user.created', {
+        await Flame.store.publish('user.created', {
           id: user.id,
           name: user.name,
           email: user.email,
@@ -196,7 +196,7 @@ export const userController = igniter.controller({
 // src/services/notifications.service.ts
 // Example: A separate service (or another instance) subscribing to user events.
 // This demonstrates inter-service communication in a distributed environment.
-igniter.store.subscribe('user.created', async (data) => {
+Flame.store.subscribe('user.created', async (data) => {
   // 'data' is fully typed based on the published event.
   console.log(\`[Notification Service] New user created: \${data.name} (\${data.email})\`);
   // Here, you could send a welcome email, update a CRM, etc.
@@ -205,7 +205,7 @@ igniter.store.subscribe('user.created', async (data) => {
 
 // src/services/analytics.service.ts
 // Another service subscribing to all user-related events.
-igniter.store.subscribe('user.*', (data, channel) => {
+Flame.store.subscribe('user.*', (data, channel) => {
   console.log(\`[Analytics Service] Received event on channel \${channel}: \`, data);
   // Log event to analytics platform
   // analyticsClient.track(channel, data);
@@ -217,10 +217,10 @@ igniter.store.subscribe('user.*', (data, channel) => {
     description: "Redis-powered caching for optimal performance",
     icon: Database,
     code: `// Caching with Redis Store
-export const userController = igniter.controller({
+export const userController = Flame.controller({
   path: '/users',
   actions: {
-    getById: igniter.query({
+    getById: Flame.query({
       path: '/:id' as const,
       handler: async ({ request, response, context, query }) => {
         const cacheKey = \`user:\${input.id}\`;
@@ -246,7 +246,7 @@ export const userController = igniter.controller({
         return user;
       },
     }),
-    update: igniter.muate({
+    update: Flame.muate({
       path: '/' as const,
       body: z.object({
         name: z.string(),
@@ -259,7 +259,7 @@ export const userController = igniter.controller({
         });
 
         // Invalidate cache
-        await igniter.store.del(\`user:\${input.id}\`);
+        await Flame.store.del(\`user:\${input.id}\`);
 
         return user;
       },
@@ -272,7 +272,7 @@ export const userController = igniter.controller({
     title: "Context System",
     description: "Dependency injection and shared application state",
     icon: Code2,
-    code: `// igniter.context.ts
+    code: `// Flame.context.ts
 export const createContext = async () => {
   const db = new PrismaClient();
 
@@ -289,7 +289,7 @@ export const createContext = async () => {
 };
 
 // Available in all controllers and procedures
-export const auth = igniter.procedure({
+export const auth = Flame.procedure({
   handler: async (options: AuthOptions, { response, context }) => {
     const user = await getCurrentUser(context.env.SECRET);
 
@@ -503,3 +503,8 @@ export function BackendSection() {
     </div>
   );
 }
+
+
+
+
+

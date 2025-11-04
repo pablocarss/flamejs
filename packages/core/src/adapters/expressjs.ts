@@ -4,7 +4,7 @@
  * and then translates the Fetch API Response back into an Express response.
  *
  * This is designed to allow Express to interoperate with handlers written for
- * Igniter.js or other Fetch-compatible APIs.
+ * Flame.js or other Fetch-compatible APIs.
  *
  * @param handler - An async function that takes a Fetch API Request and returns a Fetch API Response.
  * @returns An Express middleware function.
@@ -51,7 +51,7 @@ export const expressAdapter = (
       // For other methods, pass the Express request object itself as the body stream.
       const body = ['GET', 'HEAD'].includes(req.method.toUpperCase()) ? undefined : req;
 
-      // Create a new standard Request object compatible with Igniter.js
+      // Create a new standard Request object compatible with Flame.js
       const request = new Request(url.toString(), {
         method: req.method,
         headers: headers,
@@ -60,7 +60,7 @@ export const expressAdapter = (
         duplex: 'half'
       });
 
-      // Pass the standard request to the Igniter handler
+      // Pass the standard request to the Flame handler
       const response = await handler(request);
 
       // Translate the standard Response back to Express's response object
@@ -91,3 +91,8 @@ export const expressAdapter = (
     }
   };
 };
+
+
+
+
+

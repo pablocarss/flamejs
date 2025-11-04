@@ -1,5 +1,5 @@
 {
-  "name": "@igniter-js/adapter-mcp-server",
+  "name": "@flame-js/adapter-mcp-server",
   "version": "0.3.1",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -12,10 +12,10 @@
     "build": "tsup src/index.ts --dts --format esm,cjs --out-dir dist"
   },
   "devDependencies": {
-    "@igniter-js/core": "*"
+    "@flame-js/core": "*"
   },
   "peerDependencies": {
-    "@igniter-js/core": "*"
+    "@flame-js/core": "*"
   },
   "license": "MIT",
   "dependencies": {
@@ -25,3 +25,8 @@
     "zod": "^3"
   }
 }
+
+
+
+
+

@@ -1,7 +1,12 @@
 {
   "root": true,
-  "extends": ["@igniter-js/eslint-config"],
+  "extends": ["@flame-js/eslint-config"],
   "parserOptions": {
     "project": "./tsconfig.json"
   }
 } 
+
+
+
+
+

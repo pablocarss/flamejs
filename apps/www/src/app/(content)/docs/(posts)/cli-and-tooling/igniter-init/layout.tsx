@@ -2,12 +2,12 @@ import { Metadata } from 'next';
 import React from 'react';
 
 export const metadata: Metadata = {
-  title: 'CLI: Scaffolding with `igniter init` | Igniter.js',
+  title: 'CLI: Scaffolding with `Flame init` | Flame.js',
   description:
-    'Learn how to use the `igniter init` command to scaffold a new, production-ready Igniter.js project in minutes with an interactive setup for frameworks, features, and database configuration.',
+    'Learn how to use the `Flame init` command to scaffold a new, production-ready Flame.js project in minutes with an interactive setup for frameworks, features, and database configuration.',
   keywords: [
-    'Igniter.js',
-    'igniter init',
+    'Flame.js',
+    'Flame init',
     'CLI',
     'scaffolding',
     'project setup',
@@ -19,26 +19,26 @@ export const metadata: Metadata = {
     'code generation',
   ],
   openGraph: {
-    title: 'CLI: Scaffolding with `igniter init` | Igniter.js',
+    title: 'CLI: Scaffolding with `Flame init` | Flame.js',
     description:
-      'Get your project started in minutes. This guide covers how `igniter init` scaffolds your application with a feature-based architecture, interactive setup, and optional Docker integration.',
+      'Get your project started in minutes. This guide covers how `Flame init` scaffolds your application with a feature-based architecture, interactive setup, and optional Docker integration.',
     type: 'article',
-    url: 'https://igniterjs.com/docs/cli-and-tooling/igniter-init',
+    url: 'https://Flamejs.com/docs/cli-and-tooling/Flame-init',
     images: [
       {
-        url: 'https://igniterjs.com/og/docs-igniter-init.png', // Assuming an OG image exists
+        url: 'https://Flamejs.com/og/docs-Flame-init.png', // Assuming an OG image exists
         width: 1200,
         height: 630,
-        alt: 'Igniter.js Project Scaffolding with `igniter init`',
+        alt: 'Flame.js Project Scaffolding with `Flame init`',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'CLI: Scaffolding with `igniter init` | Igniter.js',
+    title: 'CLI: Scaffolding with `Flame init` | Flame.js',
     description:
-      'Get your project started in minutes. This guide covers how `igniter init` scaffolds your application with a feature-based architecture, interactive setup, and optional Docker integration.',
-    images: ['https://igniterjs.com/og/docs-igniter-init.png'],
+      'Get your project started in minutes. This guide covers how `Flame init` scaffolds your application with a feature-based architecture, interactive setup, and optional Docker integration.',
+    images: ['https://Flamejs.com/og/docs-Flame-init.png'],
   },
 };
 
@@ -49,3 +49,8 @@ export default function DocsLayout({
 }) {
   return <>{children}</>;
 }
+
+
+
+
+

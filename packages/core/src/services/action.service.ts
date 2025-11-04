@@ -1,8 +1,8 @@
-import type { IgniterPlugin } from "../types/plugin.interface";
-import type { StandardSchemaV1, IgniterProcedure, IgniterActionHandler, IgniterActionContext, QueryMethod, InferEndpoint, IgniterQueryOptions, IgniterAction, MutationMethod } from "../types";
+import type { FlamePlugin } from "../types/plugin.interface";
+import type { StandardSchemaV1, FlameProcedure, FlameActionHandler, FlameActionContext, QueryMethod, InferEndpoint, FlameQueryOptions, FlameAction, MutationMethod } from "../types";
 
 /**
- * Creates a type-safe query action for the Igniter Framework.
+ * Creates a type-safe query action for the Flame Framework.
  * Query actions are used for retrieving data and should be idempotent.
  * 
  * @template TActionContext - The type of the action context
@@ -18,7 +18,7 @@ import type { StandardSchemaV1, IgniterProcedure, IgniterActionHandler, IgniterA
  * 
  * @example
  * ```typescript
- * const getUsers = createIgniterQuery({
+ * const getUsers = createFlameQuery({
  *   path: 'users',
  *   query: z.object({ page: z.number() }),
  *   use: [authMiddleware],
@@ -29,14 +29,14 @@ import type { StandardSchemaV1, IgniterProcedure, IgniterActionHandler, IgniterA
  * });
  * ```
  */
-export const createIgniterQuery = <
+export const createFlameQuery = <
   TQueryContext extends object,
   TQueryPath extends string,
   TQueryQuery extends StandardSchemaV1 | undefined,
-  TQueryMiddlewares extends readonly IgniterProcedure<TQueryContext, any, unknown>[] | undefined,
-  TQueryPlugins extends Record<string, IgniterPlugin<any, any, any, any, any, any, any, any>>,
-  TQueryHandler extends IgniterActionHandler<
-    IgniterActionContext<TQueryContext, TQueryPath, QueryMethod, undefined, TQueryQuery, TQueryMiddlewares, TQueryPlugins>,
+  TQueryMiddlewares extends readonly FlameProcedure<TQueryContext, any, unknown>[] | undefined,
+  TQueryPlugins extends Record<string, FlamePlugin<any, any, any, any, any, any, any, any>>,
+  TQueryHandler extends FlameActionHandler<
+    FlameActionContext<TQueryContext, TQueryPath, QueryMethod, undefined, TQueryQuery, TQueryMiddlewares, TQueryPlugins>,
     unknown
   >,
   TQueryResponse extends ReturnType<TQueryHandler>,
@@ -51,7 +51,7 @@ export const createIgniterQuery = <
     TQueryHandler,
     TQueryResponse
   >
->(options: IgniterQueryOptions<
+>(options: FlameQueryOptions<
   TQueryContext,
   TQueryPath,
   TQueryQuery,
@@ -59,7 +59,7 @@ export const createIgniterQuery = <
   TQueryPlugins,
   TQueryHandler
 >) => {
-  type TQuery = IgniterAction<
+  type TQuery = FlameAction<
     TQueryContext,
     TQueryPath,
     QueryMethod,
@@ -80,7 +80,7 @@ export const createIgniterQuery = <
 }
 
 /**
- * Creates a type-safe mutation action for the Igniter Framework.
+ * Creates a type-safe mutation action for the Flame Framework.
  * Mutation actions are used for modifying data and typically use HTTP methods like POST, PUT, PATCH, or DELETE.
  * 
  * @template TActionContext - The type of the action context
@@ -97,7 +97,7 @@ export const createIgniterQuery = <
  * 
  * @example
  * ```typescript
- * const createUser = createIgniterMutation({
+ * const createUser = createFlameMutation({
  *   path: 'users',
  *   method: 'POST',
  *   body: z.object({
@@ -112,16 +112,16 @@ export const createIgniterQuery = <
  * });
  * ```
  */
-export const createIgniterMutation = <
+export const createFlameMutation = <
   TMutationContext extends object,
   TMutationPath extends string,
   TMutationMethod extends MutationMethod,
   TMutationBody extends StandardSchemaV1 | undefined,
   TMutationQuery extends StandardSchemaV1 | undefined,
-  TMutationMiddlewares extends readonly IgniterProcedure<TMutationContext, any, any>[] | undefined,
-  TMutationPlugins extends Record<string, IgniterPlugin<any, any, any, any, any, any, any, any>>,
-  TMutationHandler extends IgniterActionHandler<
-    IgniterActionContext<TMutationContext, TMutationPath, TMutationMethod, TMutationBody, TMutationQuery, TMutationMiddlewares, TMutationPlugins>,
+  TMutationMiddlewares extends readonly FlameProcedure<TMutationContext, any, any>[] | undefined,
+  TMutationPlugins extends Record<string, FlamePlugin<any, any, any, any, any, any, any, any>>,
+  TMutationHandler extends FlameActionHandler<
+    FlameActionContext<TMutationContext, TMutationPath, TMutationMethod, TMutationBody, TMutationQuery, TMutationMiddlewares, TMutationPlugins>,
     any
   >,
   TMutationResponse extends ReturnType<TMutationHandler>,
@@ -146,7 +146,7 @@ export const createIgniterMutation = <
   use?: TMutationMiddlewares,
   handler: TMutationHandler,
 }) => {
-  type TMutation = IgniterAction<
+  type TMutation = FlameAction<
     TMutationContext,
     TMutationPath,
     TMutationMethod,
@@ -172,3 +172,8 @@ export const createIgniterMutation = <
     $Infer: {} as TMutationInfer
   } as TMutation;
 }
+
+
+
+
+

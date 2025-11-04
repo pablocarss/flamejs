@@ -1,13 +1,13 @@
-import { igniter } from '@/igniter'
+import { Flame } from '@/Flame'
 import { z } from 'zod'
 
 /**
- * @description Example controller demonstrating Igniter.js features.
+ * @description Example controller demonstrating Flame.js features.
  * This file serves as a starting point for your application's logic.
  *
- * @see https://github.com/felipebarcelospro/igniter-js
+ * @see https://github.com/felipebarcelospro/Flame-js
  */
-export const exampleController = igniter.controller({
+export const exampleController = Flame.controller({
   // The base path for all actions in this controller.
   // e.g., /api/v1/example
   path: '/example',
@@ -17,7 +17,7 @@ export const exampleController = igniter.controller({
     /**
      * A simple health-check endpoint to verify the API is running.
      */
-    health: igniter.query({
+    health: Flame.query({
       // The sub-path for this action. Combined with the controller path,
       // the full path is /api/v1/example
       path: '/',
@@ -34,3 +34,8 @@ export const exampleController = igniter.controller({
     }),
   },
 });
+
+
+
+
+

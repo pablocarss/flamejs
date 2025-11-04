@@ -10,13 +10,13 @@ describe('loadRouter with external dependencies', () => {
 
   beforeAll(async () => {
     // Create a temporary directory for testing
-    tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'igniter-test-'));
+    tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'Flame-test-'));
     
-    // Create a simple router file that imports from @igniter-js/core
+    // Create a simple router file that imports from @flame-js/core
     const routerContent = `
-      import { Igniter } from '@igniter-js/core'
+      import { Flame } from '@flame-js/core'
 
-      const igniter = Igniter
+      const Flame = Flame
         .context(async () => ({}))
         .config({
           baseURL: 'http://localhost:3000',
@@ -24,10 +24,10 @@ describe('loadRouter with external dependencies', () => {
         })
         .create()
 
-      const testController = igniter.controller({
+      const testController = Flame.controller({
         path: '/test',
         actions: {
-          hello: igniter.query({
+          hello: Flame.query({
             method: 'GET',
             path: '/hello',
             handler: async () => {
@@ -37,14 +37,14 @@ describe('loadRouter with external dependencies', () => {
         }
       })
 
-      export const AppRouter = igniter.router({
+      export const AppRouter = Flame.router({
         controllers: {
           test: testController
         }
       })
     `;
     
-    routerPath = path.join(tempDir, 'igniter.router.ts');
+    routerPath = path.join(tempDir, 'Flame.router.ts');
     fs.writeFileSync(routerPath, routerContent, 'utf-8');
   });
 
@@ -81,3 +81,8 @@ describe('loadRouter with external dependencies', () => {
     expect(router.caller.test.hello).toBeDefined();
   });
 });
+
+
+
+
+

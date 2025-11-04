@@ -1,40 +1,40 @@
-import { createIgniterProcedure } from "./procedure.service";
-import { createIgniterMutation, createIgniterQuery } from "./action.service";
-import { createIgniterRouter } from "./router.service";
-import { createIgniterController } from "./controller.service";
+import { createFlameProcedure } from "./procedure.service";
+import { createFlameMutation, createFlameQuery } from "./action.service";
+import { createFlameRouter } from "./router.service";
+import { createFlameController } from "./controller.service";
 import type {
   StandardSchemaV1,
-  IgniterProcedure,
-  IgniterActionHandler,
-  IgniterActionContext,
+  FlameProcedure,
+  FlameActionHandler,
+  FlameActionContext,
   QueryMethod,
   InferEndpoint,
-  IgniterQueryOptions,
+  FlameQueryOptions,
   MutationMethod,
-  IgniterMutationOptions,
-  IgniterControllerConfig,
+  FlameMutationOptions,
+  FlameControllerConfig,
   ContextCallback,
   Unwrap,
-  IgniterBaseConfig,
-  IgniterBuilderConfig,
+  FlameBaseConfig,
+  FlameBuilderConfig,
   InferActionProcedureContext,
-  InferIgniterContext,
-  IgniterControllerBaseAction,
-  IgniterRealtimeService as IgniterRealtimeServiceType,
+  InferFlameContext,
+  FlameControllerBaseAction,
+  FlameRealtimeService as FlameRealtimeServiceType,
   DocsConfig,
-  IgniterRouter,
+  FlameRouter,
 } from "../types";
-import type { IgniterStoreAdapter } from "../types/store.interface";
-import type { IgniterLogger } from "../types/logger.interface";
+import type { FlameStoreAdapter } from "../types/store.interface";
+import type { FlameLogger } from "../types/logger.interface";
 import type {
   JobsNamespaceProxy,
   MergedJobsExecutor,
 } from "../types/jobs.interface";
-import type { IgniterTelemetryProvider } from "../types/telemetry.interface";
-import { IgniterRealtimeService } from "./realtime.service";
+import type { FlameTelemetryProvider } from "../types/telemetry.interface";
+import { FlameRealtimeService } from "./realtime.service";
 
 /**
- * Main builder class for the Igniter Framework.
+ * Main builder class for the Flame Framework.
  * Provides a fluent interface for creating and configuring all framework components.
  *
  * @template TContext - The type of the application context
@@ -45,33 +45,33 @@ import { IgniterRealtimeService } from "./realtime.service";
  *
  * @example
  * // Initialize with custom context
- * const igniter = Igniter
+ * const Flame = Flame
  *   .context<{ db: Database }>()
  *   .middleware([authMiddleware])
  *   .store(redisStore)
  *   .create();
  *
  * // Create controllers and actions
- * const userController = igniter.controller({
+ * const userController = Flame.controller({
  *   path: 'users',
  *   actions: {
- *     list: igniter.query({ ... }),
- *     create: igniter.mutation({ ...  })
+ *     list: Flame.query({ ... }),
+ *     create: Flame.mutation({ ...  })
  *   }
  * });
  */
-export class IgniterBuilder<
+export class FlameBuilder<
   TContext extends object | ContextCallback,
-  TConfig extends IgniterBaseConfig,
-  TStore extends IgniterStoreAdapter,
-  TLogger extends IgniterLogger,
+  TConfig extends FlameBaseConfig,
+  TStore extends FlameStoreAdapter,
+  TLogger extends FlameLogger,
   TJobs extends JobsNamespaceProxy<any>,
-  TTelemetry extends IgniterTelemetryProvider,
-  TRealtime extends IgniterRealtimeServiceType<any>,
+  TTelemetry extends FlameTelemetryProvider,
+  TRealtime extends FlameRealtimeServiceType<any>,
   TPlugins extends Record<string, any>,
   TDocs extends DocsConfig,
 > {
-  private _config: IgniterBuilderConfig<
+  private _config: FlameBuilderConfig<
     TContext,
     TConfig,
     TStore,
@@ -90,7 +90,7 @@ export class IgniterBuilder<
   private _docs: TDocs = {} as TDocs;
 
   constructor(    
-    config: IgniterBuilderConfig<
+    config: FlameBuilderConfig<
       TContext,
       TConfig,
       TStore,
@@ -123,7 +123,7 @@ export class IgniterBuilder<
    */
   context<TNewContext extends object | ContextCallback>(
     contextFn: TNewContext,
-  ): IgniterBuilder<
+  ): FlameBuilder<
     TNewContext,
     TConfig,
     TStore,
@@ -134,7 +134,7 @@ export class IgniterBuilder<
     TPlugins,
     TDocs
   > {
-    return new IgniterBuilder(
+    return new FlameBuilder(
       { ...this._config, context: contextFn },
       this._store,
       this._logger,
@@ -151,7 +151,7 @@ export class IgniterBuilder<
    */
   config<TNewConfig extends TConfig>(
     routerConfig: TNewConfig,
-  ): IgniterBuilder<
+  ): FlameBuilder<
     TContext,
     TNewConfig,
     TStore,
@@ -162,7 +162,7 @@ export class IgniterBuilder<
     TPlugins,
     TDocs
   > {
-    return new IgniterBuilder(
+    return new FlameBuilder(
       { ...this._config, config: routerConfig },
       this._store,
       this._logger,
@@ -178,28 +178,28 @@ export class IgniterBuilder<
    * Configure a store adapter for caching, events, and more.
    */
   store(
-    storeAdapter: IgniterStoreAdapter,
-  ): IgniterBuilder<
+    storeAdapter: FlameStoreAdapter,
+  ): FlameBuilder<
     TContext,
     TConfig,
-    IgniterStoreAdapter,
+    FlameStoreAdapter,
     TLogger,
     TJobs,
     TTelemetry,
-    IgniterRealtimeServiceType,
+    FlameRealtimeServiceType,
     TPlugins,
     TDocs
   > {
-    const realtime = new IgniterRealtimeService(storeAdapter);
+    const realtime = new FlameRealtimeService(storeAdapter);
 
-    return new IgniterBuilder<
+    return new FlameBuilder<
       TContext,
       TConfig,
-      IgniterStoreAdapter,
+      FlameStoreAdapter,
       TLogger,
       TJobs,
       TTelemetry,
-      IgniterRealtimeServiceType,
+      FlameRealtimeServiceType,
       TPlugins,
       TDocs
     >(
@@ -218,23 +218,23 @@ export class IgniterBuilder<
    * Configure a logger adapter for logging.
    */
   logger(
-    loggerAdapter: IgniterLogger,
-  ): IgniterBuilder<
+    loggerAdapter: FlameLogger,
+  ): FlameBuilder<
     TContext,
     TConfig,
     TStore,
-    IgniterLogger,
+    FlameLogger,
     TJobs,
     TTelemetry,
     TRealtime,
     TPlugins,
     TDocs
   > {
-    return new IgniterBuilder<
+    return new FlameBuilder<
       TContext,
       TConfig,
       TStore,
-      IgniterLogger,
+      FlameLogger,
       TJobs,
       TTelemetry,
       TRealtime,
@@ -261,7 +261,7 @@ export class IgniterBuilder<
   >(jobsAdapter: TJobs) {
     const jobsProxy = jobsAdapter.createProxy() as TJobsProxy;
 
-    return new IgniterBuilder<
+    return new FlameBuilder<
       TContext,
       TConfig,
       TStore,
@@ -288,9 +288,9 @@ export class IgniterBuilder<
    * Configure a telemetry provider for observability.
    * Enables distributed tracing, metrics collection, and structured logging.
    */
-  telemetry<TTelemetryProvider extends IgniterTelemetryProvider>(
+  telemetry<TTelemetryProvider extends FlameTelemetryProvider>(
     telemetryProvider: TTelemetryProvider,
-  ): IgniterBuilder<
+  ): FlameBuilder<
     TContext,
     TConfig,
     TStore,
@@ -301,7 +301,7 @@ export class IgniterBuilder<
     TPlugins,
     TDocs
   > {
-    return new IgniterBuilder<
+    return new FlameBuilder<
       TContext,
       TConfig,
       TStore,
@@ -325,7 +325,7 @@ export class IgniterBuilder<
   }
 
   /**
-   * Register plugins with the Igniter Router
+   * Register plugins with the Flame Router
    *
    * Plugins provide self-contained functionality with actions, controllers, events, and lifecycle hooks.
    * They can access their own actions type-safely through the `self` parameter.
@@ -334,7 +334,7 @@ export class IgniterBuilder<
    *
    * @example
    * ```typescript
-   * const igniter = Igniter
+   * const Flame = Flame
    *   .context<MyContext>()
    *   .plugins({
    *     auth: authPlugin,
@@ -344,9 +344,9 @@ export class IgniterBuilder<
    *   .create();
    *
    * // Usage in actions
-   * const userController = igniter.controller({
+   * const userController = Flame.controller({
    *   actions: {
-   *     create: igniter.mutation({
+   *     create: Flame.mutation({
    *       handler: async (ctx) => {
    *         await ctx.plugins.auth.actions.validateToken({ token });
    *         await ctx.plugins.email.actions.sendWelcome({ email });
@@ -359,7 +359,7 @@ export class IgniterBuilder<
    */
   plugins<TNewPlugins extends Record<string, any>>(
     pluginsRecord: TNewPlugins,
-  ): IgniterBuilder<
+  ): FlameBuilder<
     TContext,
     TConfig,
     TStore,
@@ -370,7 +370,7 @@ export class IgniterBuilder<
     TNewPlugins,
     TDocs
   > {
-    return new IgniterBuilder<
+    return new FlameBuilder<
       TContext,
       TConfig,
       TStore,
@@ -395,7 +395,7 @@ export class IgniterBuilder<
 
   docs<TNewDocs extends DocsConfig>(
     docsConfig: TNewDocs,
-  ): IgniterBuilder<
+  ): FlameBuilder<
     TContext,
     TConfig,
     TStore,
@@ -406,7 +406,7 @@ export class IgniterBuilder<
     TPlugins,
     TNewDocs
   > {
-    return new IgniterBuilder(
+    return new FlameBuilder(
       { ...this._config, docs: docsConfig },
       this._store,
       this._logger,
@@ -437,9 +437,9 @@ export class IgniterBuilder<
       query: <
         TQueryPath extends string,
         TQueryQuery extends StandardSchemaV1 | undefined,
-        TQueryMiddlewares extends IgniterProcedure<any, any, unknown>[] | undefined,
-        TQueryHandler extends IgniterActionHandler<
-          IgniterActionContext<
+        TQueryMiddlewares extends FlameProcedure<any, any, unknown>[] | undefined,
+        TQueryHandler extends FlameActionHandler<
+          FlameActionContext<
             TInferedContext,
             TQueryPath,
             QueryMethod,
@@ -464,7 +464,7 @@ export class IgniterBuilder<
         >,
       >(
         // 🔄 MUDANÇA: Remoção do constraint genérico no handler para permitir inferência livre
-        options: IgniterQueryOptions<
+        options: FlameQueryOptions<
           TInferedContext,
           TQueryPath,
           TQueryQuery,
@@ -473,7 +473,7 @@ export class IgniterBuilder<
           TQueryHandler
         >,
       ) =>
-        createIgniterQuery<
+        createFlameQuery<
           TInferedContext,
           TQueryPath,
           TQueryQuery,
@@ -492,9 +492,9 @@ export class IgniterBuilder<
         TMutationMethod extends MutationMethod,
         TMutationBody extends StandardSchemaV1 | undefined,
         TMutationQuery extends StandardSchemaV1 | undefined,
-        TMutationMiddlewares extends IgniterProcedure<any, any, unknown>[] | undefined,
-        TMutationHandler extends IgniterActionHandler<
-          IgniterActionContext<
+        TMutationMiddlewares extends FlameProcedure<any, any, unknown>[] | undefined,
+        TMutationHandler extends FlameActionHandler<
+          FlameActionContext<
             TInferedContext,
             TMutationPath,
             TMutationMethod,
@@ -519,7 +519,7 @@ export class IgniterBuilder<
         >,
       >(
         // 🔄 MUDANÇA: Remoção do constraint genérico no handler para permitir inferência livre
-        options: IgniterMutationOptions<
+        options: FlameMutationOptions<
           TInferedContext,
           TMutationPath,
           TMutationMethod,
@@ -530,7 +530,7 @@ export class IgniterBuilder<
           TMutationHandler
         >,
       ) =>
-        createIgniterMutation<
+        createFlameMutation<
           TInferedContext,
           TMutationPath,
           TMutationMethod,
@@ -546,10 +546,10 @@ export class IgniterBuilder<
       /**
        * Creates a controller to group related actions.
        */
-      controller: <TActions extends Record<string, IgniterControllerBaseAction>>(
-        config: IgniterControllerConfig<TActions>,
+      controller: <TActions extends Record<string, FlameControllerBaseAction>>(
+        config: FlameControllerConfig<TActions>,
       ) =>
-        createIgniterController<TActions>(config),
+        createFlameController<TActions>(config),
 
       /**
        * Creates a router with enhanced configuration.
@@ -557,12 +557,12 @@ export class IgniterBuilder<
       router: <
         TControllers extends Record<
           string,
-          IgniterControllerConfig<any>
+          FlameControllerConfig<any>
         >,
       >(config: {
         controllers: TControllers;
       }) => {
-        return createIgniterRouter<
+        return createFlameRouter<
           TInferedContext,
           TControllers,
           TConfig,
@@ -580,8 +580,8 @@ export class IgniterBuilder<
        * Creates a reusable middleware procedure.
        */
       procedure: <TOptions extends Record<string, any>, TOutput>(
-        middleware: IgniterProcedure<TInferedContext, TOptions, TOutput>,
-      ) => createIgniterProcedure(middleware),
+        middleware: FlameProcedure<TInferedContext, TOptions, TOutput>,
+      ) => createFlameProcedure(middleware),
 
       store: this._store,
       logger: this._logger,
@@ -606,18 +606,23 @@ export class IgniterBuilder<
 }
 
 /**
- * Factory function to create a new Igniter builder instance.
+ * Factory function to create a new Flame builder instance.
  *
  * @template TContext - The type of the application context
- * @returns A new IgniterBuilder instance
+ * @returns A new FlameBuilder instance
  *
  * @example
  * // Initialize with custom context
- * const igniter = Igniter
+ * const Flame = Flame
  *   .context<{ db: Database }>()
  *   .middleware([authMiddleware])
  *   .store(redisStore)
  *   .create();
  */
-export const Igniter = new IgniterBuilder();
+export const Flame = new FlameBuilder();
+
+
+
+
+
 

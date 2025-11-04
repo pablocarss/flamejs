@@ -276,3 +276,8 @@ export function BlogList({ posts }: { posts: ContentSection[] }) {
     </motion.div>
   );
 }
+
+
+
+
+

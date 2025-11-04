@@ -68,9 +68,9 @@ export class ProjectGenerator {
 
   private async downloadTemplate(): Promise<{ isStarter: boolean, success: boolean }> {
     const { framework } = this.config
-    const templateUrl = `https://github.com/felipebarcelospro/igniter-js.git`
+    const templateUrl = `https://github.com/felipebarcelospro/Flame-js.git`
     const branch = 'main'
-    const tempDir = path.join(this.targetDir, '__igniter_tmp__')
+    const tempDir = path.join(this.targetDir, '__Flame_tmp__')
     const starterDir = path.join(tempDir, 'apps', framework)
     const destDir = this.targetDir
 
@@ -207,7 +207,7 @@ export class ProjectGenerator {
       const dbConfig = DATABASE_CONFIGS[this.config.database.provider]
 
       const coreDependencies = [
-        { name: '@igniter-js/core', version: '*' },
+        { name: '@flame-js/core', version: '*' },
         { name: 'zod', version: '3.25.48' },
       ]
 
@@ -464,9 +464,9 @@ datasource db {
   private showSuccessMessage(): void {
     console.log()
     if (this.isExistingProject) {
-      console.log(chalk.green('✓ Success! Igniter.js has been added to your project!'))
+      console.log(chalk.green('✓ Success! Flame.js has been added to your project!'))
     } else {
-      console.log(chalk.green('✓ Success! Your Igniter.js project is ready!'))
+      console.log(chalk.green('✓ Success! Your Flame.js project is ready!'))
     }
     console.log()
 
@@ -500,7 +500,7 @@ datasource db {
 
     if (this.isExistingProject) {
       console.log()
-      console.log(chalk.yellow('Remember to integrate the Igniter router into your existing server setup!'))
+      console.log(chalk.yellow('Remember to integrate the Flame router into your existing server setup!'))
     }
 
     console.log()
@@ -519,3 +519,8 @@ export async function generateProject(
   const generator = new ProjectGenerator(config, targetDir, isExistingProject)
   await generator.generate()
 }
+
+
+
+
+

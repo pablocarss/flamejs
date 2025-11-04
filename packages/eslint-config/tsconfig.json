@@ -1,5 +1,5 @@
 {
-  "extends": "@igniter-js/typescript-config/base.json",
+  "extends": "@flame-js/typescript-config/base.json",
   "compilerOptions": {
     "outDir": "dist",
     "rootDir": "."
@@ -7,3 +7,8 @@
   "include": ["."],
   "exclude": ["node_modules", "dist"]
 } 
+
+
+
+
+

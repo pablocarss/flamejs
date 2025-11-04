@@ -1,22 +1,22 @@
-# Igniter.js Starter: Bun REST API
+# Flame.js Starter: Bun REST API
 
 [![Bun](https://img.shields.io/badge/Bun-1.0%2B-blue.svg)](https://bun.sh/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0%2B-blue.svg)](https://www.typescriptlang.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-Welcome to the Igniter.js starter for building high-performance, type-safe REST APIs with **Bun**. This template provides a robust and scalable foundation for creating modern back-end services.
+Welcome to the Flame.js starter for building high-performance, type-safe REST APIs with **Bun**. This template provides a robust and scalable foundation for creating modern back-end services.
 
 ## Features
 
 -   **High-Performance API Server**: Built on Bun, one of the fastest JavaScript runtimes available.
--   **Type-Safe from the Ground Up**: Powered by Igniter.js, ensuring a strongly-typed codebase that is easy to maintain and refactor.
+-   **Type-Safe from the Ground Up**: Powered by Flame.js, ensuring a strongly-typed codebase that is easy to maintain and refactor.
 -   **Feature-Based Architecture**: A scalable project structure that organizes code by business domain, not technical layers.
 -   **Ready-to-Use Services**: Pre-configured examples for:
-    -   **Caching**: Integrated with Redis via `@igniter-js/adapter-redis`.
-    -   **Background Jobs**: Asynchronous task processing with BullMQ via `@igniter-js/adapter-bullmq`.
+    -   **Caching**: Integrated with Redis via `@flame-js/adapter-redis`.
+    -   **Background Jobs**: Asynchronous task processing with BullMQ via `@flame-js/adapter-bullmq`.
     -   **Structured Logging**: Production-ready, context-aware logging.
 -   **Database Ready**: Comes with Prisma set up for seamless database integration.
--   **Auto-Generated Type-Safe Client**: Even as a REST API, you can generate a fully-typed client (`src/igniter.client.ts`) for consumption by other TypeScript services or a separate front-end application.
+-   **Auto-Generated Type-Safe Client**: Even as a REST API, you can generate a fully-typed client (`src/Flame.client.ts`) for consumption by other TypeScript services or a separate front-end application.
 
 ## Prerequisites
 
@@ -32,8 +32,8 @@ Follow these steps to get your project up and running:
 
 1.  **Clone the Repository**
     ```bash
-    git clone https://github.com/felipebarcelospro/igniter-js.git
-    cd igniter-js/apps/starter-bun-rest-api
+    git clone https://github.com/felipebarcelospro/Flame-js.git
+    cd Flame-js/apps/starter-bun-rest-api
     ```
 
 2.  **Install Dependencies**
@@ -42,7 +42,7 @@ Follow these steps to get your project up and running:
     ```
 
 3.  **Configure Environment Variables**
-    Create a `.env` file in the root of this starter (`igniter-js/apps/starter-bun-rest-api/.env`) and add your database and Redis connection URLs:
+    Create a `.env` file in the root of this starter (`Flame-js/apps/starter-bun-rest-api/.env`) and add your database and Redis connection URLs:
 
     ```env
     # .env
@@ -67,16 +67,16 @@ This starter is a pure API server.
 
 ### 1. The Bun Server (`src/index.ts`)
 
-The `src/index.ts` file is the main entry point. It uses Bun's native `serve` function to handle incoming requests. All requests to `/api/v1/*` are forwarded directly to the Igniter.js API router handler.
+The `src/index.ts` file is the main entry point. It uses Bun's native `serve` function to handle incoming requests. All requests to `/api/v1/*` are forwarded directly to the Flame.js API router handler.
 
-### 2. The Igniter.js API Layer
+### 2. The Flame.js API Layer
 
-The back-end API is defined using Igniter.js.
+The back-end API is defined using Flame.js.
 
--   **Initialization (`src/igniter.ts`)**: This is where the core Igniter instance is created and configured with adapters for the store (Redis), jobs (BullMQ), logging, and telemetry.
--   **Router (`src/igniter.router.ts`)**: This file defines all API controllers. The starter includes an `exampleController` with several actions demonstrating core features.
+-   **Initialization (`src/Flame.ts`)**: This is where the core Flame instance is created and configured with adapters for the store (Redis), jobs (BullMQ), logging, and telemetry.
+-   **Router (`src/Flame.router.ts`)**: This file defines all API controllers. The starter includes an `exampleController` with several actions demonstrating core features.
 -   **Controllers (`src/features/example/controllers/example.controller.ts`)**: Controllers group related API actions. The example shows how to implement queries (GET) and mutations (POST), interact with the cache, and schedule background jobs.
--   **Services (`src/services/`)**: This directory contains the initialization logic for external services like the Redis client, Prisma client, and the Igniter.js adapters that use them.
+-   **Services (`src/services/`)**: This directory contains the initialization logic for external services like the Redis client, Prisma client, and the Flame.js adapters that use them.
 
 ## Project Structure
 
@@ -88,10 +88,10 @@ src/
 │   └── example/
 │       └── controllers/  # API endpoint definitions
 ├── services/             # Service initializations (Redis, Prisma, etc.)
-├── igniter.ts            # Igniter.js core instance
-├── igniter.client.ts     # Auto-generated type-safe API client (for consumers)
-├── igniter.context.ts    # Application context definition
-├── igniter.router.ts     # Main API router
+├── Flame.ts            # Flame.js core instance
+├── Flame.client.ts     # Auto-generated type-safe API client (for consumers)
+├── Flame.context.ts    # Application context definition
+├── Flame.router.ts     # Main API router
 └── index.ts              # Application entry point (Bun server)
 ```
 
@@ -131,14 +131,19 @@ This starter comes with a pre-built `example` controller to demonstrate key feat
 
 ## Further Learning
 
-To learn more about Igniter.js and its powerful features, check out the official documentation:
+To learn more about Flame.js and its powerful features, check out the official documentation:
 
--   **[Igniter.js GitHub Repository](https://github.com/felipebarcelospro/igniter-js)**
--   **[Official Documentation](https://igniterjs.com/docs)**
--   **[Core Concepts](https://igniterjs.com/docs/core-concepts)**
--   **[Store (Redis)](https://igniterjs.com/docs/advanced-features/store)**
--   **[Queues (BullMQ)](https://igniterjs.com/docs/advanced-features/queues)**
+-   **[Flame.js GitHub Repository](https://github.com/felipebarcelospro/Flame-js)**
+-   **[Official Documentation](https://Flamejs.com/docs)**
+-   **[Core Concepts](https://Flamejs.com/docs/core-concepts)**
+-   **[Store (Redis)](https://Flamejs.com/docs/advanced-features/store)**
+-   **[Queues (BullMQ)](https://Flamejs.com/docs/advanced-features/queues)**
 
 ## License
 
 This starter is licensed under the [MIT License](LICENSE).
+
+
+
+
+

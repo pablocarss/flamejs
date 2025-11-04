@@ -2,12 +2,12 @@ import { Metadata } from 'next';
 import React from 'react';
 
 export const metadata: Metadata = {
-  title: 'CLI: The `igniter dev` Interactive Server | Igniter.js',
+  title: 'CLI: The `Flame dev` Interactive Server | Flame.js',
   description:
-    'Learn to use the `igniter dev` command, the interactive development server for Igniter.js projects. Monitor multiple processes and view real-time API request logs in a single dashboard.',
+    'Learn to use the `Flame dev` command, the interactive development server for Flame.js projects. Monitor multiple processes and view real-time API request logs in a single dashboard.',
   keywords: [
-    'Igniter.js',
-    'igniter dev',
+    'Flame.js',
+    'Flame dev',
     'CLI',
     'development server',
     'interactive mode',
@@ -17,26 +17,26 @@ export const metadata: Metadata = {
     'tooling',
   ],
   openGraph: {
-    title: 'CLI: The `igniter dev` Interactive Server | Igniter.js',
+    title: 'CLI: The `Flame dev` Interactive Server | Flame.js',
     description:
-      'Master the `igniter dev` command and its interactive dashboard to streamline your full-stack development workflow, manage multiple processes, and monitor API requests in real-time.',
+      'Master the `Flame dev` command and its interactive dashboard to streamline your full-stack development workflow, manage multiple processes, and monitor API requests in real-time.',
     type: 'article',
-    url: 'https://igniterjs.com/docs/cli-and-tooling/igniter-dev',
+    url: 'https://Flamejs.com/docs/cli-and-tooling/Flame-dev',
     images: [
       {
-        url: 'https://igniterjs.com/og/docs-igniter-dev.png', // Assuming an OG image exists
+        url: 'https://Flamejs.com/og/docs-Flame-dev.png', // Assuming an OG image exists
         width: 1200,
         height: 630,
-        alt: 'Igniter.js Interactive Dev Server',
+        alt: 'Flame.js Interactive Dev Server',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'CLI: The `igniter dev` Interactive Server | Igniter.js',
+    title: 'CLI: The `Flame dev` Interactive Server | Flame.js',
     description:
-      'Master the `igniter dev` command and its interactive dashboard to streamline your full-stack development workflow, manage multiple processes, and monitor API requests in real-time.',
-    images: ['https://igniterjs.com/og/docs-igniter-dev.png'],
+      'Master the `Flame dev` command and its interactive dashboard to streamline your full-stack development workflow, manage multiple processes, and monitor API requests in real-time.',
+    images: ['https://Flamejs.com/og/docs-Flame-dev.png'],
   },
 };
 
@@ -47,3 +47,8 @@ export default function DocsLayout({
 }) {
   return <>{children}</>;
 }
+
+
+
+
+

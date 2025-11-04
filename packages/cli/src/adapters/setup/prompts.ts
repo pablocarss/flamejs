@@ -4,17 +4,17 @@ import path from 'path'
 import { detectFramework, detectPackageManager, getFrameworkList, type SupportedFramework } from '../framework/framework-detector'
 import type {
   ProjectSetupConfig,
-  IgniterFeatures,
+  FlameFeatures,
   DatabaseProvider,
   PackageManager
 } from './types'
 
 /**
- * ANSI Art and branding for Igniter.js
+ * ANSI Art and branding for Flame.js
  */
-const IGNITER_LOGO = `
+const Flame_LOGO = `
 ${chalk.blue('┌')}${chalk.blue('─'.repeat(60))}${chalk.blue('┐')}
-${chalk.blue('│')}${' '.repeat(20)}${chalk.bold.blue('⚡ IGNITER.JS')}${' '.repeat(19)}${chalk.blue('│')}
+${chalk.blue('│')}${' '.repeat(20)}${chalk.bold.blue('⚡ Flame.js')}${' '.repeat(19)}${chalk.blue('│')}
 ${chalk.blue('│')}${' '.repeat(15)}${chalk.dim('Type-safe API framework')}${' '.repeat(14)}${chalk.blue('│')}
 ${chalk.blue('└')}${chalk.blue('─'.repeat(60))}${chalk.blue('┘')}
 `
@@ -24,9 +24,9 @@ ${chalk.blue('└')}${chalk.blue('─'.repeat(60))}${chalk.blue('┘')}
  */
 function showWelcome(): void {
   console.clear()
-  console.log(IGNITER_LOGO)
+  console.log(Flame_LOGO)
   console.log()
-  console.log(chalk.bold('Welcome to Igniter.js!'))
+  console.log(chalk.bold('Welcome to Flame.js!'))
   console.log()
   console.log(chalk.dim('Let\'s setup your type-safe API layer with modern tooling.'))
   console.log(chalk.dim('This process will configure your project with everything you need.'))
@@ -62,7 +62,7 @@ export async function runSetupPrompts(
   // Auto-detect current environment
   const detectedFramework = detectFramework()
   const detectedPackageManager = detectPackageManager()
-  const projectName = targetDir ? path.basename(path.resolve(targetDir)) : 'my-igniter-app'
+  const projectName = targetDir ? path.basename(path.resolve(targetDir)) : 'my-Flame-app'
 
   // Parse CLI features if provided
   const cliFeatures = cliOptions.features ? cliOptions.features.split(',').map(f => f.trim()) : []
@@ -117,7 +117,7 @@ export async function runSetupPrompts(
       {
         type: cliOptions.features ? null : 'multiselect',
         name: 'features',
-        message: chalk.bold('• Which Igniter.js features would you like to enable?'),
+        message: chalk.bold('• Which Flame.js features would you like to enable?'),
         choices: [
           {
             title: `${chalk.blue('Store (Redis)')}`,
@@ -240,7 +240,7 @@ export async function runSetupPrompts(
     // Set defaults for logging and telemetry if no features were explicitly chosen
     const hasExplicitFeatures = cliOptions.features || (answers.features && answers.features.length > 0);
 
-    const featuresObj: IgniterFeatures = {
+    const featuresObj: FlameFeatures = {
       store: selectedFeatures.includes('store'),
       jobs: selectedFeatures.includes('jobs'),
       mcp: selectedFeatures.includes('mcp'),
@@ -357,3 +357,8 @@ export async function confirmOverwrite(message: string): Promise<boolean> {
 
   return overwrite
 }
+
+
+
+
+

@@ -1,5 +1,5 @@
 {
-  "extends": "@igniter-js/typescript-config/base.json",
+  "extends": "@flame-js/typescript-config/base.json",
   "compilerOptions": {
     "baseUrl": "",
     "outDir": "dist",
@@ -26,3 +26,8 @@
     "**/__tests__/**"
   ]
 }
+
+
+
+
+

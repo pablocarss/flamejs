@@ -1,8 +1,8 @@
 "use client";
 
 import type {
-  IgniterAction,
-  IgniterRouter,
+  FlameAction,
+  FlameRouter,
   MutationActionCallerOptions,
   MutationActionCallerResult,
   QueryActionCallerOptions,
@@ -12,25 +12,25 @@ import type {
 } from "../types";
 
 import { useState, useEffect, useCallback, useRef, useMemo } from "react";
-import { useIgniterQueryClient } from "./igniter.context";
+import { useFlameQueryClient } from "./Flame.context";
 import { ClientCache } from "../utils/cache";
 import { generateQueryKey } from "../utils/queryKey";
-import { IgniterConsoleLogger } from "../services/logger.service";
+import { FlameConsoleLogger } from "../services/logger.service";
 import { resolveLogLevel, createLoggerContext } from "../utils/logger";
 import { mergeQueryParams } from "../utils/deepMerge";
 import { normalizeResponseData } from "../utils/response";
 
-type InferIgniterResponse<T> = T extends { data: infer TData, error: infer TError } ? { data: TData | null, error: TError | null } : { data: null, error: null };
+type InferFlameResponse<T> = T extends { data: infer TData, error: infer TError } ? { data: TData | null, error: TError | null } : { data: null, error: null };
 
 /**
  * Creates a useQueryClient hook for a specific router
  * @returns A React hook for querying data
  */
 export const createUseQueryClient = <
-  TRouter extends IgniterRouter<any, any, any, any, any>,
+  TRouter extends FlameRouter<any, any, any, any, any>,
 >() => {
   return () => {
-    const { register, unregister, invalidate } = useIgniterQueryClient();
+    const { register, unregister, invalidate } = useFlameQueryClient();
 
     return {
       register,
@@ -69,7 +69,7 @@ function normalizeInputParams<T extends { query?: any, params?: any, body?: any 
 }
 
 export const createUseQuery = <
-  TAction extends IgniterAction<any, any, any, any, any, any, any, any, any, any>,
+  TAction extends FlameAction<any, any, any, any, any, any, any, any, any, any>,
 >(
   controller: string,
   action: string,
@@ -78,7 +78,7 @@ export const createUseQuery = <
   return (
     options?: QueryActionCallerOptions<TAction>,
   ): QueryActionCallerResult<TAction> => {
-    const { register, unregister, invalidate } = useIgniterQueryClient();
+    const { register, unregister, invalidate } = useFlameQueryClient();
 
     const [status, setStatus] = useState<'loading' | 'error' | 'success'>('loading');
     const [isFetching, setIsFetching] = useState(false);
@@ -281,7 +281,7 @@ export const createUseQuery = <
  * @returns A React hook for mutating data
  */
 export const createUseMutation = <
-  TAction extends IgniterAction<any, any, any, any, any, any, any, any, any, any>,
+  TAction extends FlameAction<any, any, any, any, any, any, any, any, any, any>,
 >(
   controller: string,
   action: string,
@@ -354,9 +354,9 @@ export const createUseMutation = <
       if (lastUsedParamsRef.current) {
         mutate(lastUsedParamsRef.current);
       } else {
-        const logger = IgniterConsoleLogger.create({
+        const logger = FlameConsoleLogger.create({
           level: resolveLogLevel(),
-          context: createLoggerContext('IgniterHooks')
+          context: createLoggerContext('FlameHooks')
         });
         logger.error("Cannot retry mutation: no parameters were provided in the last call.");
       }
@@ -402,7 +402,7 @@ export function useRealtime<T = any>(
 } {
   const [data, setData] = useState<T | null>(options.initialData || null);
   const [isConnected, setIsConnected] = useState(false);
-  const { subscribeToRealtime } = useIgniterQueryClient();
+  const { subscribeToRealtime } = useFlameQueryClient();
 
   const callbacksRef = useRef({
     onMessage: options.onMessage,
@@ -453,14 +453,14 @@ export function useRealtime<T = any>(
  * @param actionPath The action path for the stream endpoint
  * @returns A React hook for subscribing to real-time updates
  */
-export const createUseRealtime = <TAction extends IgniterAction<any, any, any, any, any, any, any, any, any, any>>(
+export const createUseRealtime = <TAction extends FlameAction<any, any, any, any, any, any, any, any, any, any>>(
   controller: string,
   action: string,
 ) => {
   return (options?: RealtimeActionCallerOptions<TAction>): RealtimeActionCallerResult<TAction> => {
     const [isReconnecting, setIsReconnecting] = useState(false);
     // @ts-expect-error - Ignore type error for now
-    const [response, setResponse] = useState<InferIgniterResponse<Awaited<TAction["$Infer"]["$Output"]>>>(() => ({
+    const [response, setResponse] = useState<InferFlameResponse<Awaited<TAction["$Infer"]["$Output"]>>>(() => ({
       data: options?.initialData?.data || null,
       error: options?.initialData?.error || null,
     }));
@@ -514,3 +514,8 @@ export const createUseRealtime = <TAction extends IgniterAction<any, any, any, a
     } as RealtimeActionCallerResult<TAction>;
   };
 };
+
+
+
+
+

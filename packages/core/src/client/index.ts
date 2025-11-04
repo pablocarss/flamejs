@@ -1,6 +1,11 @@
 // React-specific exports (client-side only)
-export { IgniterProvider, useIgniterQueryClient } from "./igniter.context";
-export { useRealtime } from "./igniter.hooks";
+export { FlameProvider, useFlameQueryClient } from "./Flame.context";
+export { useRealtime } from "./Flame.hooks";
 
-// Re-export createIgniterClient - will be environment-aware via imports
-export { createIgniterClient } from './igniter.client.browser';
+// Re-export createFlameClient - will be environment-aware via imports
+export { createFlameClient } from './Flame.client.browser';
+
+
+
+
+

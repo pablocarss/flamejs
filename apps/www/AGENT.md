@@ -1,18 +1,18 @@
-# AI Agent Maintenance Manual: Igniter.js Website (`@igniter-js/www`)
+# AI Agent Maintenance Manual: Flame.js Website (`@flame-js/www`)
 
 **Version:** 1.0.0
 **For Agent Use Only.**
 
-This document provides a detailed technical guide for maintaining the Igniter.js official website and documentation platform, located in the `apps/www` directory. This project is a Next.js application responsible for marketing content, documentation, and interactive examples.
+This document provides a detailed technical guide for maintaining the Flame.js official website and documentation platform, located in the `apps/www` directory. This project is a Next.js application responsible for marketing content, documentation, and interactive examples.
 
 ---
 
 ## 1. Project Overview
 
-**Name:** `@igniter-js/www`
+**Name:** `@flame-js/www`
 
-**Purpose:** This package serves as the public-facing website for the Igniter.js framework. Its primary responsibilities are:
-1.  **Marketing & Landing Pages:** To introduce new users to Igniter.js and highlight its key features.
+**Purpose:** This package serves as the public-facing website for the Flame.js framework. Its primary responsibilities are:
+1.  **Marketing & Landing Pages:** To introduce new users to Flame.js and highlight its key features.
 2.  **Official Documentation:** To host comprehensive, searchable documentation, tutorials, and API references.
 3.  **Community Hub:** To provide links to the GitHub repository, Discord server, and other community resources.
 
@@ -70,7 +70,7 @@ The project follows the standard Next.js App Router structure within the `src/` 
 2.  **Install Dependencies:** Ensure all dependencies are installed by running `npm install` from the monorepo root.
 3.  **Run Development Server:**
     ```bash
-    npm run dev --filter @igniter-js/www
+    npm run dev --filter @flame-js/www
     ```
     The website will be available at `http://localhost:3000`.
 
@@ -104,7 +104,7 @@ This section outlines the standard procedures for creating new content to ensure
 
 3.  **Implement Metadata (Crucial):**
     *   Copy the `generateMetadata` function from a **recent, existing blog post's `layout.tsx`**.
-    *   Update the `title`, `description`, and `url` fields with the new post's information. Use a full, static URL for `openGraph.url` (e.g., `https://igniterjs.com/...`). Do not use a configuration object.
+    *   Update the `title`, `description`, and `url` fields with the new post's information. Use a full, static URL for `openGraph.url` (e.g., `https://Flamejs.com/...`). Do not use a configuration object.
 
 4.  **Implement Layout Component:**
     *   The `layout.tsx` file must perform a **default import** of the parent layout: `import BlogPostLayout from '@/app/(content)/blog/(posts)/layout';`
@@ -118,7 +118,12 @@ The website is automatically deployed via a GitHub Action whenever changes are p
 
 1.  Checks out the code.
 2.  Installs dependencies (`npm install`).
-3.  Builds the Next.js application (`npm run build --filter @igniter-js/www`).
+3.  Builds the Next.js application (`npm run build --filter @flame-js/www`).
 4.  Deploys the static output from the `out` directory to the hosting provider (e.g., Vercel, Netlify, or GitHub Pages).
 
 Refer to the specific deployment workflow file for precise details.
+
+
+
+
+

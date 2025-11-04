@@ -25,10 +25,15 @@ export async function getTitleFromMdx(slug: string[], basePath: string): Promise
     // Use regex to find the first H1 heading.
     const titleMatch = content.match(/^#\s+(.*)/m);
     
-    return titleMatch ? titleMatch[1] : 'Igniter.js';
+    return titleMatch ? titleMatch[1] : 'Flame.js';
   } catch (error) {
     // If the file doesn't exist or another error occurs, return the default title.
     console.error(`Could not read MDX file for slug "${slug.join('/')}":`, error);
-    return 'Igniter.js';
+    return 'Flame.js';
   }
 }
+
+
+
+
+

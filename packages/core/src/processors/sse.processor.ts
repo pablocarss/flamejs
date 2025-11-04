@@ -1,6 +1,6 @@
-import { IgniterLogLevel, type IgniterLogger } from "../types";
-import { IgniterError } from "../error";
-import { IgniterConsoleLogger } from "../services/logger.service";
+import { FlameLogLevel, type FlameLogger } from "../types";
+import { FlameError } from "../error";
+import { FlameConsoleLogger } from "../services/logger.service";
 import { resolveLogLevel, createLoggerContext } from "../utils/logger";
 
 /**
@@ -90,11 +90,11 @@ export interface SSEStreamOptions {
  * Manages event channels, connections, and message distribution
  */
 export class SSEProcessor {
-  private static _logger: IgniterLogger;
+  private static _logger: FlameLogger;
 
-  private static get logger(): IgniterLogger {
+  private static get logger(): FlameLogger {
     if (!this._logger) {
-      this._logger = IgniterConsoleLogger.create({
+      this._logger = FlameConsoleLogger.create({
         level: resolveLogLevel(),
         context: createLoggerContext('SSE'),
         showTimestamp: true,
@@ -126,7 +126,7 @@ export class SSEProcessor {
    * Register a new channel for SSE events
    *
    * @param channel - Channel configuration
-   * @throws {IgniterError} When channel already exists
+   * @throws {FlameError} When channel already exists
    */
   static registerChannel(channel: SSEChannel): void {
     if (this.channels.has(channel.id)) {
@@ -239,7 +239,7 @@ export class SSEProcessor {
    *
    * @param request - The incoming HTTP request
    * @returns SSE response stream
-   * @throws {IgniterError} When channel validation fails
+   * @throws {FlameError} When channel validation fails
    */
   static async handleConnection(request: Request): Promise<Response> {
     const url = new URL(request.url);
@@ -262,7 +262,7 @@ export class SSEProcessor {
           availableChannels: this.getRegisteredChannels().map((c) => c.id),
           reason: "channel not registered"
         });
-        throw new IgniterError({
+        throw new FlameError({
           code: "INVALID_SSE_CHANNEL",
           message: `Channel '${channel}' is not registered`,
           details: {
@@ -705,3 +705,8 @@ export function encodeSSEMessage(options: {
 
   return SSEProcessor.encodeSSEMessage(processedOptions as any);
 }
+
+
+
+
+

@@ -37,3 +37,8 @@ export interface Config {
   termsOfUseUrl: string;
   privacyPolicyUrl: string;
 }
+
+
+
+
+

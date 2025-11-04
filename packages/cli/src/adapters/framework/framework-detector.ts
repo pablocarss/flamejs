@@ -3,7 +3,7 @@ import * as path from 'path'
 import { ChildProcess } from 'child_process'
 import spawn from 'cross-spawn'
 import { createChildLogger, formatError } from '../logger'
-import { startIgniterWithFramework } from './concurrent-processes'
+import { startFlameWithFramework } from './concurrent-processes'
 
 export type SupportedFramework = 'nextjs' | 'vite' | 'nuxt' | 'sveltekit' | 'remix' | 'astro' | 'express' | 'tanstack-start' | 'generic'
 
@@ -250,14 +250,14 @@ export interface DevServerOptions {
   debug?: boolean
   cwd?: string
   /**
-   * Use concurrently to run with Igniter watcher
+   * Use concurrently to run with Flame watcher
    * @default false
    */
-  withIgniter?: boolean
+  withFlame?: boolean
   /**
-   * Custom Igniter watcher command
+   * Custom Flame watcher command
    */
-  igniterCommand?: string
+  FlameCommand?: string
 }
 
 /**
@@ -281,24 +281,24 @@ export async function startDevServer(options: DevServerOptions = {}): Promise<Ch
   const command = buildDevCommand(framework, packageManager, options.command);
   const port = options.port || config.defaultPort;
   
-  // If withIgniter option is enabled, use concurrent processes
-  if (options.withIgniter) {
-    logger.info('Starting dev server with Igniter watcher', {
+  // If withFlame option is enabled, use concurrent processes
+  if (options.withFlame) {
+    logger.info('Starting dev server with Flame watcher', {
       framework,
       packageManager,
       command,
       port,
-      igniterCommand: options.igniterCommand
+      FlameCommand: options.FlameCommand
     });
 
     try {
-      await startIgniterWithFramework({
+      await startFlameWithFramework({
         framework,
         frameworkCommand: command,
         cwd,
         port,
         debug: options.debug,
-        igniterWatcherCommand: options.igniterCommand
+        FlameWatcherCommand: options.FlameCommand
       });
       return; // No need to return ChildProcess as concurrently handles it
     } catch (error) {
@@ -384,19 +384,19 @@ export function getFrameworkList(): string {
 }
 
 /**
- * Start development with both Igniter watcher and framework dev server
+ * Start development with both Flame watcher and framework dev server
  * This is a convenience function that automatically detects the framework
  * and starts both processes using concurrently
  */
-export async function startIgniterDev(options: {
+export async function startFlameDev(options: {
   cwd?: string;
   port?: number;
   debug?: boolean;
   framework?: SupportedFramework;
   frameworkCommand?: string;
-  igniterCommand?: string;
+  FlameCommand?: string;
 } = {}): Promise<void> {
-  const logger = createChildLogger({ component: 'igniter-dev' });
+  const logger = createChildLogger({ component: 'Flame-dev' });
   
   const cwd = options.cwd || process.cwd();
   const framework = options.framework || detectFramework(cwd);
@@ -406,7 +406,7 @@ export async function startIgniterDev(options: {
   const frameworkCommand = options.frameworkCommand || 
     buildDevCommand(framework, packageManager);
   
-  logger.info('Starting Igniter development mode', {
+  logger.info('Starting Flame development mode', {
     framework,
     packageManager,
     frameworkCommand,
@@ -414,16 +414,21 @@ export async function startIgniterDev(options: {
   });
 
   try {
-    await startIgniterWithFramework({
+    await startFlameWithFramework({
       framework,
       frameworkCommand,
       cwd,
       port: options.port,
       debug: options.debug,
-      igniterWatcherCommand: options.igniterCommand
+      FlameWatcherCommand: options.FlameCommand
     });
   } catch (error) {
-    logger.error('Failed to start Igniter development', { error: formatError(error) });
+    logger.error('Failed to start Flame development', { error: formatError(error) });
     throw error;
   }
 }
+
+
+
+
+

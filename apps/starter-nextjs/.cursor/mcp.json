@@ -1,10 +1,10 @@
 {
   "mcpServers": {
-    "igniter-mcp": {
+    "Flame-mcp": {
       "command": "npx",
       "args": [
         "-y",
-        "@igniter-js/mcp-server@latest"
+        "@flame-js/mcp-server@latest"
       ],
       "env": {
         "GOOGLE_API_KEY": "",
@@ -22,3 +22,8 @@
     }
   }
 }
+
+
+
+
+

@@ -2,11 +2,11 @@ import { Metadata } from 'next';
 import React from 'react';
 
 export const metadata: Metadata = {
-  title: 'Guiding LLMs with llms.txt | Igniter.js',
+  title: 'Guiding LLMs with llms.txt | Flame.js',
   description:
-    'Learn about the llms.txt standard and how Igniter.js provides a comprehensive, single-file documentation dump to train Code Agents and Large Language Models.',
+    'Learn about the llms.txt standard and how Flame.js provides a comprehensive, single-file documentation dump to train Code Agents and Large Language Models.',
   keywords: [
-    'Igniter.js',
+    'Flame.js',
     'llms.txt',
     'AI training',
     'LLM',
@@ -17,14 +17,14 @@ export const metadata: Metadata = {
     'sitemap',
   ],
   openGraph: {
-    title: 'Guiding LLMs with llms.txt | Igniter.js',
+    title: 'Guiding LLMs with llms.txt | Flame.js',
     description:
-      'Discover how the Igniter.js llms.txt file serves as a complete knowledge base for training AI Code Agents, enabling deep contextual understanding of the framework.',
+      'Discover how the Flame.js llms.txt file serves as a complete knowledge base for training AI Code Agents, enabling deep contextual understanding of the framework.',
     type: 'article',
-    url: 'https://igniterjs.com/docs/code-agents/llms-txt',
+    url: 'https://Flamejs.com/docs/code-agents/llms-txt',
     images: [
       {
-        url: 'https://igniterjs.com/og/docs-llms-txt.png', // Assuming an OG image exists
+        url: 'https://Flamejs.com/og/docs-llms-txt.png', // Assuming an OG image exists
         width: 1200,
         height: 630,
         alt: 'Using llms.txt to guide AI agents',
@@ -33,10 +33,10 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Guiding LLMs with llms.txt | Igniter.js',
+    title: 'Guiding LLMs with llms.txt | Flame.js',
     description:
-      'Discover how the Igniter.js llms.txt file serves as a complete knowledge base for training AI Code Agents, enabling deep contextual understanding of the framework.',
-    images: ['https://igniterjs.com/og/docs-llms-txt.png'],
+      'Discover how the Flame.js llms.txt file serves as a complete knowledge base for training AI Code Agents, enabling deep contextual understanding of the framework.',
+    images: ['https://Flamejs.com/og/docs-llms-txt.png'],
   },
 };
 
@@ -47,3 +47,8 @@ export default function DocsLayout({
 }) {
   return <>{children}</>;
 }
+
+
+
+
+

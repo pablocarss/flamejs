@@ -107,3 +107,8 @@ function ContributorItem({
     </motion.div>
   );
 }
+
+
+
+
+

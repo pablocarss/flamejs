@@ -1,8 +1,8 @@
 import { Metadata } from "next";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const title = "Announcing Igniter.js MCP Server: Native AI Integration for Modern Development";
-  const description = "Igniter.js now comes with a built-in MCP Server that seamlessly integrates with Cursor, Claude Code, and other AI tools, plus specialized training for Code Agents.";
+  const title = "Announcing Flame.js MCP Server: Native AI Integration for Modern Development";
+  const description = "Flame.js now comes with a built-in MCP Server that seamlessly integrates with Cursor, Claude Code, and other AI tools, plus specialized training for Code Agents.";
 
   return {
     title,
@@ -10,7 +10,7 @@ export async function generateMetadata(): Promise<Metadata> {
     openGraph: {
       title,
       description,
-      url: "https://igniterjs.com/blog/announcements/announcing-igniter-mcp-server",
+      url: "https://Flamejs.com/blog/announcements/announcing-Flame-mcp-server",
       type: "article",
     },
     twitter: {
@@ -24,3 +24,8 @@ export async function generateMetadata(): Promise<Metadata> {
 export default function Layout({ children }: { children: React.ReactNode }) {
   return children;
 }
+
+
+
+
+

@@ -174,3 +174,8 @@ export async function findProjectRoot(startPath: string): Promise<string> {
 
   return path.dirname(startPath);
 }
+
+
+
+
+

@@ -1,23 +1,23 @@
-# Code Agent Instructions: Igniter.js Starter (Deno REST API)
+# Code Agent Instructions: Flame.js Starter (Deno REST API)
 
-This document provides a technical guide for Large Language Model (LLM) based Code Agents responsible for maintaining, debugging, and extending the current Igniter.js project.
+This document provides a technical guide for Large Language Model (LLM) based Code Agents responsible for maintaining, debugging, and extending the current Flame.js project.
 
 ---
 
 ## 1. Project Overview
 
 ### 1.1. Name
-Igniter.js Starter: Deno REST API
+Flame.js Starter: Deno REST API
 
 ### 1.2. Purpose
-This project is a high-performance starter template for building **type-safe REST APIs**. It uses **Deno** as the runtime and **Igniter.js** as the core framework. It is designed for back-end services that require scalability, maintainability, and strong type guarantees in a modern, secure runtime environment.
+This project is a high-performance starter template for building **type-safe REST APIs**. It uses **Deno** as the runtime and **Flame.js** as the core framework. It is designed for back-end services that require scalability, maintainability, and strong type guarantees in a modern, secure runtime environment.
 
 ### 1.3. Key Technologies
 -   **Runtime**: Deno (v1.x)
--   **API Framework**: Igniter.js
+-   **API Framework**: Flame.js
 -   **Language**: TypeScript
--   **Caching**: Redis (via `@igniter-js/adapter-redis`)
--   **Background Jobs**: BullMQ (via `@igniter-js/adapter-bullmq`)
+-   **Caching**: Redis (via `@flame-js/adapter-redis`)
+-   **Background Jobs**: BullMQ (via `@flame-js/adapter-bullmq`)
 -   **Database ORM**: Prisma (pre-configured, requires a database connection)
 
 ---
@@ -28,18 +28,18 @@ This application is a **pure API server**. It does not serve any HTML or front-e
 
 ### 2.1. Server Entry Point (`src/index.ts`)
 The primary entry point is `src/index.ts`. It uses the standard `serve` function from the Deno standard library.
--   **Routing**: A simple manual routing check is performed. If an incoming request `URL.pathname` starts with `/api/v1/`, the request is forwarded to the Igniter.js handler. Otherwise, a `404 Not Found` response is returned.
+-   **Routing**: A simple manual routing check is performed. If an incoming request `URL.pathname` starts with `/api/v1/`, the request is forwarded to the Flame.js handler. Otherwise, a `404 Not Found` response is returned.
 -   **Permissions**: The application is executed using `deno task`, which uses the flags defined in `deno.json` (e.g., `--allow-net`, `--allow-env`) to grant necessary permissions.
 
-### 2.2. Igniter.js API Layer
-The back-end logic is powered by Igniter.js and follows a structured, feature-based pattern.
--   `src/igniter.ts`: This is the **central configuration file**. It creates the main `igniter` instance and registers all adapters (Redis store, BullMQ jobs, logger). You will modify this file only to add new global adapters or plugins.
--   `src/igniter.router.ts`: This file **assembles the main API router**. It imports all feature controllers and registers them under specific path prefixes (e.g., `example` maps to `/api/v1/example`).
+### 2.2. Flame.js API Layer
+The back-end logic is powered by Flame.js and follows a structured, feature-based pattern.
+-   `src/Flame.ts`: This is the **central configuration file**. It creates the main `Flame` instance and registers all adapters (Redis store, BullMQ jobs, logger). You will modify this file only to add new global adapters or plugins.
+-   `src/Flame.router.ts`: This file **assembles the main API router**. It imports all feature controllers and registers them under specific path prefixes (e.g., `example` maps to `/api/v1/example`).
 -   `src/features/[feature]/controllers/`: This is where the **business logic** resides. Each controller defines API actions (`query` for GET, `mutation` for POST/PUT/etc.) and their handlers.
 -   `src/services/`: Contains the initialization logic for external services like the Redis client, Prisma client, and adapter configurations.
 
 ### 2.3. Type-Safe Client (for Consumers)
-The file `src/igniter.client.ts` is an auto-generated, type-safe client.
+The file `src/Flame.client.ts` is an auto-generated, type-safe client.
 -   **Purpose**: It is intended for consumption by **external TypeScript clients** (e.g., a separate front-end application, another Deno service, or a Node.js microservice).
 -   **Constraint**: This file is a build artifact and **MUST NOT** be used internally within this project.
 
@@ -58,14 +58,14 @@ Follow these workflows for common development tasks.
 3.  **Define Controller and Action**:
     ```typescript
     // src/features/products/controllers/products.controller.ts
-    import { igniter } from '@/igniter';
+    import { Flame } from '@/Flame';
     import { z } from 'zod';
 
-    export const productsController = igniter.controller({
+    export const productsController = Flame.controller({
       name: 'Products',
       path: '/products',
       actions: {
-        list: igniter.query({
+        list: Flame.query({
           path: '/',
           query: z.object({
             limit: z.number().optional().default(10)
@@ -81,14 +81,14 @@ Follow these workflows for common development tasks.
       }
     });
     ```
-4.  **Register Controller**: Open `src/igniter.router.ts` and add the new controller.
+4.  **Register Controller**: Open `src/Flame.router.ts` and add the new controller.
     ```typescript
-    // src/igniter.router.ts
-    import { igniter } from '@/igniter';
+    // src/Flame.router.ts
+    import { Flame } from '@/Flame';
     import { exampleController } from '@/features/example';
     import { productsController } from '@/features/products/controllers/products.controller'; // 1. Import
 
-    export const AppRouter = igniter.router({
+    export const AppRouter = Flame.router({
       controllers: {
         example: exampleController,
         products: productsController // 2. Register
@@ -100,13 +100,13 @@ Follow these workflows for common development tasks.
 
 > **Pro-Tip: Use the CLI for Faster Scaffolding**
 >
-> Instead of creating these files manually, you can use the `igniter generate` command to build a complete feature slice from your Prisma schema in one step. This is the recommended approach.
+> Instead of creating these files manually, you can use the `Flame generate` command to build a complete feature slice from your Prisma schema in one step. This is the recommended approach.
 >
 > ```bash
 > # This single command creates the controller, Zod schemas, and procedures.
 > deno task cli generate feature products --schema prisma:Product
 > ```
-> This saves time and ensures consistency across your application. After running the command, you just need to register the new controller in `src/igniter.router.ts`.
+> This saves time and ensures consistency across your application. After running the command, you just need to register the new controller in `src/Flame.router.ts`.
 
 ### 3.2. How to Add a Background Job
 
@@ -131,10 +131,10 @@ Follow these workflows for common development tasks.
       }
     })
     ```
-2.  **Enqueue Job**: From a relevant API action (e.g., a `products.create` mutation), enqueue the job using the `igniter.jobs` instance.
+2.  **Enqueue Job**: From a relevant API action (e.g., a `products.create` mutation), enqueue the job using the `Flame.jobs` instance.
     ```typescript
     // In a controller action handler
-    const jobInfo = await igniter.jobs.system.enqueue({
+    const jobInfo = await Flame.jobs.system.enqueue({
       task: 'processImage',
       input: {
         productId: newProduct.id,
@@ -142,7 +142,7 @@ Follow these workflows for common development tasks.
       }
     });
 
-    igniter.logger.info('Scheduled image processing job', { jobId: jobInfo.id });
+    Flame.logger.info('Scheduled image processing job', { jobId: jobInfo.id });
     ```
 
 ### 3.3. How to Modify the Database Schema
@@ -158,10 +158,10 @@ Follow these workflows for common development tasks.
     ```
 
 ### 3.4. Generating the Type-Safe Client Schema
-The type-safe client (`src/igniter.client.ts`) and schema (`src/igniter.schema.ts`) are the bridge between your back-end and any potential front-end consumer. They are generated by introspecting your `AppRouter`.
+The type-safe client (`src/Flame.client.ts`) and schema (`src/Flame.schema.ts`) are the bridge between your back-end and any potential front-end consumer. They are generated by introspecting your `AppRouter`.
 
--   **Manual Generation**: You can run the command `deno task build:client` (which aliases `igniter generate schema`) to perform a one-time generation. This is useful in CI/CD pipelines or when you need to provide the client artifacts to another team.
--   **Automatic Generation**: The development server (`deno task dev`) runs `igniter dev`, which automatically watches for changes in your controllers and regenerates the client instantly.
+-   **Manual Generation**: You can run the command `deno task build:client` (which aliases `Flame generate schema`) to perform a one-time generation. This is useful in CI/CD pipelines or when you need to provide the client artifacts to another team.
+-   **Automatic Generation**: The development server (`deno task dev`) runs `Flame dev`, which automatically watches for changes in your controllers and regenerates the client instantly.
 
 ---
 
@@ -169,7 +169,7 @@ The type-safe client (`src/igniter.client.ts`) and schema (`src/igniter.schema.t
 
 1.  **Type Safety is Paramount**: All code modifications must preserve end-to-end type safety. Trust the TypeScript compiler; if it reports an error, the issue is valid.
 2.  **Deno-First Approach**: This project runs on Deno. Use Deno's standard APIs and tooling (`deno task`, `deno.json`, import maps) where applicable. Avoid introducing Node.js-specific patterns or dependencies unless necessary and supported via `npm:` specifiers.
-3.  **DO NOT EDIT Build Artifacts**: The files `src/igniter.client.ts` and `src/igniter.schema.ts` are automatically generated. Do not edit them manually.
+3.  **DO NOT EDIT Build Artifacts**: The files `src/Flame.client.ts` and `src/Flame.schema.ts` are automatically generated. Do not edit them manually.
 4.  **Adhere to Feature-Based Architecture**: All new business logic must be encapsulated within a feature slice under `src/features/`. Do not add business logic to top-level files.
 5.  **Use Context for Dependencies**: Always access services like the database (`context.database`), logger (`context.logger`), and store (`context.store`) via the `context` object passed to action handlers. **Never import service instances directly into controllers.**
 6.  **Environment Variables**: All required secrets and environment-specific configurations (e.g., `DATABASE_URL`, `REDIS_URL`) must be defined in the `.env` file and accessed via `Deno.env.get()`.
@@ -178,9 +178,14 @@ The type-safe client (`src/igniter.client.ts`) and schema (`src/igniter.schema.t
 
 ## 5. External Documentation Links
 
-For more detailed information on Igniter.js concepts, refer to the official documentation wiki.
+For more detailed information on Flame.js concepts, refer to the official documentation wiki.
 
--   **[Core Concepts](https://igniterjs.com/docs/core-concepts)**: Understand Actions, Controllers, Context, and the builder pattern.
--   **[Store (Redis)](https://igniterjs.com/docs/advanced-features/store)**: Learn about caching (`get`, `set`) and Pub/Sub (`publish`, `subscribe`).
--   **[Queues (BullMQ)](https://igniterjs.com/docs/advanced-features/queues)**: Learn how to define, schedule, and manage background jobs.
--   **[API Client](https://igniterjs.com/docs/client-side/api-client)**: Understand how the type-safe client is generated for consumers.
+-   **[Core Concepts](https://Flamejs.com/docs/core-concepts)**: Understand Actions, Controllers, Context, and the builder pattern.
+-   **[Store (Redis)](https://Flamejs.com/docs/advanced-features/store)**: Learn about caching (`get`, `set`) and Pub/Sub (`publish`, `subscribe`).
+-   **[Queues (BullMQ)](https://Flamejs.com/docs/advanced-features/queues)**: Learn how to define, schedule, and manage background jobs.
+-   **[API Client](https://Flamejs.com/docs/client-side/api-client)**: Understand how the type-safe client is generated for consumers.
+
+
+
+
+

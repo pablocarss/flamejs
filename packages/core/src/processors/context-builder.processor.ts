@@ -1,10 +1,10 @@
-import { IgniterCookie } from "../services/cookie.service";
-import { IgniterResponseProcessor } from "./response.processor";
+import { FlameCookie } from "../services/cookie.service";
+import { FlameResponseProcessor } from "./response.processor";
 import { BodyParserProcessor } from "./body-parser.processor";
 import type { RequestProcessorConfig } from "../types/request.processor";
-import { type IgniterLogger, type IgniterRouter } from "../types";
-import { IgniterConsoleLogger } from "../services/logger.service";
-import type { IgniterPluginManager } from "../services/plugin.service";
+import { type FlameLogger, type FlameRouter } from "../types";
+import { FlameConsoleLogger } from "../services/logger.service";
+import type { FlamePluginManager } from "../services/plugin.service";
 import { resolveLogLevel, createLoggerContext } from "../utils/logger";
 
 /**
@@ -15,7 +15,7 @@ export interface ProcessedRequest extends Omit<Request, 'path' | 'method' | 'par
   method: string;
   params: Record<string, any>;
   headers: Headers;
-  cookies: IgniterCookie;
+  cookies: FlameCookie;
   body: any;
   query: Record<string, string>;
   raw: Request;
@@ -26,21 +26,21 @@ export interface ProcessedRequest extends Omit<Request, 'path' | 'method' | 'par
  */
 export interface ProcessedContext<TContext = any, TPlugins = any> {
   request: ProcessedRequest;
-  response: IgniterResponseProcessor<TContext>;
+  response: FlameResponseProcessor<TContext>;
   $context: TContext;
   $plugins: TPlugins;
 }
 
 /**
- * Context builder processor for the Igniter Framework.
+ * Context builder processor for the Flame Framework.
  * Handles the construction and enhancement of request contexts.
  */
 export class ContextBuilderProcessor {
-  private static _logger: IgniterLogger;
+  private static _logger: FlameLogger;
 
-  private static get logger(): IgniterLogger {
+  private static get logger(): FlameLogger {
     if (!this._logger) {
-      this._logger = IgniterConsoleLogger.create({
+      this._logger = FlameConsoleLogger.create({
         level: resolveLogLevel(),
         context: createLoggerContext('ContextBuilder'),
         showTimestamp: true,
@@ -58,7 +58,7 @@ export class ContextBuilderProcessor {
    * @param url - Parsed URL object
    * @returns Promise resolving to the processed context
    */
-  static async build<TRouter extends IgniterRouter<any, any, any, any, any>>(
+  static async build<TRouter extends FlameRouter<any, any, any, any, any>>(
     config: RequestProcessorConfig<TRouter>,
     request: Request,
     routeParams: Record<string, any>,
@@ -84,8 +84,8 @@ export class ContextBuilderProcessor {
     }
 
     // Parse request components
-    const cookies = new IgniterCookie(request.headers);
-    const response = new IgniterResponseProcessor();
+    const cookies = new FlameCookie(request.headers);
+    const response = new FlameResponseProcessor();
     
     let body = null;
 
@@ -136,7 +136,7 @@ export class ContextBuilderProcessor {
    */
   static async enhanceWithPlugins(
     context: ProcessedContext,
-    pluginManager?: IgniterPluginManager<any>
+    pluginManager?: FlamePluginManager<any>
   ): Promise<ProcessedContext> {
     this.logger.debug("Context enhancement started");
     const enhancedContext = { ...context.$context };
@@ -221,7 +221,7 @@ export class ContextBuilderProcessor {
    */
   private static injectPluginProxies(
     context: ProcessedContext,
-    pluginManager: IgniterPluginManager<any>
+    pluginManager: FlamePluginManager<any>
   ): Record<string, any> {
     this.logger.debug("Injecting plugin proxies");
     const pluginProxies: Record<string, any> = {};
@@ -296,3 +296,8 @@ export class ContextBuilderProcessor {
     }
   }
 }
+
+
+
+
+

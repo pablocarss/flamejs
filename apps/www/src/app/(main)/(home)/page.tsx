@@ -10,7 +10,7 @@ export const metadata = generateMeta({
   title: config.projectTagline,
   description: config.projectDescription,
   canonical: "/",
-  keywords: ["Igniter.js", "TypeScript", "Full-stack framework", "Type-safe", "React", "Next.js", "API", "Backend", "Frontend"]
+  keywords: ["Flame.js", "TypeScript", "Full-stack framework", "Type-safe", "React", "Next.js", "API", "Backend", "Frontend"]
 });
 
 export default function Home() {  
@@ -26,3 +26,8 @@ export default function Home() {
     </div>
   );
 }
+
+
+
+
+

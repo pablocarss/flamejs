@@ -1,4 +1,4 @@
-name: '🔀 Lia Triage'
+name: '🔀 Liz Triage'
 
 on:
   workflow_call:
@@ -51,7 +51,7 @@ jobs:
             core.info(`Found ${labelNames.length} labels: ${labelNames.join(', ')}`);
             return labelNames;
 
-      - name: 'Run Lia issue analysis'
+      - name: 'Run Liz issue analysis'
         id: 'gemini_analysis'
         if: |-
           ${{ steps.get_labels.outputs.available_labels != '' }}
@@ -83,7 +83,7 @@ jobs:
                 "run_shell_command(echo)"
               ]
             }
-          # For reasons beyond my understanding, Lia CLI cannot set the
+          # For reasons beyond my understanding, Liz CLI cannot set the
           # GitHub Outputs, but it CAN set the GitHub Env.
           prompt: |-
             ## Role
@@ -184,3 +184,7 @@ jobs:
             } else {
               core.info(`Failed to determine labels to set. There may not be enough information in the issue or pull request.`)
             }
+
+
+
+

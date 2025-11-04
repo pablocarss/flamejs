@@ -1,10 +1,10 @@
 
 import type { RouterContext } from 'rou3'
-import type { IgniterAction } from './action.interface'
-import type { IgniterRouter } from './router.interface'
+import type { FlameAction } from './action.interface'
+import type { FlameRouter } from './router.interface'
 import { DocsConfig } from './builder.interface'
 
-export interface RequestProcessorConfig<TConfig extends IgniterRouter<any, any, any, any, any>> {
+export interface RequestProcessorConfig<TConfig extends FlameRouter<any, any, any, any, any>> {
   baseURL?: TConfig['config']['baseURL'];
   basePATH?: TConfig['config']['basePATH'];  
   controllers: TConfig['controllers'];
@@ -13,8 +13,8 @@ export interface RequestProcessorConfig<TConfig extends IgniterRouter<any, any, 
   docs?: DocsConfig;
 }
 
-export interface RequestProcessorInterface<TRouter extends IgniterRouter<any, any, any, any, any>, TConfig extends RequestProcessorConfig<TRouter>> {
-  router: RouterContext<IgniterAction<any, any, any, any, any, any, any, any, any, any>>
+export interface RequestProcessorInterface<TRouter extends FlameRouter<any, any, any, any, any>, TConfig extends RequestProcessorConfig<TRouter>> {
+  router: RouterContext<FlameAction<any, any, any, any, any, any, any, any, any, any>>
 
   /**
    * Process an incoming HTTP request
@@ -35,3 +35,8 @@ export interface RequestProcessorInterface<TRouter extends IgniterRouter<any, an
     input: TAction['$Infer']['$Input'] & { params?: Record<string, string | number> }
   ): Promise<TAction['$Infer']['$Output']>
 }
+
+
+
+
+

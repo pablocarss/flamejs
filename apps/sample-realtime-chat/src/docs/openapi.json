@@ -10,7 +10,7 @@
       "description": "Development"
     },
     {
-      "url": "https://igniter-js-sample-realtime-chat.vercel.app/api/v1",
+      "url": "https://Flame-js-sample-realtime-chat.vercel.app/api/v1",
       "description": "Production"
     }
   ],
@@ -198,3 +198,8 @@
     "securitySchemes": {}
   }
 }
+
+
+
+
+

@@ -57,3 +57,8 @@ vi.mock('ioredis', () => {
     Redis: vi.fn(() => mockRedisInstance),
   }
 }) 
+
+
+
+
+

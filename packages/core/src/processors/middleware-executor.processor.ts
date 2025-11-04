@@ -1,9 +1,9 @@
-import { IgniterResponseProcessor } from "./response.processor";
-import { IgniterLogLevel, type IgniterLogger, type IgniterProcedure } from "../types";
+import { FlameResponseProcessor } from "./response.processor";
+import { FlameLogLevel, type FlameLogger, type FlameProcedure } from "../types";
 import type { ProcessedContext } from "./context-builder.processor";
-import { IgniterConsoleLogger } from "../services/logger.service";
-import type { IgniterProcedureContext } from "../types/procedure.interface";
-import { IgniterCookie } from "../services/cookie.service";
+import { FlameConsoleLogger } from "../services/logger.service";
+import type { FlameProcedureContext } from "../types/procedure.interface";
+import { FlameCookie } from "../services/cookie.service";
 import { resolveLogLevel, createLoggerContext } from "../utils/logger";
 import type { NextFunction, NextState } from "../types/next.interface";
 
@@ -19,15 +19,15 @@ export interface MiddlewareExecutionResult {
 }
 
 /**
- * Middleware executor processor for the Igniter Framework.
+ * Middleware executor processor for the Flame Framework.
  * Handles execution of global and action-specific middlewares.
  */
 export class MiddlewareExecutorProcessor {
-  private static _logger: IgniterLogger;
+  private static _logger: FlameLogger;
 
-  private static get logger(): IgniterLogger {
+  private static get logger(): FlameLogger {
     if (!this._logger) {
-      this._logger = IgniterConsoleLogger.create({
+      this._logger = FlameConsoleLogger.create({
         level: resolveLogLevel(),
         context: createLoggerContext('MiddlewareExecutor'),
         showTimestamp: true,
@@ -46,7 +46,7 @@ export class MiddlewareExecutorProcessor {
    */
   static async executeGlobal(
     context: ProcessedContext,
-    middlewares: IgniterProcedure<unknown, unknown, unknown>[]
+    middlewares: FlameProcedure<unknown, unknown, unknown>[]
   ): Promise<MiddlewareExecutionResult> {
     let updatedContext = { ...context };
 
@@ -152,7 +152,7 @@ export class MiddlewareExecutorProcessor {
         }
 
         // Check for early return (ResponseProcessor)
-        if (result instanceof IgniterResponseProcessor) {
+        if (result instanceof FlameResponseProcessor) {
           this.logger.debug(
             "Middleware early return",
             { middlewareName, type: "ResponseProcessor" }
@@ -199,7 +199,7 @@ export class MiddlewareExecutorProcessor {
    */
   static async executeAction(
     context: ProcessedContext,
-    middlewares: IgniterProcedure<unknown, unknown, unknown>[]
+    middlewares: FlameProcedure<unknown, unknown, unknown>[]
   ): Promise<MiddlewareExecutionResult> {
     let updatedContext = { ...context };
 
@@ -247,7 +247,7 @@ export class MiddlewareExecutorProcessor {
         }
 
         // Check for early return (ResponseProcessor)
-        if (result instanceof IgniterResponseProcessor) {
+        if (result instanceof FlameResponseProcessor) {
           this.logger.debug(
             "Middleware early return",
             { middlewareName, type: "ResponseProcessor" }
@@ -286,7 +286,7 @@ export class MiddlewareExecutorProcessor {
 
   /**
    * Builds the correct procedure context from ProcessedContext.
-   * Maps ProcessedRequest to the format expected by IgniterProcedureContext.
+   * Maps ProcessedRequest to the format expected by FlameProcedureContext.
    *
    * @param context - The processed context
    * @param nextState - Optional next state for middleware control flow
@@ -295,7 +295,7 @@ export class MiddlewareExecutorProcessor {
   private static buildProcedureContext(
     context: ProcessedContext, 
     nextState?: NextState
-  ): IgniterProcedureContext<any> {
+  ): FlameProcedureContext<any> {
     // Extract and validate required components
     const processedRequest = context.request;
 
@@ -303,7 +303,7 @@ export class MiddlewareExecutorProcessor {
       throw new Error('Request is missing from processed context');
     }
 
-    // Map ProcessedRequest to IgniterProcedureContext.request structure
+    // Map ProcessedRequest to FlameProcedureContext.request structure
     const procedureRequest = {
       path: processedRequest.path || '',
       params: processedRequest.params || {},
@@ -318,7 +318,7 @@ export class MiddlewareExecutorProcessor {
     if (!procedureRequest.cookies) {
       this.logger.warn("Cookies missing", { action: "creating fallback instance" });
       // Create a fallback cookies instance if missing
-      procedureRequest.cookies = new IgniterCookie(procedureRequest.headers);
+      procedureRequest.cookies = new FlameCookie(procedureRequest.headers);
     }
 
     // Create next function
@@ -333,10 +333,10 @@ export class MiddlewareExecutorProcessor {
     };
 
     // Build the complete procedure context
-    const procedureContext: IgniterProcedureContext<any> = {
+    const procedureContext: FlameProcedureContext<any> = {
       request: procedureRequest,
       context: context.$context || {}, // Use $context, not the full context
-      response: context.response || new IgniterResponseProcessor(),
+      response: context.response || new FlameResponseProcessor(),
       next
     };
 
@@ -384,3 +384,8 @@ export class MiddlewareExecutorProcessor {
     };
   }
 }
+
+
+
+
+

@@ -1,5 +1,5 @@
 import type { RequestProcessor } from "../processors";
-import type { ContextCallback, DocsConfig, IgniterBaseConfig, IgniterControllerBaseAction, IgniterControllerConfig, IgniterRouter, InferServerRouterCaller, MutationActionCallerResult, QueryActionCallerResult, RealtimeActionCallerResult } from "../types";
+import type { ContextCallback, DocsConfig, FlameBaseConfig, FlameControllerBaseAction, FlameControllerConfig, FlameRouter, InferServerRouterCaller, MutationActionCallerResult, QueryActionCallerResult, RealtimeActionCallerResult } from "../types";
 
 /**
  * Creates a proxy-based caller for invoking actions via controller namespace (server-only).
@@ -7,15 +7,15 @@ import type { ContextCallback, DocsConfig, IgniterBaseConfig, IgniterControllerB
  */
 export function createServerCaller<
   TContext extends object | ContextCallback,
-  TConfig extends IgniterBaseConfig,
+  TConfig extends FlameBaseConfig,
   TPlugins extends Record<string, any>,
-  TControllers extends Record<string, IgniterControllerConfig<any>>,
+  TControllers extends Record<string, FlameControllerConfig<any>>,
   TDocs extends DocsConfig
 >(
   controllers: TControllers,
-  processor: RequestProcessor<IgniterRouter<TContext, TControllers, TConfig, TPlugins, TDocs>>
-): InferServerRouterCaller<IgniterRouter<TContext, TControllers, TConfig, TPlugins, TDocs>> {
-  const caller = new Proxy({} as InferServerRouterCaller<IgniterRouter<TContext, TControllers, TConfig, TPlugins, TDocs>>, {
+  processor: RequestProcessor<FlameRouter<TContext, TControllers, TConfig, TPlugins, TDocs>>
+): InferServerRouterCaller<FlameRouter<TContext, TControllers, TConfig, TPlugins, TDocs>> {
+  const caller = new Proxy({} as InferServerRouterCaller<FlameRouter<TContext, TControllers, TConfig, TPlugins, TDocs>>, {
     get(_, controllerName: string) {
       const controller = controllers[controllerName as keyof TControllers];
       if (!controller) {
@@ -23,7 +23,7 @@ export function createServerCaller<
       }
       return new Proxy({}, {
         get(_, actionName: string) {
-          const action = controller.actions[actionName] as IgniterControllerBaseAction;
+          const action = controller.actions[actionName] as FlameControllerBaseAction;
           if (!action) {
             throw new Error(`Action "${actionName}" not found in controller "${controllerName}".`);
           }
@@ -76,3 +76,8 @@ export function createServerCaller<
 
   return caller;
 }
+
+
+
+
+

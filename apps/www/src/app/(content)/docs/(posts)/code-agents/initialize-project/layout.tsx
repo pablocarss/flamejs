@@ -2,12 +2,12 @@ import { Metadata } from 'next';
 import React from 'react';
 
 export const metadata: Metadata = {
-  title: 'Initialize a Project with Lia | Igniter.js',
+  title: 'Initialize a Project with Liz | Flame.js',
   description:
-    'Learn how to use Lia, the Igniter.js AI agent, to bootstrap a new project using spec-driven development. Turn your idea into requirements, design docs, and tasks.',
+    'Learn how to use Liz, the Flame.js AI agent, to bootstrap a new project using spec-driven development. Turn your idea into requirements, design docs, and tasks.',
   keywords: [
-    'Igniter.js',
-    'Lia',
+    'Flame.js',
+    'Liz',
     'AI agent',
     'spec-driven development',
     'project initialization',
@@ -18,26 +18,26 @@ export const metadata: Metadata = {
     'AI development',
   ],
   openGraph: {
-    title: 'Initialize a Project with Lia, the Igniter.js AI Agent',
+    title: 'Initialize a Project with Liz, the Flame.js AI Agent',
     description:
-      'A guide on collaborating with the Igniter.js AI agent (Lia) to transform a high-level idea into a fully specified project with a clear implementation plan.',
+      'A guide on collaborating with the Flame.js AI agent (Liz) to transform a high-level idea into a fully specified project with a clear implementation plan.',
     type: 'article',
-    url: 'https://igniterjs.com/docs/code-agents/initialize-project',
+    url: 'https://Flamejs.com/docs/code-agents/initialize-project',
     images: [
       {
-        url: 'https://igniterjs.com/og/docs-initialize-project.png', // Assuming an OG image exists
+        url: 'https://Flamejs.com/og/docs-initialize-project.png', // Assuming an OG image exists
         width: 1200,
         height: 630,
-        alt: 'Initializing a Project with the Igniter.js AI Agent',
+        alt: 'Initializing a Project with the Flame.js AI Agent',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Initialize a Project with Lia, the Igniter.js AI Agent',
+    title: 'Initialize a Project with Liz, the Flame.js AI Agent',
     description:
-      'A guide on collaborating with the Igniter.js AI agent (Lia) to transform a high-level idea into a fully specified project with a clear implementation plan.',
-    images: ['https://igniterjs.com/og/docs-initialize-project.png'],
+      'A guide on collaborating with the Flame.js AI agent (Liz) to transform a high-level idea into a fully specified project with a clear implementation plan.',
+    images: ['https://Flamejs.com/og/docs-initialize-project.png'],
   },
 };
 
@@ -48,3 +48,8 @@ export default function DocsLayout({
 }) {
   return <>{children}</>;
 }
+
+
+
+
+

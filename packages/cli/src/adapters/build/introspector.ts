@@ -2,11 +2,11 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { build, type BuildFailure } from 'esbuild';
 import { createChildLogger, formatError } from '../logger';
-import { IgniterRouter, IgniterControllerConfig, IgniterAction } from '@igniter-js/core';
+import { FlameRouter, FlameControllerConfig, FlameAction } from '@flame-js/core';
 import zodToJsonSchema from 'zod-to-json-schema';
 import { createRequire } from 'module';
 
-// This file is responsible for dynamically loading and introspecting the user's Igniter router.
+// This file is responsible for dynamically loading and introspecting the user's Flame router.
 
 export interface IntrospectedRouter {
   controllers: Record<string, IntrospectedController>;
@@ -51,7 +51,7 @@ export class RouterLoadError extends Error {
  * Traverses a loaded router object and converts it into a serializable schema.
  * Also converts Zod schemas to JSON schemas.
  */
-export function introspectRouter(router: IgniterRouter<any, any, any, any, any>): { schema: IntrospectedRouter, stats: { controllers: number, actions: number } } {
+export function introspectRouter(router: FlameRouter<any, any, any, any, any>): { schema: IntrospectedRouter, stats: { controllers: number, actions: number } } {
   const logger = createChildLogger({ component: 'router-introspector' });
   logger.debug('Starting router introspection');
 
@@ -60,12 +60,12 @@ export function introspectRouter(router: IgniterRouter<any, any, any, any, any>)
 
   for (const [controllerName, controller] of Object.entries(router.controllers)) {
     const introspectedActions: Record<string, any> = {};
-    const typedController = controller as IgniterControllerConfig<any>;
+    const typedController = controller as FlameControllerConfig<any>;
 
     if (typedController && typedController.actions) {
       for (const [actionName, action] of Object.entries(typedController.actions)) {
         logger.debug(`Introspecting action: ${controllerName}.${actionName}`);
-        const typedAction = action as IgniterAction<any, any, any, any, any, any, any, any, any, any>;
+        const typedAction = action as FlameAction<any, any, any, any, any, any, any, any, any, any>;
 
         introspectedActions[actionName] = {
           ...typedAction,
@@ -104,7 +104,7 @@ export function introspectRouter(router: IgniterRouter<any, any, any, any, any>)
  * Loads the user's router file by compiling it in memory with esbuild.
  * This is a robust method that isolates the CLI's dependencies from the user's project.
  */
-export async function loadRouter(routerPath: string): Promise<IgniterRouter<any, any, any, any, any>> {
+export async function loadRouter(routerPath: string): Promise<FlameRouter<any, any, any, any, any>> {
   const logger = createChildLogger({ component: 'esbuild-loader' });
   const fullPath = path.resolve(process.cwd(), routerPath);
 
@@ -119,7 +119,7 @@ export async function loadRouter(routerPath: string): Promise<IgniterRouter<any,
       write: false, // Keep the result in memory
       logLevel: 'silent', // We will handle our own logging
       external: [
-        '@igniter-js/*',
+        '@flame-js/*',
         '@prisma/*',
         'prisma',
         'redis',
@@ -166,7 +166,7 @@ export async function loadRouter(routerPath: string): Promise<IgniterRouter<any,
       return router;
     }
 
-    throw new Error('Module was compiled and loaded, but no valid Igniter router export was found.');
+    throw new Error('Module was compiled and loaded, but no valid Flame router export was found.');
   } catch (error: any) {
     // Catch esbuild BuildFailure errors and format them nicely.
     if (error && Array.isArray((error as BuildFailure).errors)) {
@@ -180,3 +180,8 @@ export async function loadRouter(routerPath: string): Promise<IgniterRouter<any,
     throw new RouterLoadError(`Failed to load router from ${routerPath}`, error);
   }
 }
+
+
+
+
+

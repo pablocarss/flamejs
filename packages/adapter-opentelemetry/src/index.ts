@@ -20,9 +20,14 @@ export type {
 
 // Re-export core telemetry types for convenience
 export type {
-  IgniterTelemetryProvider,
-  IgniterTelemetrySpan,
-  IgniterTimer,
-  IgniterSpanOptions,
-  IgniterTelemetryConfig,
-} from '@igniter-js/core'; 
+  FlameTelemetryProvider,
+  FlameTelemetrySpan,
+  FlameTimer,
+  FlameSpanOptions,
+  FlameTelemetryConfig,
+} from '@flame-js/core'; 
+
+
+
+
+

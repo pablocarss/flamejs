@@ -1,10 +1,10 @@
 import { vi, describe, it, expect, beforeEach } from 'vitest';
 import { ContextBuilderProcessor } from '../context-builder.processor';
-import { IgniterCookie } from '../../services/cookie.service';
-import { IgniterResponseProcessor } from '../response.processor';
+import { FlameCookie } from '../../services/cookie.service';
+import { FlameResponseProcessor } from '../response.processor';
 import { BodyParserProcessor } from '../body-parser.processor';
-import { IgniterPluginManager } from '../../services/plugin.service';
-import { IgniterLogLevel } from '../../types';
+import { FlamePluginManager } from '../../services/plugin.service';
+import { FlameLogLevel } from '../../types';
 
 // Mock dependencies
 vi.mock('../body-parser.processor', () => ({
@@ -53,7 +53,7 @@ describe('ContextBuilderProcessor', () => {
           params: mockRouteParams,
           query: { query: 'value' }
         }),
-        response: expect.any(IgniterResponseProcessor),
+        response: expect.any(FlameResponseProcessor),
         $context: { user: { id: 1 } },
         $plugins: {}
       }));
@@ -104,7 +104,7 @@ describe('ContextBuilderProcessor', () => {
         method: 'POST',
         params: mockRouteParams,
         headers: expect.any(Headers),
-        cookies: expect.any(IgniterCookie),
+        cookies: expect.any(FlameCookie),
         body: { data: 'mocked-body' },
         query: { query: 'value' }
       }));
@@ -172,7 +172,7 @@ describe('ContextBuilderProcessor', () => {
           }
         }),
         emit: vi.fn()
-      } as unknown as IgniterPluginManager<any>;
+      } as unknown as FlamePluginManager<any>;
 
       const result = await ContextBuilderProcessor.enhanceWithPlugins(baseContext, mockPluginManager);
 
@@ -187,7 +187,7 @@ describe('ContextBuilderProcessor', () => {
           throw new Error('Plugin proxy creation failed');
         }),
         emit: vi.fn()
-      } as unknown as IgniterPluginManager<any>;
+      } as unknown as FlamePluginManager<any>;
 
       const result = await ContextBuilderProcessor.enhanceWithPlugins(baseContext, mockPluginManager);
 
@@ -270,7 +270,7 @@ describe('ContextBuilderProcessor', () => {
       const mockPluginManager = {
         getAllPluginProxies: vi.fn().mockReturnValue(Object.assign({}, ...plugins)),
         emit: vi.fn()
-      } as unknown as IgniterPluginManager<any>;
+      } as unknown as FlamePluginManager<any>;
 
       const startTime = performance.now();
       const result = await ContextBuilderProcessor.enhanceWithPlugins(
@@ -289,3 +289,8 @@ describe('ContextBuilderProcessor', () => {
     });
   });
 }); 
+
+
+
+
+

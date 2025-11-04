@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import { api } from '@/igniter.client'
+import { api } from '@/Flame.client'
 import { Button } from '@/components/ui/button'
 import {
   Card,
@@ -73,7 +73,7 @@ export function Chat() {
     <div className="relative  flex flex-col">
       <Card className="w-full rounded-none pt-0 border-none flex-1 flex flex-col">
         <CardHeader className="border-b !pt-4 !pb-2 px-4">
-          <CardTitle>Real-time Chat with Igniter.js</CardTitle>
+          <CardTitle>Real-time Chat with Flame.js</CardTitle>
         </CardHeader>
         <CardContent className='px-4 py-0'>
           <ScrollArea className=" w-full h-[calc(100vh-16.5rem)] pb-10 relative" ref={scrollAreaRef}>
@@ -150,3 +150,8 @@ export function Chat() {
     </div>
   )
 }
+
+
+
+
+

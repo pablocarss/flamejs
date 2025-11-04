@@ -1,37 +1,37 @@
-# @igniter-js/adapter-mcp-server
+# @flame-js/adapter-mcp-server
 
-[![NPM Version](https://img.shields.io/npm/v/@igniter-js/adapter-mcp-server.svg)](https://www.npmjs.com/package/@igniter-js/adapter-mcp-server)
+[![NPM Version](https://img.shields.io/npm/v/@flame-js/adapter-mcp-server.svg)](https://www.npmjs.com/package/@flame-js/adapter-mcp-server)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-The official Model Context Protocol (MCP) adapter for Igniter.js. This package exposes your entire Igniter.js API as a set of tools that can be consumed by MCP-compatible AI agents and applications.
+The official Model Context Protocol (MCP) adapter for Flame.js. This package exposes your entire Flame.js API as a set of tools that can be consumed by MCP-compatible AI agents and applications.
 
 ## Role in the Ecosystem
 
-This adapter transforms your Igniter.js application into an AI-native tool server. It allows AI agents, such as those integrated into IDEs like Cursor, to understand and interact with your API endpoints as if they were native functions. This is a key part of the "AI-Friendly" philosophy of Igniter.js, enabling powerful automated workflows.
+This adapter transforms your Flame.js application into an AI-native tool server. It allows AI agents, such as those integrated into IDEs like Cursor, to understand and interact with your API endpoints as if they were native functions. This is a key part of the "AI-Friendly" philosophy of Flame.js, enabling powerful automated workflows.
 
 ## Installation
 
-To use this adapter, you need to install it alongside `@igniter-js/core`.
+To use this adapter, you need to install it alongside `@flame-js/core`.
 
 ```bash
 # npm
-npm install @igniter-js/adapter-mcp-server @igniter-js/core
+npm install @flame-js/adapter-mcp-server @flame-js/core
 
 # yarn
-yarn add @igniter-js/adapter-mcp-server @igniter-js/core
+yarn add @flame-js/adapter-mcp-server @flame-js/core
 
 # pnpm
-pnpm add @igniter-js/adapter-mcp-server @igniter-js/core
+pnpm add @flame-js/adapter-mcp-server @flame-js/core
 
 # bun
-bun add @igniter-js/adapter-mcp-server @igniter-js/core
+bun add @flame-js/adapter-mcp-server @flame-js/core
 ```
 
 ## Basic Usage
 
 The package provides **two** APIs for creating an MCP adapter:
 
-1. **Builder Pattern API** (`IgniterMcpServer`) - **Recommended** for TypeScript projects with full type inference
+1. **Builder Pattern API** (`FlameMcpServer`) - **Recommended** for TypeScript projects with full type inference
 2. **Function API** (`createMcpAdapter`) - For simpler setups and JavaScript projects
 
 ### 1. Create the MCP Route Handler (Builder Pattern - Recommended)
@@ -40,18 +40,18 @@ In your Next.js application, create a new API route to handle MCP requests. For 
 
 ```typescript
 // src/app/api/mcp/[...transport]/route.ts
-import { IgniterMcpServer } from '@igniter-js/adapter-mcp-server';
-import { AppRouter } from '@/igniter.router'; // Import your main Igniter.js router
+import { FlameMcpServer } from '@flame-js/adapter-mcp-server';
+import { AppRouter } from '@/Flame.router'; // Import your main Flame.js router
 
 /**
  * Create the MCP server using the builder pattern.
  * This provides full type inference and a fluent API.
  */
-const { handler, auth } = IgniterMcpServer
+const { handler, auth } = FlameMcpServer
   .create()
   .router(AppRouter)
   .withServerInfo({
-    name: 'Igniter.js MCP Server',
+    name: 'Flame.js MCP Server',
     version: '1.0.0',
   })
   .withInstructions("Use the available tools to manage users and products in the Acme Corporation API.")
@@ -77,13 +77,13 @@ For simpler setups, you can use the function-based API:
 
 ```typescript
 // src/app/api/mcp/[...transport]/route.ts
-import { createMcpAdapter } from '@igniter-js/adapter-mcp-server';
-import { AppRouter } from '@/igniter.router';
+import { createMcpAdapter } from '@flame-js/adapter-mcp-server';
+import { AppRouter } from '@/Flame.router';
 
 const { server, auth } = createMcpAdapter({
   router: AppRouter,
   serverInfo: {
-    name: 'Igniter.js MCP Server',
+    name: 'Flame.js MCP Server',
     version: '1.0.0',
   },
   instructions: "Use the available tools to manage users and products.",
@@ -95,7 +95,7 @@ export const POST = server;
 
 ### 2. Connect from an MCP Client
 
-With this handler in place, your Igniter.js API is now an MCP server. You can connect to it from any MCP-compatible client.
+With this handler in place, your Flame.js API is now an MCP server. You can connect to it from any MCP-compatible client.
 
 For example, in an AI-powered IDE like Cursor, you would configure your custom MCP server with the following URL:
 
@@ -117,14 +117,14 @@ The MCP adapter will translate this into a call to `api.users.list.query()` on y
 The builder pattern provides a fluent API for adding custom tools with full type inference:
 
 ```typescript
-import { IgniterMcpServer } from '@igniter-js/adapter-mcp-server';
+import { FlameMcpServer } from '@flame-js/adapter-mcp-server';
 import { z } from 'zod';
 
-const { handler } = IgniterMcpServer
+const { handler } = FlameMcpServer
   .create()
   .router(AppRouter)
   .withServerInfo({
-    name: 'Igniter.js MCP Server',
+    name: 'Flame.js MCP Server',
     version: '1.0.0',
   })
   .addTool({
@@ -169,7 +169,7 @@ export const POST = handler;
 Register prompts that AI agents can use to guide interactions:
 
 ```typescript
-const { handler } = IgniterMcpServer
+const { handler } = FlameMcpServer
   .create()
   .router(AppRouter)
   .addPrompt({
@@ -199,7 +199,7 @@ const { handler } = IgniterMcpServer
 Expose resources that AI agents can read:
 
 ```typescript
-const { handler } = IgniterMcpServer
+const { handler } = FlameMcpServer
   .create()
   .router(AppRouter)
   .addResource({
@@ -227,7 +227,7 @@ const { handler } = IgniterMcpServer
 Protect your MCP server with OAuth using the builder pattern:
 
 ```typescript
-const { handler, auth } = IgniterMcpServer
+const { handler, auth } = FlameMcpServer
   .create()
   .router(AppRouter)
   .withOAuth({
@@ -265,7 +265,7 @@ The adapter will:
 Monitor and log MCP operations using the builder pattern:
 
 ```typescript
-const { handler } = IgniterMcpServer
+const { handler } = FlameMcpServer
   .create()
   .router(AppRouter)
   .withEvents({
@@ -372,7 +372,7 @@ Both APIs support customizing how router actions are exposed as tools.
 #### Builder Pattern
 
 ```typescript
-const { handler } = IgniterMcpServer
+const { handler } = FlameMcpServer
   .create()
   .router(AppRouter)
   .withToolTransform({
@@ -435,7 +435,7 @@ Both APIs support configuring the underlying MCP adapter options.
 #### Builder Pattern
 
 ```typescript
-const { handler } = IgniterMcpServer
+const { handler } = FlameMcpServer
   .create()
   .router(AppRouter)
   .withAdapter({
@@ -444,7 +444,7 @@ const { handler } = IgniterMcpServer
     verboseLogs: true,
     redis: {
       url: process.env.REDIS_URL,
-      keyPrefix: 'igniter:mcp:'
+      keyPrefix: 'Flame:mcp:'
     }
   })
   .build();
@@ -461,7 +461,7 @@ const { server } = createMcpAdapter({
     verboseLogs: true,
     redis: {
       url: process.env.REDIS_URL,
-      keyPrefix: 'igniter:mcp:'
+      keyPrefix: 'Flame:mcp:'
     }
   }
 });
@@ -503,7 +503,7 @@ export const POST = server;
 
 **New Builder API (v0.3.x) - Recommended:**
 ```typescript
-const { handler } = IgniterMcpServer
+const { handler } = FlameMcpServer
   .create()
   .router(AppRouter)
   .withServerInfo({ name: 'My Server', version: '1.0.0' })
@@ -524,7 +524,7 @@ The builder pattern provides better type inference and a more flexible API for c
 3. **Builder Pattern**: New chainable API for progressive configuration
 4. **Type Safety**: Enhanced type inference throughout all handlers
 
-For more detailed guides, please refer to the **[Official Igniter.js Documentation](https://igniterjs.com/docs)**.
+For more detailed guides, please refer to the **[Official Flame.js Documentation](https://Flamejs.com/docs)**.
 
 ## Contributing
 
@@ -533,3 +533,8 @@ Contributions are welcome! Please see the main [CONTRIBUTING.md](/CONTRIBUTING.m
 ## License
 
 This package is licensed under the [MIT License](/LICENSE).
+
+
+
+
+

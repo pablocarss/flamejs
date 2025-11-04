@@ -1,14 +1,19 @@
-import { igniter } from '@/igniter'
+import { Flame } from '@/Flame'
 import { messageController } from './features/message'
 
 /**
  * @description Main application router configuration
- * @see https://github.com/felipebarcelospro/igniter-js
+ * @see https://github.com/felipebarcelospro/Flame-js
  */
-export const AppRouter = igniter.router({
+export const AppRouter = Flame.router({
   controllers: {
     message: messageController
   }
 })
 
 export type AppRouterType = typeof AppRouter
+
+
+
+
+

@@ -36,3 +36,8 @@ export function BlogLayout({ children }: BlogLayoutProps) {
     </motion.div>
   );
 }
+
+
+
+
+

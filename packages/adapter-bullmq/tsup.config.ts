@@ -6,6 +6,11 @@ export default defineConfig({
   dts: true,
   outDir: 'dist',
   clean: true,
-  external: ['@igniter-js/core'],
-  noExternal: ['@igniter-js/core']
+  external: ['@flame-js/core'],
+  noExternal: ['@flame-js/core']
 }); 
+
+
+
+
+

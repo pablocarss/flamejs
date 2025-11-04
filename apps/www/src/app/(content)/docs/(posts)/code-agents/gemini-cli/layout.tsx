@@ -2,11 +2,11 @@ import { Metadata } from 'next';
 import React from 'react';
 
 export const metadata: Metadata = {
-  title: 'Using Gemini CLI as a Code Agent | Igniter.js',
+  title: 'Using Gemini CLI as a Code Agent | Flame.js',
   description:
-    "Learn how to use Google's Gemini CLI as a code agent for your Igniter.js projects. Guide on providing context via `AGENT.md` and `llms.txt` for optimal results.",
+    "Learn how to use Google's Gemini CLI as a code agent for your Flame.js projects. Guide on providing context via `AGENT.md` and `llms.txt` for optimal results.",
   keywords: [
-    'Igniter.js',
+    'Flame.js',
     'Gemini',
     'Google Gemini',
     'Gemini CLI',
@@ -18,26 +18,26 @@ export const metadata: Metadata = {
     'AI-Friendly',
   ],
   openGraph: {
-    title: 'Using Gemini CLI as a Code Agent with Igniter.js',
+    title: 'Using Gemini CLI as a Code Agent with Flame.js',
     description:
-      'A step-by-step guide to integrating Google\'s Gemini CLI as an expert code agent for Igniter.js development, enhancing your workflow with AI-powered assistance.',
+      'A step-by-step guide to integrating Google\'s Gemini CLI as an expert code agent for Flame.js development, enhancing your workflow with AI-powered assistance.',
     type: 'article',
-    url: 'https://igniterjs.com/docs/code-agents/gemini-cli',
+    url: 'https://Flamejs.com/docs/code-agents/gemini-cli',
     images: [
       {
-        url: 'https://igniterjs.com/og/docs-gemini-cli.png', // Assuming an OG image exists
+        url: 'https://Flamejs.com/og/docs-gemini-cli.png', // Assuming an OG image exists
         width: 1200,
         height: 630,
-        alt: 'Using Gemini CLI with Igniter.js',
+        alt: 'Using Gemini CLI with Flame.js',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Using Gemini CLI as a Code Agent with Igniter.js',
+    title: 'Using Gemini CLI as a Code Agent with Flame.js',
     description:
-      'A step-by-step guide to integrating Google\'s Gemini CLI as an expert code agent for Igniter.js development, enhancing your workflow with AI-powered assistance.',
-    images: ['https://igniterjs.com/og/docs-gemini-cli.png'],
+      'A step-by-step guide to integrating Google\'s Gemini CLI as an expert code agent for Flame.js development, enhancing your workflow with AI-powered assistance.',
+    images: ['https://Flamejs.com/og/docs-gemini-cli.png'],
   },
 };
 
@@ -48,3 +48,8 @@ export default function DocsLayout({
 }) {
   return <>{children}</>;
 }
+
+
+
+
+

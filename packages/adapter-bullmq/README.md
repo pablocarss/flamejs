@@ -1,13 +1,13 @@
-# @igniter-js/adapter-bullmq
+# @flame-js/adapter-bullmq
 
-[![NPM Version](https://img.shields.io/npm/v/@igniter-js/adapter-bullmq.svg)](https://www.npmjs.com/package/@igniter-js/adapter-bullmq)
+[![NPM Version](https://img.shields.io/npm/v/@flame-js/adapter-bullmq.svg)](https://www.npmjs.com/package/@flame-js/adapter-bullmq)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-The official BullMQ adapter for the **Igniter.js Queues** system. This package provides a production-ready driver for handling background job processing using Redis.
+The official BullMQ adapter for the **Flame.js Queues** system. This package provides a production-ready driver for handling background job processing using Redis.
 
 ## Role in the Ecosystem
 
-This adapter acts as a bridge between the abstract `@igniter-js/core` Queues system and the powerful [BullMQ](https://bullmq.io/) library. It implements the necessary logic to enqueue, schedule, and process jobs, allowing you to add robust background task capabilities to your Igniter.js application.
+This adapter acts as a bridge between the abstract `@flame-js/core` Queues system and the powerful [BullMQ](https://bullmq.io/) library. It implements the necessary logic to enqueue, schedule, and process jobs, allowing you to add robust background task capabilities to your Flame.js application.
 
 ## Installation
 
@@ -15,16 +15,16 @@ To use this adapter, you need to install it along with its peer dependencies: `b
 
 ```bash
 # npm
-npm install @igniter-js/adapter-bullmq bullmq ioredis
+npm install @flame-js/adapter-bullmq bullmq ioredis
 
 # yarn
-yarn add @igniter-js/adapter-bullmq bullmq ioredis
+yarn add @flame-js/adapter-bullmq bullmq ioredis
 
 # pnpm
-pnpm add @igniter-js/adapter-bullmq bullmq ioredis
+pnpm add @flame-js/adapter-bullmq bullmq ioredis
 
 # bun
-bun add @igniter-js/adapter-bullmq bullmq ioredis
+bun add @flame-js/adapter-bullmq bullmq ioredis
 ```
 
 ## Basic Usage
@@ -37,8 +37,8 @@ First, create an instance of the adapter and use it to define a router for a spe
 
 ```typescript
 // src/services/jobs.ts
-import { createBullMQAdapter } from '@igniter-js/adapter-bullmq';
-import { createRedisStoreAdapter } from '@igniter-js/adapter-redis'; // Often shares a Redis connection
+import { createBullMQAdapter } from '@flame-js/adapter-bullmq';
+import { createRedisStoreAdapter } from '@flame-js/adapter-redis'; // Often shares a Redis connection
 import { Redis } from 'ioredis';
 import { z } from 'zod';
 
@@ -75,24 +75,24 @@ export const REGISTERED_JOBS = jobs.merge({
 });
 ```
 
-### 2. Register with the Igniter Builder
+### 2. Register with the Flame Builder
 
-Pass the `REGISTERED_JOBS` object to the `.jobs()` method in your main `igniter.ts` file.
+Pass the `REGISTERED_JOBS` object to the `.jobs()` method in your main `Flame.ts` file.
 
 ```typescript
-// src/igniter.ts
-import { Igniter } from '@igniter-js/core';
+// src/Flame.ts
+import { Flame } from '@flame-js/core';
 import { REGISTERED_JOBS } from './services/jobs';
 
-export const igniter = Igniter
+export const Flame = Flame
   .context<AppContext>()
   .jobs(REGISTERED_JOBS)
   .create();
 ```
 
-Your background job queue is now configured and ready to use. You can invoke jobs from your actions using `igniter.jobs.emails.schedule({ task: 'sendWelcome', ... })`.
+Your background job queue is now configured and ready to use. You can invoke jobs from your actions using `Flame.jobs.emails.schedule({ task: 'sendWelcome', ... })`.
 
-For more detailed guides, please refer to the **[Official Igniter.js Wiki](https://igniterjs.com/docs)**.
+For more detailed guides, please refer to the **[Official Flame.js Wiki](https://Flamejs.com/docs)**.
 
 ## Contributing
 
@@ -101,3 +101,8 @@ Contributions are welcome! Please see the main [CONTRIBUTING.md](/CONTRIBUTING.m
 ## License
 
 This package is licensed under the [MIT License](/LICENSE).
+
+
+
+
+

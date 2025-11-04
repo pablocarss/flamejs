@@ -1,6 +1,6 @@
 import type { StandardSchemaV1 } from "../types";
 import type { 
-  IgniterJobQueueAdapter,
+  FlameJobQueueAdapter,
   JobDefinition,
   JobInvokeParams,
   JobSearchParams,
@@ -15,7 +15,7 @@ import type {
   JobsCacheEntry,
   JobPathResolutionResult
 } from "../types/jobs.interface";
-import { IgniterConsoleLogger } from "./logger.service";
+import { FlameConsoleLogger } from "./logger.service";
 import { resolveLogLevel, createLoggerContext } from "../utils/logger";
 
 /**
@@ -23,9 +23,9 @@ import { resolveLogLevel, createLoggerContext } from "../utils/logger";
  * 
  * @template TContext - The application context type
  */
-export interface IgniterJobsServiceConfig<TContext extends object> {
+export interface FlameJobsServiceConfig<TContext extends object> {
   /** The job queue adapter to use (e.g., BullMQ) */
-  adapter: IgniterJobQueueAdapter<TContext>;
+  adapter: FlameJobQueueAdapter<TContext>;
   /** Function to create the application context for job execution */
   contextFactory: () => TContext | Promise<TContext>;
 }
@@ -69,21 +69,21 @@ export interface TypeSafeJobInvokeParams<
 /**
  * Main jobs service that provides type-safe job operations.
  * 
- * This service acts as the primary interface for job management in Igniter applications,
+ * This service acts as the primary interface for job management in Flame applications,
  * providing type-safe registration, invocation, search, and worker management.
  * 
  * @template TContext - The application context type
  * @template TJobs - The registered jobs map (populated via register method)
  */
-export class IgniterJobsService<
+export class FlameJobsService<
   TContext extends object,
   TJobs extends Record<string, JobDefinition<TContext, any, any>> = {}
 > {
-  private adapter: IgniterJobQueueAdapter<TContext>;
+  private adapter: FlameJobQueueAdapter<TContext>;
   private contextFactory: () => TContext | Promise<TContext>;
   private registeredJobs: TJobs = {} as TJobs;
 
-  constructor(config: IgniterJobsServiceConfig<TContext>) {
+  constructor(config: FlameJobsServiceConfig<TContext>) {
     this.adapter = config.adapter;
     this.contextFactory = config.contextFactory;
   }
@@ -164,7 +164,7 @@ export class IgniterJobsService<
    */
   bulkRegister<TNewJobs extends Record<string, JobDefinition<TContext, any, any>>>(
     jobs: TNewJobs
-  ): IgniterJobsService<TContext, TJobs & TNewJobs> {
+  ): FlameJobsService<TContext, TJobs & TNewJobs> {
     const enhancedJobs: Record<string, JobDefinition<TContext, any, any>> = {};
 
     for (const [jobId, definition] of Object.entries(jobs)) {
@@ -190,7 +190,7 @@ export class IgniterJobsService<
       ...jobs
     } as TJobs & TNewJobs;
 
-    const newService = new IgniterJobsService<TContext, TJobs & TNewJobs>({
+    const newService = new FlameJobsService<TContext, TJobs & TNewJobs>({
       adapter: this.adapter,
       contextFactory: this.contextFactory
     });
@@ -368,18 +368,18 @@ export class IgniterJobsService<
  * 
  * @example
  * ```typescript
- * import { createBullMQAdapter } from "@igniter-js/core/adapters";
+ * import { createBullMQAdapter } from "@flame-js/core/adapters";
  * 
- * const jobsService = createIgniterJobsService({
+ * const jobsService = createFlameJobsService({
  *   adapter: createBullMQAdapter({ store: redisStore }),
  *   contextFactory: () => ({ db, logger, email })
  * });
  * ```
  */
-export function createIgniterJobsService<TContext extends object>(
-  config: IgniterJobsServiceConfig<TContext>
-): IgniterJobsService<TContext> {
-  return new IgniterJobsService(config);
+export function createFlameJobsService<TContext extends object>(
+  config: FlameJobsServiceConfig<TContext>
+): FlameJobsService<TContext> {
+  return new FlameJobsService(config);
 }
 
 /**
@@ -499,7 +499,7 @@ export function createJobsRouter<TJobs extends Record<string, JobDefinition<any,
       if (!routerHook && !jobHook) return undefined;
       
       return async (context: THookContext) => {
-        const logger = IgniterConsoleLogger.create({
+        const logger = FlameConsoleLogger.create({
           level: resolveLogLevel(),
           context: createLoggerContext('Jobs')
         });
@@ -1081,3 +1081,8 @@ export function createJobsProxy<T extends Record<string, Record<string, JobDefin
     }
   });
 }
+
+
+
+
+

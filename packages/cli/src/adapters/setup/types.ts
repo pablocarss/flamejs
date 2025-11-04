@@ -1,9 +1,9 @@
 import type { SupportedFramework } from '../framework/framework-detector'
 
 /**
- * Available Igniter.js features that can be enabled
+ * Available Flame.js features that can be enabled
  */
-export interface IgniterFeatures {
+export interface FlameFeatures {
   store: boolean         // Redis Store - Caching, sessions, pub/sub
   jobs: boolean         // BullMQ Jobs - Background task processing
   mcp: boolean          // MCP Server - AI assistant integration
@@ -35,7 +35,7 @@ export type PackageManager = 'npm' | 'yarn' | 'pnpm' | 'bun'
 export interface ProjectSetupConfig {
   projectName: string
   framework: SupportedFramework
-  features: IgniterFeatures
+  features: FlameFeatures
   database: DatabaseConfig
   orm: 'prisma' | 'drizzle'
   packageManager: PackageManager
@@ -79,7 +79,7 @@ export interface GenerationContext {
  * Feature configuration for extensibility
  */
 export interface FeatureDefinition {
-  key: keyof IgniterFeatures
+  key: keyof FlameFeatures
   name: string
   description: string
   dependencies: PackageDependency[]
@@ -110,3 +110,8 @@ export interface EnvVariable {
   description?: string
   required?: boolean
 }
+
+
+
+
+

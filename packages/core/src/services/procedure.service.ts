@@ -1,6 +1,6 @@
 import type { 
-  IgniterProcedure, 
-  IgniterProcedureContext,
+  FlameProcedure, 
+  FlameProcedureContext,
   EnhancedProcedureBuilder,
   EnhancedProcedureBuilderWithName,
   EnhancedProcedureBuilderWithOptions,
@@ -17,7 +17,7 @@ import type { StandardSchemaV1 } from "../types/schema.interface";
 // ============================================================================
 
 /**
- * Creates a reusable middleware procedure for the Igniter Framework.
+ * Creates a reusable middleware procedure for the Flame Framework.
  * Procedures can be used as middleware to modify context, validate requests,
  * or handle common operations across multiple actions.
  * 
@@ -34,7 +34,7 @@ import type { StandardSchemaV1 } from "../types/schema.interface";
  * @example
  * ```typescript
  * // Legacy API (still supported)
- * const authProcedure = createIgniterProcedure({
+ * const authProcedure = createFlameProcedure({
  *   name: 'auth',
  *   handler: async (options, ctx) => {
  *     const token = ctx.request.headers.get('authorization');
@@ -47,7 +47,7 @@ import type { StandardSchemaV1 } from "../types/schema.interface";
  * });
  * 
  * // Use the procedure in an action
- * const protectedAction = createIgniterQuery({
+ * const protectedAction = createFlameQuery({
  *   path: 'protected',
  *   use: [authProcedure()],
  *   handler: (ctx) => {
@@ -61,15 +61,15 @@ import type { StandardSchemaV1 } from "../types/schema.interface";
  * @see {@link createEnhancedProcedureBuilder} For the new Builder API
  * @see {@link createEnhancedProcedureFactories} For the new Factory functions
  */
-export const createIgniterProcedure = <
+export const createFlameProcedure = <
   TActionContext = unknown,
   TOptions = unknown,
   TOutput = unknown
->(Procedure: IgniterProcedure<TActionContext, TOptions, TOutput>) => (options?: TOptions): IgniterProcedure<TActionContext, TOptions, TOutput> => {
+>(Procedure: FlameProcedure<TActionContext, TOptions, TOutput>) => (options?: TOptions): FlameProcedure<TActionContext, TOptions, TOutput> => {
   return {
     ...Procedure,
     // @ts-expect-error - This is a hack to get around the circular dependency
-    handler: (ctx: IgniterProcedureContext<TActionContext>) => Procedure.handler(options, ctx)
+    handler: (ctx: FlameProcedureContext<TActionContext>) => Procedure.handler(options, ctx)
   }
 };
 
@@ -79,7 +79,7 @@ export const createIgniterProcedure = <
 
 /**
  * Creates an enhanced procedure builder with fluent API and full type safety.
- * This is the recommended way to create procedures in modern Igniter applications.
+ * This is the recommended way to create procedures in modern Flame applications.
  * 
  * The builder pattern provides:
  * - **Type Safety**: Full TypeScript inference throughout the building process
@@ -93,7 +93,7 @@ export const createIgniterProcedure = <
  * @example
  * ```typescript
  * // Basic procedure without options
- * const timestampProcedure = igniter.procedure()
+ * const timestampProcedure = Flame.procedure()
  *   .name('timestamp')
  *   .handler(async ({ context }) => {
  *     context.logger.info('Timestamp procedure executed');
@@ -101,7 +101,7 @@ export const createIgniterProcedure = <
  *   });
  * 
  * // Advanced procedure with schema validation
- * const authProcedure = igniter.procedure()
+ * const authProcedure = Flame.procedure()
  *   .name('authentication')
  *   .options(z.object({
  *     required: z.boolean().default(false),
@@ -180,7 +180,7 @@ export const createIgniterProcedure = <
  *   });
  * 
  * // Usage in actions with full type safety
- * const adminAction = igniter.query({
+ * const adminAction = Flame.query({
  *   path: '/admin/users',
  *   use: [authProcedure({ required: true, roles: ['admin', 'super-admin'] })],
  *   handler: ({ context }) => {
@@ -213,14 +213,14 @@ export function createEnhancedProcedureBuilder<TActionContext>(): EnhancedProced
                 StandardSchemaV1.InferInput<TOptionsSchema>,
                 TOutput
               >
-            ): IgniterProcedure<
+            ): FlameProcedure<
               TActionContext,
               StandardSchemaV1.InferInput<TOptionsSchema>,
               TOutput
             > & { name: TName } {
               return {
                 name,
-                handler: (options: StandardSchemaV1.InferInput<TOptionsSchema>, ctx: IgniterProcedureContext<TActionContext>) => {
+                handler: (options: StandardSchemaV1.InferInput<TOptionsSchema>, ctx: FlameProcedureContext<TActionContext>) => {
                   // Validate options using the schema
                   const validatedOptions = (schema as any).parse ? (schema as any).parse(options) : options;
                   
@@ -232,17 +232,17 @@ export function createEnhancedProcedureBuilder<TActionContext>(): EnhancedProced
                   
                   return handler(enhancedCtx);
                 }
-              } as IgniterProcedure<TActionContext, StandardSchemaV1.InferInput<TOptionsSchema>, TOutput> & { name: TName };
+              } as FlameProcedure<TActionContext, StandardSchemaV1.InferInput<TOptionsSchema>, TOutput> & { name: TName };
             }
           };
         },
 
         handler<TOutput>(
           handler: EnhancedProcedureHandler<TActionContext, undefined, TOutput>
-        ): IgniterProcedure<TActionContext, undefined, TOutput> & { name: TName } {
+        ): FlameProcedure<TActionContext, undefined, TOutput> & { name: TName } {
           return {
             name,
-            handler: (_options: undefined, ctx: IgniterProcedureContext<TActionContext>) => {
+            handler: (_options: undefined, ctx: FlameProcedureContext<TActionContext>) => {
               const enhancedCtx: EnhancedProcedureContext<TActionContext, undefined> = {
                 ...ctx,
                 options: undefined as undefined
@@ -250,7 +250,7 @@ export function createEnhancedProcedureBuilder<TActionContext>(): EnhancedProced
               
               return handler(enhancedCtx);
             }
-          } as IgniterProcedure<TActionContext, undefined, TOutput> & { name: TName };
+          } as FlameProcedure<TActionContext, undefined, TOutput> & { name: TName };
         }
       };
     },
@@ -267,14 +267,14 @@ export function createEnhancedProcedureBuilder<TActionContext>(): EnhancedProced
                 StandardSchemaV1.InferInput<TOptionsSchema>,
                 TOutput
               >
-            ): IgniterProcedure<
+            ): FlameProcedure<
               TActionContext,
               StandardSchemaV1.InferInput<TOptionsSchema>,
               TOutput
             > & { name: TName } {
               return {
                 name,
-                handler: (options: StandardSchemaV1.InferInput<TOptionsSchema>, ctx: IgniterProcedureContext<TActionContext>) => {
+                handler: (options: StandardSchemaV1.InferInput<TOptionsSchema>, ctx: FlameProcedureContext<TActionContext>) => {
                   // Validate options using the schema
                   const validatedOptions = (schema as any).parse ? (schema as any).parse(options) : options;
                   
@@ -285,7 +285,7 @@ export function createEnhancedProcedureBuilder<TActionContext>(): EnhancedProced
                   
                   return handler(enhancedCtx);
                 }
-              } as IgniterProcedure<TActionContext, StandardSchemaV1.InferInput<TOptionsSchema>, TOutput> & { name: TName };
+              } as FlameProcedure<TActionContext, StandardSchemaV1.InferInput<TOptionsSchema>, TOutput> & { name: TName };
             }
           };
         },
@@ -296,14 +296,14 @@ export function createEnhancedProcedureBuilder<TActionContext>(): EnhancedProced
             StandardSchemaV1.InferInput<TOptionsSchema>,
             TOutput
           >
-        ): IgniterProcedure<
+        ): FlameProcedure<
           TActionContext,
           StandardSchemaV1.InferInput<TOptionsSchema>,
           TOutput
         > {
           return {
             name: 'enhanced-procedure',
-            handler: (options: StandardSchemaV1.InferInput<TOptionsSchema>, ctx: IgniterProcedureContext<TActionContext>) => {
+            handler: (options: StandardSchemaV1.InferInput<TOptionsSchema>, ctx: FlameProcedureContext<TActionContext>) => {
               // Validate options using the schema
               const validatedOptions = (schema as any).parse ? (schema as any).parse(options) : options;
               
@@ -321,10 +321,10 @@ export function createEnhancedProcedureBuilder<TActionContext>(): EnhancedProced
 
     handler<TOutput>(
       handler: EnhancedProcedureHandler<TActionContext, undefined, TOutput>
-    ): IgniterProcedure<TActionContext, undefined, TOutput> {
+    ): FlameProcedure<TActionContext, undefined, TOutput> {
       return {
         name: 'enhanced-procedure',
-        handler: (_options: undefined, ctx: IgniterProcedureContext<TActionContext>) => {
+        handler: (_options: undefined, ctx: FlameProcedureContext<TActionContext>) => {
           const enhancedCtx: EnhancedProcedureContext<TActionContext, undefined> = {
             ...ctx,
             options: undefined as undefined
@@ -430,10 +430,10 @@ export function createEnhancedProcedureFactories<TActionContext>(): EnhancedProc
   return {
     simple<TOutput>(
       handler: EnhancedProcedureHandler<TActionContext, undefined, TOutput>
-    ): IgniterProcedure<TActionContext, undefined, TOutput> {
+    ): FlameProcedure<TActionContext, undefined, TOutput> {
       return {
         name: 'simple-procedure',
-        handler: (_options: undefined, ctx: IgniterProcedureContext<TActionContext>) => {
+        handler: (_options: undefined, ctx: FlameProcedureContext<TActionContext>) => {
           const enhancedCtx: EnhancedProcedureContext<TActionContext, undefined> = {
             ...ctx,
             options: undefined as undefined
@@ -453,14 +453,14 @@ export function createEnhancedProcedureFactories<TActionContext>(): EnhancedProc
           TOutput
         >;
       }
-    ): IgniterProcedure<
+    ): FlameProcedure<
       TActionContext,
       StandardSchemaV1.InferInput<TOptionsSchema>,
       TOutput
     > {
       return {
         name: 'schema-procedure',
-        handler: (options: StandardSchemaV1.InferInput<TOptionsSchema>, ctx: IgniterProcedureContext<TActionContext>) => {
+        handler: (options: StandardSchemaV1.InferInput<TOptionsSchema>, ctx: FlameProcedureContext<TActionContext>) => {
           // Validate options using the schema
           const validatedOptions = (config.optionsSchema as any).parse ? (config.optionsSchema as any).parse(options) : options;
           
@@ -476,7 +476,7 @@ export function createEnhancedProcedureFactories<TActionContext>(): EnhancedProc
 
     fromConfig<TOptionsSchema extends StandardSchemaV1 | undefined, TOutput>(
       config: EnhancedProcedureConfig<TActionContext, TOptionsSchema, TOutput>
-    ): IgniterProcedure<
+    ): FlameProcedure<
       TActionContext,
       TOptionsSchema extends StandardSchemaV1 
         ? StandardSchemaV1.InferInput<TOptionsSchema>
@@ -489,7 +489,7 @@ export function createEnhancedProcedureFactories<TActionContext>(): EnhancedProc
           options: TOptionsSchema extends StandardSchemaV1 
             ? StandardSchemaV1.InferInput<TOptionsSchema>
             : undefined, 
-          ctx: IgniterProcedureContext<TActionContext>
+          ctx: FlameProcedureContext<TActionContext>
         ) => {
           // Validate options using the schema
           const validatedOptions = (config.optionsSchema as any).parse ? (config.optionsSchema as any).parse(options) : options;
@@ -506,7 +506,7 @@ export function createEnhancedProcedureFactories<TActionContext>(): EnhancedProc
           
           return config.handler(enhancedCtx);
         }
-      } as IgniterProcedure<
+      } as FlameProcedure<
         TActionContext,
         TOptionsSchema extends StandardSchemaV1 
           ? StandardSchemaV1.InferInput<TOptionsSchema>
@@ -516,3 +516,8 @@ export function createEnhancedProcedureFactories<TActionContext>(): EnhancedProc
     }
   };
 }
+
+
+
+
+

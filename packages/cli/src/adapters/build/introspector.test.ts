@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { introspectRouter } from './introspector';
-import type { IgniterRouter } from '@igniter-js/core';
+import type { FlameRouter } from '@flame-js/core';
 
 describe('introspector', () => {
   it('should introspect a simple router', () => {
@@ -21,7 +21,7 @@ describe('introspector', () => {
       },
     };
 
-    const { schema } = introspectRouter(router as IgniterRouter<any, any, any, any, any>);
+    const { schema } = introspectRouter(router as FlameRouter<any, any, any, any, any>);
 
     const controllers = Object.values(schema.controllers);
     expect(controllers).toHaveLength(1);
@@ -32,3 +32,8 @@ describe('introspector', () => {
     expect(actions[0].name).toBe('list');
   });
 });
+
+
+
+
+

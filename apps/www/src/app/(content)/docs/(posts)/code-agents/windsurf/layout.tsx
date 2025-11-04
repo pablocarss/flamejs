@@ -2,11 +2,11 @@ import { Metadata } from 'next';
 import React from 'react';
 
 export const metadata: Metadata = {
-  title: 'Using Windsurf as a Code Agent | Igniter.js',
+  title: 'Using Windsurf as a Code Agent | Flame.js',
   description:
-    'Learn how to configure the Windsurf AI code editor to be an expert on your Igniter.js project by setting up workspace rules and using our AI-friendly templates.',
+    'Learn how to configure the Windsurf AI code editor to be an expert on your Flame.js project by setting up workspace rules and using our AI-friendly templates.',
   keywords: [
-    'Igniter.js',
+    'Flame.js',
     'Windsurf',
     'Codeium',
     'AI code editor',
@@ -17,26 +17,26 @@ export const metadata: Metadata = {
     'LLM',
   ],
   openGraph: {
-    title: 'Using Windsurf as a Code Agent with Igniter.js',
+    title: 'Using Windsurf as a Code Agent with Flame.js',
     description:
-      'A guide to making the Windsurf AI editor an expert on your Igniter.js project using custom rules and official templates for a seamless development experience.',
+      'A guide to making the Windsurf AI editor an expert on your Flame.js project using custom rules and official templates for a seamless development experience.',
     type: 'article',
-    url: 'https://igniterjs.com/docs/code-agents/windsurf',
+    url: 'https://Flamejs.com/docs/code-agents/windsurf',
     images: [
       {
-        url: 'https://igniterjs.com/og/docs-windsurf.png', // Assuming an OG image exists
+        url: 'https://Flamejs.com/og/docs-windsurf.png', // Assuming an OG image exists
         width: 1200,
         height: 630,
-        alt: 'Using Windsurf with Igniter.js',
+        alt: 'Using Windsurf with Flame.js',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Using Windsurf as a Code Agent with Igniter.js',
+    title: 'Using Windsurf as a Code Agent with Flame.js',
     description:
-      'A guide to making the Windsurf AI editor an expert on your Igniter.js project using custom rules and official templates for a seamless development experience.',
-    images: ['https://igniterjs.com/og/docs-windsurf.png'],
+      'A guide to making the Windsurf AI editor an expert on your Flame.js project using custom rules and official templates for a seamless development experience.',
+    images: ['https://Flamejs.com/og/docs-windsurf.png'],
   },
 };
 
@@ -47,3 +47,8 @@ export default function DocsLayout({
 }) {
   return <>{children}</>;
 }
+
+
+
+
+

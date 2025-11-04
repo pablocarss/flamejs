@@ -1,5 +1,5 @@
-import type { IgniterAction } from "@igniter-js/core";
-import type { IgniterRouter, ContextCallback } from "@igniter-js/core";
+import type { FlameAction } from "@flame-js/core";
+import type { FlameRouter, ContextCallback } from "@flame-js/core";
 import type { AuthInfo } from "@modelcontextprotocol/sdk/server/auth/types.js";
 import type { McpServer, ReadResourceCallback, RegisteredPrompt } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { CallToolResult, type GetPromptResult, type ServerCapabilities } from "@modelcontextprotocol/sdk/types.js";
@@ -154,12 +154,12 @@ export type McpToolNaming = (controller: string, action: string) => string;
 /**
  * Function type to filter tools.
  */
-export type McpToolFilter = (controller: string, action: string, actionConfig: IgniterAction<any, any, any, any, any, any, any, any, any, any>) => boolean;
+export type McpToolFilter = (controller: string, action: string, actionConfig: FlameAction<any, any, any, any, any, any, any, any, any, any>) => boolean;
 
 /**
  * Function type to transform tool configurations.
  */
-export type McpToolTransform = (controller: string, action: string, actionConfig: IgniterAction<any, any, any, any, any, any, any, any, any, any>) => McpToolConfig;
+export type McpToolTransform = (controller: string, action: string, actionConfig: FlameAction<any, any, any, any, any, any, any, any, any, any>) => McpToolConfig;
 
 /**
  * MCP tools configuration options.
@@ -215,8 +215,8 @@ export interface McpEventsOptions<TContext = any> {
  * MCP response configuration options.
  */
 export interface McpResponseOptions<TContext = any> {
-  /** Transform Igniter response to MCP format */
-  transform?: (igniterResponse: any, toolName: string, context: McpContext<TContext>) => CallToolResult | Promise<CallToolResult>;
+  /** Transform Flame response to MCP format */
+  transform?: (FlameResponse: any, toolName: string, context: McpContext<TContext>) => CallToolResult | Promise<CallToolResult>;
   /** Handle errors */
   onError?: (error: Error, toolName: string, context: McpContext<TContext>) => CallToolResult | Promise<CallToolResult>;
 }
@@ -244,7 +244,7 @@ export interface McpAdapterSpecificOptions {
  * @template TContext - The context type inferred from the router
  */
 export interface McpAdapterOptions<
-  TRouter extends IgniterRouter<any, any, any, any, any>,
+  TRouter extends FlameRouter<any, any, any, any, any>,
   TContext extends object | ContextCallback = InferMcpContextFromRouter<TRouter>
 > {
   logger?: {
@@ -254,7 +254,7 @@ export interface McpAdapterOptions<
     debug: (message: string) => void;
   }
 
-  /** Igniter router to expose as MCP server */
+  /** Flame router to expose as MCP server */
   router: TRouter;
 
   /** Optional instructions function */
@@ -291,17 +291,22 @@ export interface McpAdapterOptions<
 /**
  * Utility type to infer context type from router.
  */
-export type InferMcpContextFromRouter<TRouter> = TRouter extends IgniterRouter<any, any, any, any, any>
+export type InferMcpContextFromRouter<TRouter> = TRouter extends FlameRouter<any, any, any, any, any>
   ? TRouter['$Infer']['$context']
   : never;
 
 /**
- * MCP handler with optional authentication for IgniterMcpServer
+ * MCP handler with optional authentication for FlameMcpServer
 */
-export type IgniterMcpHandler = {
+export type FlameMcpHandler = {
   handler: (request: Request) => Promise<Response> | Response;
   auth: {
     resourceHandler: (request: Request) => Promise<Response> | Response;
     corsHandler: (request: Request) => Promise<Response> | Response;
   };
 }
+
+
+
+
+

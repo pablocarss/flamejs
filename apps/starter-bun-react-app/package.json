@@ -12,10 +12,10 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^4.1.0",
-    "@igniter-js/adapter-bullmq": "latest",
-    "@igniter-js/adapter-mcp-server": "latest",
-    "@igniter-js/adapter-redis": "latest",
-    "@igniter-js/core": "^0.2.65",
+    "@flame-js/adapter-bullmq": "latest",
+    "@flame-js/adapter-mcp-server": "latest",
+    "@flame-js/adapter-redis": "latest",
+    "@flame-js/core": "^0.2.65",
     "@radix-ui/react-label": "^2.1.2",
     "@radix-ui/react-select": "^2.1.6",
     "@radix-ui/react-slot": "^1.1.2",
@@ -38,3 +38,8 @@
     "@types/react-dom": "^19"
   }
 }
+
+
+
+
+

@@ -2,11 +2,11 @@ import { Metadata } from 'next';
 import React from 'react';
 
 export const metadata: Metadata = {
-  title: 'Igniter.js Realtime: Live Data, Effortlessly',
+  title: 'Flame.js Realtime: Live Data, Effortlessly',
   description:
-    'Learn how to build real-time features with Igniter.js using Server-Sent Events (SSE). Automatically revalidate UI, create custom data streams, and push live data from server to client with ease.',
+    'Learn how to build real-time features with Flame.js using Server-Sent Events (SSE). Automatically revalidate UI, create custom data streams, and push live data from server to client with ease.',
   keywords: [
-    'Igniter.js',
+    'Flame.js',
     'realtime',
     'Server-Sent Events',
     'SSE',
@@ -18,26 +18,26 @@ export const metadata: Metadata = {
     'TypeScript',
   ],
   openGraph: {
-    title: 'Igniter.js Realtime: Live Data, Effortlessly',
+    title: 'Flame.js Realtime: Live Data, Effortlessly',
     description:
-      'Discover how to push live data from your server to clients using Igniter.js. Implement automatic UI updates and custom data streams with our integrated SSE solution.',
+      'Discover how to push live data from your server to clients using Flame.js. Implement automatic UI updates and custom data streams with our integrated SSE solution.',
     type: 'article',
-    url: 'https://igniterjs.com/docs/advanced-features/realtime',
+    url: 'https://Flamejs.com/docs/advanced-features/realtime',
     images: [
       {
-        url: 'https://igniterjs.com/og/docs-realtime.png', // Assuming an OG image exists
+        url: 'https://Flamejs.com/og/docs-realtime.png', // Assuming an OG image exists
         width: 1200,
         height: 630,
-        alt: 'Igniter.js Realtime Features',
+        alt: 'Flame.js Realtime Features',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Igniter.js Realtime: Live Data, Effortlessly',
+    title: 'Flame.js Realtime: Live Data, Effortlessly',
     description:
-      'Discover how to push live data from your server to clients using Igniter.js. Implement automatic UI updates and custom data streams with our integrated SSE solution.',
-    images: ['https://igniterjs.com/og/docs-realtime.png'],
+      'Discover how to push live data from your server to clients using Flame.js. Implement automatic UI updates and custom data streams with our integrated SSE solution.',
+    images: ['https://Flamejs.com/og/docs-realtime.png'],
   },
 };
 
@@ -48,3 +48,8 @@ export default function DocsLayout({
 }) {
   return <>{children}</>;
 }
+
+
+
+
+

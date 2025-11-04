@@ -1,8 +1,8 @@
 import { Metadata } from "next";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const title = "Introducing Igniter Studio: The Interactive API Playground";
-  const description = "Announcing Igniter Studio, an interactive API playground to streamline your development workflow, with a future powered by AI assistance.";
+  const title = "Introducing Flame Studio: The Interactive API Playground";
+  const description = "Announcing Flame Studio, an interactive API playground to streamline your development workflow, with a future powered by AI assistance.";
 
   return {
     title,
@@ -10,7 +10,7 @@ export async function generateMetadata(): Promise<Metadata> {
     openGraph: {
       title,
       description,
-      url: "https://igniterjs.com/blog/announcements/introducing-igniter-studio",
+      url: "https://Flamejs.com/blog/announcements/introducing-Flame-studio",
       type: "article",
     },
     twitter: {
@@ -24,3 +24,8 @@ export async function generateMetadata(): Promise<Metadata> {
 export default function Layout({ children }: { children: React.ReactNode }) {
   return children;
 }
+
+
+
+
+

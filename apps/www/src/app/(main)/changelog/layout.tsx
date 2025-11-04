@@ -42,7 +42,7 @@ export default function ChangelogLayout({
               Changelog
             </h2>
             <p className="text-muted-foreground max-w-md">
-              All notable changes, new features, and bug fixes for Igniter.js. We are committed to transparency and keeping our community informed.
+              All notable changes, new features, and bug fixes for Flame.js. We are committed to transparency and keeping our community informed.
             </p>
           </div>
         </div>
@@ -66,3 +66,8 @@ export default function ChangelogLayout({
     </div>
   );
 }
+
+
+
+
+

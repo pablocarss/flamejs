@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest';
-import { createIgniterQuery, createIgniterMutation } from '../action.service';
-import type { StandardSchemaV1, IgniterProcedure } from '../../types';
+import { createFlameQuery, createFlameMutation } from '../action.service';
+import type { StandardSchemaV1, FlameProcedure } from '../../types';
 
 // Mock types for testing
 interface TestContext {
@@ -20,7 +20,7 @@ const createMockSchema = <T>(defaultValue: T): StandardSchemaV1<T, T> => ({
 });
 
 // Mock procedures with proper structure
-const createMockProcedure = (name: string): IgniterProcedure<unknown, unknown, unknown> => ({
+const createMockProcedure = (name: string): FlameProcedure<unknown, unknown, unknown> => ({
   name,
   handler: vi.fn().mockResolvedValue({})
 });
@@ -29,9 +29,9 @@ const mockMiddleware = createMockProcedure('mockMiddleware');
 const mockHandler = vi.fn();
 
 describe('Action Service', () => {
-  describe('createIgniterQuery', () => {
+  describe('createFlameQuery', () => {
     it('should create a query action with GET method', () => {
-      const queryAction = createIgniterQuery({
+      const queryAction = createFlameQuery({
         path: 'users',
         handler: mockHandler,
       });
@@ -50,7 +50,7 @@ describe('Action Service', () => {
         handler: mockHandler,
       };
 
-      const queryAction = createIgniterQuery(options);
+      const queryAction = createFlameQuery(options);
 
       expect(queryAction.path).toBe('posts');
       expect(queryAction.query).toEqual(expect.objectContaining({
@@ -62,7 +62,7 @@ describe('Action Service', () => {
     });
 
     it('should include type inference placeholder', () => {
-      const queryAction = createIgniterQuery({
+      const queryAction = createFlameQuery({
         path: 'test',
         handler: mockHandler,
       });
@@ -76,7 +76,7 @@ describe('Action Service', () => {
       const middleware1 = createMockProcedure('middleware1');
       const middleware2 = createMockProcedure('middleware2');
 
-      const queryAction = createIgniterQuery({
+      const queryAction = createFlameQuery({
         path: 'complex/path',
         query: createMockSchema({ 
           page: 1,
@@ -99,9 +99,9 @@ describe('Action Service', () => {
     });
   });
 
-  describe('createIgniterMutation', () => {
+  describe('createFlameMutation', () => {
     it('should create a mutation action preserving the method', () => {
-      const mutationAction = createIgniterMutation({
+      const mutationAction = createFlameMutation({
         path: 'users',
         method: 'POST',
         handler: mockHandler,
@@ -123,7 +123,7 @@ describe('Action Service', () => {
         handler: mockHandler,
       };
 
-      const mutationAction = createIgniterMutation(options);
+      const mutationAction = createFlameMutation(options);
 
       expect(mutationAction.path).toBe('posts');
       expect(mutationAction.method).toBe('PUT');
@@ -138,7 +138,7 @@ describe('Action Service', () => {
     });
 
     it('should handle POST method', () => {
-      const mutationAction = createIgniterMutation({
+      const mutationAction = createFlameMutation({
         path: 'create',
         method: 'POST',
         handler: mockHandler,
@@ -148,7 +148,7 @@ describe('Action Service', () => {
     });
 
     it('should handle PUT method', () => {
-      const mutationAction = createIgniterMutation({
+      const mutationAction = createFlameMutation({
         path: 'update',
         method: 'PUT',
         handler: mockHandler,
@@ -158,7 +158,7 @@ describe('Action Service', () => {
     });
 
     it('should handle DELETE method', () => {
-      const mutationAction = createIgniterMutation({
+      const mutationAction = createFlameMutation({
         path: 'delete',
         method: 'DELETE',
         handler: mockHandler,
@@ -168,7 +168,7 @@ describe('Action Service', () => {
     });
 
     it('should handle PATCH method', () => {
-      const mutationAction = createIgniterMutation({
+      const mutationAction = createFlameMutation({
         path: 'patch',
         method: 'PATCH',
         handler: mockHandler,
@@ -178,7 +178,7 @@ describe('Action Service', () => {
     });
 
     it('should include type inference placeholder', () => {
-      const mutationAction = createIgniterMutation({
+      const mutationAction = createFlameMutation({
         path: 'test',
         method: 'POST',
         handler: mockHandler,
@@ -193,7 +193,7 @@ describe('Action Service', () => {
       const authMiddleware = createMockProcedure('authMiddleware');
       const validationMiddleware = createMockProcedure('validationMiddleware');
 
-      const mutationAction = createIgniterMutation({
+      const mutationAction = createFlameMutation({
         path: 'users/profile',
         method: 'POST',
         body: createMockSchema({
@@ -229,7 +229,7 @@ describe('Action Service', () => {
       const handler = vi.fn();
       const middlewares = [createMockProcedure('mid1'), createMockProcedure('mid2')];
       
-      const queryAction = createIgniterQuery({
+      const queryAction = createFlameQuery({
         path: 'test',
         use: middlewares,
         handler,
@@ -244,7 +244,7 @@ describe('Action Service', () => {
       const middlewares = [createMockProcedure('mid1'), createMockProcedure('mid2')];
       const body = createMockSchema({ test: 'value' });
       
-      const mutationAction = createIgniterMutation({
+      const mutationAction = createFlameMutation({
         path: 'test',
         method: 'POST',
         body,
@@ -258,7 +258,7 @@ describe('Action Service', () => {
     });
 
     it('should handle minimal query configuration', () => {
-      const minimalQuery = createIgniterQuery({
+      const minimalQuery = createFlameQuery({
         path: 'minimal',
         handler: vi.fn(),
       });
@@ -270,7 +270,7 @@ describe('Action Service', () => {
     });
 
     it('should handle minimal mutation configuration', () => {
-      const minimalMutation = createIgniterMutation({
+      const minimalMutation = createFlameMutation({
         path: 'minimal',
         method: 'POST',
         handler: vi.fn(),
@@ -285,7 +285,7 @@ describe('Action Service', () => {
 
   describe('Edge Cases', () => {
     it('should handle empty string path for query', () => {
-      const queryAction = createIgniterQuery({
+      const queryAction = createFlameQuery({
         path: '',
         handler: mockHandler,
       });
@@ -295,7 +295,7 @@ describe('Action Service', () => {
     });
 
     it('should handle empty string path for mutation', () => {
-      const mutationAction = createIgniterMutation({
+      const mutationAction = createFlameMutation({
         path: '',
         method: 'POST',
         handler: mockHandler,
@@ -306,7 +306,7 @@ describe('Action Service', () => {
     });
 
     it('should handle undefined optional properties for query', () => {
-      const queryAction = createIgniterQuery({
+      const queryAction = createFlameQuery({
         path: 'test',
         handler: mockHandler,
         query: undefined,
@@ -320,7 +320,7 @@ describe('Action Service', () => {
     });
 
     it('should handle undefined optional properties for mutation', () => {
-      const mutationAction = createIgniterMutation({
+      const mutationAction = createFlameMutation({
         path: 'test',
         method: 'POST',
         handler: mockHandler,
@@ -337,3 +337,8 @@ describe('Action Service', () => {
     });
   });
 }); 
+
+
+
+
+

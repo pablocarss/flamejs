@@ -1,5 +1,5 @@
 /**
- * @fileoverview Setup and initialization system for Igniter.js projects
+ * @fileoverview Setup and initialization system for Flame.js projects
  * 
  * This module provides a comprehensive project setup system similar to T3 Stack CLI,
  * with interactive prompts, feature selection, and automated project generation.
@@ -28,7 +28,7 @@ export {
 
 // Template generation
 export {
-  generateIgniterRouter,
+  generateFlameRouter,
   generateExampleController,
   generateMainRouter,
   generatePackageJson,
@@ -42,7 +42,7 @@ export {
 
 // Feature configuration system
 export {
-  IGNITER_FEATURES,
+  Flame_FEATURES,
   DATABASE_CONFIGS,
   getFeatureDependencies,
   getDockerServices,
@@ -52,7 +52,7 @@ export {
 // Type definitions
 export type {
   ProjectSetupConfig,
-  IgniterFeatures,
+  FlameFeatures,
   DatabaseProvider,
   DatabaseConfig,
   PackageManager,
@@ -63,3 +63,8 @@ export type {
   DockerService,
   EnvVariable,
 } from './types' 
+
+
+
+
+

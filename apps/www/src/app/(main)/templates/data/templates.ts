@@ -22,15 +22,15 @@ export const templates: Template[] = [
   {
     id: "sample-realtime-chat",
     title: "Real-Time Chat App",
-    description: "A full-featured real-time chat application built with Next.js and Prisma, showcasing Igniter.js's SSE-based real-time features for instant updates.",
+    description: "A full-featured real-time chat application built with Next.js and Prisma, showcasing Flame.js's SSE-based real-time features for instant updates.",
     image: "/templates/sample-realtime-chat.jpeg",
     framework: "Next.js",
     useCase: "Full-Stack",
     css: "Tailwind CSS",
     database: "PostgreSQL",
-    demoUrl: "https://igniter-js-sample-realtime-chat.vercel.app/",
-    repositoryUrl: "https://github.com/felipebarcelospro/igniter-js/tree/main/apps/sample-realtime-chat",
-    deployUrl: "https://vercel.com/new/clone?repository-url=https://github.com/felipebarcelospro/igniter-js&project-name=igniter-realtime-chat&repository-name=igniter-realtime-chat&root-directory=apps/sample-realtime-chat",
+    demoUrl: "https://Flame-js-sample-realtime-chat.vercel.app/",
+    repositoryUrl: "https://github.com/felipebarcelospro/Flame-js/tree/main/apps/sample-realtime-chat",
+    deployUrl: "https://vercel.com/new/clone?repository-url=https://github.com/felipebarcelospro/Flame-js&project-name=Flame-realtime-chat&repository-name=Flame-realtime-chat&root-directory=apps/sample-realtime-chat",
     tags: ["Next.js", "TypeScript", "Prisma", "WebSocket", "Real-Time"],
     creator: {
       username: "felipebarcelospro"
@@ -39,15 +39,15 @@ export const templates: Template[] = [
   {
     id: "starter-nextjs",
     title: "Next.js Full-Stack App",
-    description: "A full-featured application built using the latest Next.js conventions with end-to-end type safety powered by Igniter.js.",
+    description: "A full-featured application built using the latest Next.js conventions with end-to-end type safety powered by Flame.js.",
     image: "/templates/nextjs-base-template.png",
     framework: "Next.js",
     useCase: "Full-Stack",
     css: "Tailwind CSS",
     database: "PostgreSQL",
-    demoUrl: "https://github.com/felipebarcelospro/igniter-js/tree/main/apps/starter-nextjs",
-    repositoryUrl: "https://github.com/felipebarcelospro/igniter-js/tree/main/apps/starter-nextjs",
-    deployUrl: "https://vercel.com/new/clone?repository-url=https://github.com/felipebarcelospro/igniter-js&project-name=igniter-nextjs-starter&repository-name=igniter-nextjs-starter&root-directory=apps/starter-nextjs",
+    demoUrl: "https://github.com/felipebarcelospro/Flame-js/tree/main/apps/starter-nextjs",
+    repositoryUrl: "https://github.com/felipebarcelospro/Flame-js/tree/main/apps/starter-nextjs",
+    deployUrl: "https://vercel.com/new/clone?repository-url=https://github.com/felipebarcelospro/Flame-js&project-name=Flame-nextjs-starter&repository-name=Flame-nextjs-starter&root-directory=apps/starter-nextjs",
     tags: ["Next.js", "TypeScript", "Prisma", "Redis", "BullMQ"],
     creator: {
       username: "felipebarcelospro"
@@ -61,9 +61,9 @@ export const templates: Template[] = [
     framework: "Bun",
     useCase: "Full-Stack",
     css: "Tailwind CSS",
-    demoUrl: "https://github.com/felipebarcelospro/igniter-js/tree/main/apps/starter-bun-react-app",
-    repositoryUrl: "https://github.com/felipebarcelospro/igniter-js/tree/main/apps/starter-bun-react-app",
-    deployUrl: "https://vercel.com/new/clone?repository-url=https://github.com/felipebarcelospro/igniter-js&project-name=igniter-bun-react-starter&repository-name=igniter-bun-react-starter&root-directory=apps/starter-bun-react-app",
+    demoUrl: "https://github.com/felipebarcelospro/Flame-js/tree/main/apps/starter-bun-react-app",
+    repositoryUrl: "https://github.com/felipebarcelospro/Flame-js/tree/main/apps/starter-bun-react-app",
+    deployUrl: "https://vercel.com/new/clone?repository-url=https://github.com/felipebarcelospro/Flame-js&project-name=Flame-bun-react-starter&repository-name=Flame-bun-react-starter&root-directory=apps/starter-bun-react-app",
     tags: ["Bun", "React", "SSR", "TypeScript", "Redis"],
     creator: {
       username: "felipebarcelospro"
@@ -78,9 +78,9 @@ export const templates: Template[] = [
     useCase: "Full-Stack",
     css: "Tailwind CSS",
     database: "PostgreSQL",
-    demoUrl: "https://github.com/felipebarcelospro/igniter-js/tree/main/apps/starter-tanstack-start",
-    repositoryUrl: "https://github.com/felipebarcelospro/igniter-js/tree/main/apps/starter-tanstack-start",
-    deployUrl: "https://vercel.com/new/clone?repository-url=https://github.com/felipebarcelospro/igniter-js&project-name=igniter-tanstack-starter&repository-name=igniter-tanstack-starter&root-directory=apps/starter-tanstack-start",
+    demoUrl: "https://github.com/felipebarcelospro/Flame-js/tree/main/apps/starter-tanstack-start",
+    repositoryUrl: "https://github.com/felipebarcelospro/Flame-js/tree/main/apps/starter-tanstack-start",
+    deployUrl: "https://vercel.com/new/clone?repository-url=https://github.com/felipebarcelospro/Flame-js&project-name=Flame-tanstack-starter&repository-name=Flame-tanstack-starter&root-directory=apps/starter-tanstack-start",
     tags: ["TanStack", "TypeScript", "Prisma", "Vite"],
     creator: {
       username: "felipebarcelospro"
@@ -89,15 +89,15 @@ export const templates: Template[] = [
   {
     id: "starter-express-rest-api",
     title: "Express REST API",
-    description: "A robust REST API built with Express.js and Igniter.js featuring structured logging and background jobs.",
+    description: "A robust REST API built with Express.js and Flame.js featuring structured logging and background jobs.",
     image: "/templates/express-base-template.png",
     framework: "Express",
     useCase: "API",
     css: "N/A",
     database: "PostgreSQL",
-    demoUrl: "https://github.com/felipebarcelospro/igniter-js/tree/main/apps/starter-express-rest-api",
-    repositoryUrl: "https://github.com/felipebarcelospro/igniter-js/tree/main/apps/starter-express-rest-api",
-    deployUrl: "https://vercel.com/new/clone?repository-url=https://github.com/felipebarcelospro/igniter-js&project-name=igniter-express-api&repository-name=igniter-express-api&root-directory=apps/starter-express-rest-api",
+    demoUrl: "https://github.com/felipebarcelospro/Flame-js/tree/main/apps/starter-express-rest-api",
+    repositoryUrl: "https://github.com/felipebarcelospro/Flame-js/tree/main/apps/starter-express-rest-api",
+    deployUrl: "https://vercel.com/new/clone?repository-url=https://github.com/felipebarcelospro/Flame-js&project-name=Flame-express-api&repository-name=Flame-express-api&root-directory=apps/starter-express-rest-api",
     tags: ["Express", "REST API", "TypeScript", "Prisma"],
     creator: {
       username: "felipebarcelospro"
@@ -106,15 +106,15 @@ export const templates: Template[] = [
   {
     id: "starter-bun-rest-api",
     title: "Bun REST API",
-    description: "A high-performance REST API built with Bun runtime and Igniter.js for maximum speed and efficiency.",
+    description: "A high-performance REST API built with Bun runtime and Flame.js for maximum speed and efficiency.",
     image: "/templates/bun-base-template.png",
     framework: "Bun",
     useCase: "API",
     css: "N/A",
     database: "PostgreSQL",
-    demoUrl: "https://github.com/felipebarcelospro/igniter-js/tree/main/apps/starter-bun-rest-api",
-    repositoryUrl: "https://github.com/felipebarcelospro/igniter-js/tree/main/apps/starter-bun-rest-api",
-    deployUrl: "https://vercel.com/new/clone?repository-url=https://github.com/felipebarcelospro/igniter-js&project-name=igniter-bun-api&repository-name=igniter-bun-api&root-directory=apps/starter-bun-rest-api",
+    demoUrl: "https://github.com/felipebarcelospro/Flame-js/tree/main/apps/starter-bun-rest-api",
+    repositoryUrl: "https://github.com/felipebarcelospro/Flame-js/tree/main/apps/starter-bun-rest-api",
+    deployUrl: "https://vercel.com/new/clone?repository-url=https://github.com/felipebarcelospro/Flame-js&project-name=Flame-bun-api&repository-name=Flame-bun-api&root-directory=apps/starter-bun-rest-api",
     tags: ["Bun", "REST API", "TypeScript", "Prisma"],
     creator: {
       username: "felipebarcelospro"
@@ -123,15 +123,15 @@ export const templates: Template[] = [
   {
     id: "starter-deno-rest-api",
     title: "Deno REST API",
-    description: "A secure and modern REST API built with Deno runtime and Igniter.js featuring built-in TypeScript support.",
+    description: "A secure and modern REST API built with Deno runtime and Flame.js featuring built-in TypeScript support.",
     image: "/templates/deno-base-template.png",
     framework: "Deno",
     useCase: "API",
     css: "N/A",
     database: "PostgreSQL",
-    demoUrl: "https://github.com/felipebarcelospro/igniter-js/tree/main/apps/starter-deno-rest-api",
-    repositoryUrl: "https://github.com/felipebarcelospro/igniter-js/tree/main/apps/starter-deno-rest-api",
-    deployUrl: "https://vercel.com/new/clone?repository-url=https://github.com/felipebarcelospro/igniter-js&project-name=igniter-deno-api&repository-name=igniter-deno-api&root-directory=apps/starter-deno-rest-api",
+    demoUrl: "https://github.com/felipebarcelospro/Flame-js/tree/main/apps/starter-deno-rest-api",
+    repositoryUrl: "https://github.com/felipebarcelospro/Flame-js/tree/main/apps/starter-deno-rest-api",
+    deployUrl: "https://vercel.com/new/clone?repository-url=https://github.com/felipebarcelospro/Flame-js&project-name=Flame-deno-api&repository-name=Flame-deno-api&root-directory=apps/starter-deno-rest-api",
     tags: ["Deno", "REST API", "TypeScript", "Prisma"],
     creator: {
       username: "felipebarcelospro"
@@ -159,3 +159,8 @@ export const frameworks = ["Next.js", "React", "TanStack Start", "Express", "Bun
 export const useCases = ["Full-Stack", "API", "SaaS"];
 export const cssFrameworks = ["Tailwind CSS", "N/A"];
 export const databases = ["PostgreSQL"];
+
+
+
+
+

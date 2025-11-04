@@ -1,5 +1,5 @@
 name: Bug report
-description: Report a reproducible bug in Igniter.js
+description: Report a reproducible bug in Flame.js
 labels:
   - bug
 body:
@@ -54,7 +54,7 @@ body:
   - type: input
     id: version
     attributes:
-      label: Igniter.js version / commit SHA
+      label: Flame.js version / commit SHA
       placeholder: main @ abc1234
     validations:
       required: true
@@ -95,3 +95,7 @@ body:
       label: Diagnostics
       description: Attach relevant logs, stack traces, or screenshots. Sanitize sensitive data.
       render: bash
+
+
+
+

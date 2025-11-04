@@ -1,8 +1,8 @@
 /**
- * Log levels for the Igniter Logger provider.
+ * Log levels for the Flame Logger provider.
  * These levels are used to categorize log messages by severity.
  */
-export enum IgniterLogLevel {
+export enum FlameLogLevel {
   FATAL = 'fatal',
   ERROR = 'error',
   WARN = 'warn',
@@ -14,8 +14,8 @@ export enum IgniterLogLevel {
 /**
  * Structured log entry for advanced logger providers.
  */
-export interface IgniterLogEntry {
-  level: IgniterLogLevel;
+export interface FlameLogEntry {
+  level: FlameLogLevel;
   message: string;
   timestamp?: Date | string;
   context?: Record<string, unknown>;
@@ -26,8 +26,8 @@ export interface IgniterLogEntry {
 /**
  * Options for configuring the logger provider.
  */
-export interface IgniterLoggerOptions {
-  level?: IgniterLogLevel;
+export interface FlameLoggerOptions {
+  level?: FlameLogLevel;
   /**
    * Optional: Enable or disable colorized output (for console loggers).
    */
@@ -35,7 +35,7 @@ export interface IgniterLoggerOptions {
   /**
    * Optional: Custom log formatter.
    */
-  formatter?: (entry: IgniterLogEntry) => string;
+  formatter?: (entry: FlameLogEntry) => string;
   /**
    * Optional: Show timestamp in log messages
    */
@@ -47,12 +47,12 @@ export interface IgniterLoggerOptions {
 }
 
 /**
- * Interface for a robust, extensible logger provider for the Igniter framework.
+ * Interface for a robust, extensible logger provider for the Flame framework.
  * 
  * Logger providers should implement this interface to support structured logging,
  * log levels, context, error objects, and optional child loggers.
  */
-export interface IgniterLogger {
+export interface FlameLogger {
   /**
    * Log a message at the specified level.
    * @param level The log level.
@@ -60,7 +60,7 @@ export interface IgniterLogger {
    * @param context Optional structured context (request, user, etc).
    * @param error Optional error object.
    */
-  log(level: IgniterLogLevel, message: string, context?: any, error?: Error | unknown): void;
+  log(level: FlameLogLevel, message: string, context?: any, error?: Error | unknown): void;
 
   /**
    * Log a fatal error (system crash, unrecoverable).
@@ -112,12 +112,12 @@ export interface IgniterLogger {
    * Create a child logger with additional context (e.g., per-request).
    * @param context Context to bind to all log messages from this child logger.
    */
-  child(context: Record<string, unknown>): IgniterLogger;
+  child(context: Record<string, unknown>): FlameLogger;
 
   /**
    * Set the minimum log level at runtime.
    */
-  setLevel(level: IgniterLogLevel): void;
+  setLevel(level: FlameLogLevel): void;
 
   /**
    * Flush any buffered logs (for async/file/network loggers).
@@ -132,7 +132,7 @@ export interface IgniterLogger {
    * @param error Optional error object
    */
   log(
-    level: IgniterLogLevel,
+    level: FlameLogLevel,
     message: string,
     context?: Record<string, unknown>,
     error?: Error | unknown
@@ -143,3 +143,8 @@ export interface IgniterLogger {
    */
   separator(): void;
 }
+
+
+
+
+

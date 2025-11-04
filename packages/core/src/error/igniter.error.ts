@@ -1,12 +1,12 @@
 import chalk from 'chalk';
-import { IgniterConsoleLogger } from '../services/logger.service';
+import { FlameConsoleLogger } from '../services/logger.service';
 import { resolveLogLevel, createLoggerContext } from '../utils/logger';
 
 /**
- * Custom error class for Igniter Framework
+ * Custom error class for Flame Framework
  * Provides structured error handling with styled logging and detailed information
  */
-export class IgniterError extends Error {
+export class FlameError extends Error {
   public readonly code: string;
   public readonly details?: unknown;
   public readonly metadata?: Record<string, unknown>;
@@ -30,7 +30,7 @@ export class IgniterError extends Error {
   }) {
     super(message);
 
-    this.name = 'IgniterError';
+    this.name = 'FlameError';
     this.code = code;
     this.details = details;
     this.metadata = metadata;
@@ -45,9 +45,9 @@ export class IgniterError extends Error {
    */
   private async logError(): Promise<void> {
     try {
-      const logger = new IgniterConsoleLogger({ 
+      const logger = new FlameConsoleLogger({ 
         level: resolveLogLevel(),
-        context: createLoggerContext('IgniterError')
+        context: createLoggerContext('FlameError')
       });
       
       // Business Rule: Create a visually distinct error boundary
@@ -56,7 +56,7 @@ export class IgniterError extends Error {
 
       // Business Rule: Display main error information in a structured format
       logger.error(
-        chalk.red.bold('⚠ IGNITER ERROR\n')
+        chalk.red.bold('⚠ Flame ERROR\n')
       );
 
       // Business Rule: Show error code and message in separate lines for better readability
@@ -86,7 +86,7 @@ export class IgniterError extends Error {
       // Fallback to console if logger fails
       const separator = chalk.red('━'.repeat(50));
       console.log('\n' + separator);
-      console.log(chalk.red.bold('⚠ IGNITER ERROR\n'));
+      console.log(chalk.red.bold('⚠ Flame ERROR\n'));
       console.log(
         chalk.red('Code:    ') + chalk.yellow(`${this.code}`),
         '\n' + chalk.red('Message: ') + chalk.yellow(`${this.message}`)
@@ -121,3 +121,8 @@ export class IgniterError extends Error {
     };
   }
 }
+
+
+
+
+

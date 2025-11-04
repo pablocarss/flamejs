@@ -4,16 +4,16 @@ import type {
   OpenTelemetryAdapter,
   CreateOpenTelemetryAdapterOptions,
 } from './types';
-import { IgniterConsoleLogger, resolveLogLevel } from '@igniter-js/core';
+import { FlameConsoleLogger, resolveLogLevel } from '@flame-js/core';
 
 // Centralized logger for this module
-const logger = IgniterConsoleLogger.create({
+const logger = FlameConsoleLogger.create({
   level: resolveLogLevel(),
   context: { component: 'OpenTelemetryAdapter' },
 });
 
 /**
- * Creates an OpenTelemetry adapter for Igniter.js telemetry system
+ * Creates an OpenTelemetry adapter for Flame.js telemetry system
  * 
  * @param options - Configuration options for the OpenTelemetry adapter
  * @returns Promise resolving to configured OpenTelemetry adapter
@@ -42,8 +42,8 @@ const logger = IgniterConsoleLogger.create({
  *   }
  * });
  * 
- * // Use with Igniter
- * const igniter = Igniter
+ * // Use with Flame
+ * const Flame = Flame
  *   .context<{ db: Database }>()
  *   .telemetry(telemetry)
  *   .create();
@@ -105,7 +105,7 @@ export async function createOpenTelemetryAdapter(
  * ```typescript
  * const telemetry = await createSimpleOpenTelemetryAdapter('my-api');
  * 
- * const igniter = Igniter
+ * const Flame = Flame
  *   .context<MyContext>()
  *   .telemetry(telemetry)
  *   .create();
@@ -194,3 +194,8 @@ export async function createProductionOpenTelemetryAdapter(config: {
     config: telemetryConfig,
   });
 }
+
+
+
+
+

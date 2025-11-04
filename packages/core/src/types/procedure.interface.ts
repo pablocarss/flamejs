@@ -1,39 +1,39 @@
-import type { HTTPMethod, IgniterCookies, IgniterHeaders } from "./action.interface";
+import type { HTTPMethod, FlameCookies, FlameHeaders } from "./action.interface";
 import type { UnionToIntersection } from "./utils.interface";
 import type { StandardSchemaV1 } from "./schema.interface";
 import type { NextFunction } from "./next.interface";
-import { IgniterResponseProcessor } from "@/processors";
+import { FlameResponseProcessor } from "@/processors";
 
 /**
- * Represents the context for an Igniter procedure.
+ * Represents the context for an Flame procedure.
  * @template TActionContext - The type of the custom action context.
  *
- * @typedef {Object} IgniterProcedureContext
+ * @typedef {Object} FlameProcedureContext
  * @property {Object} request - The HTTP request information.
  * @property {string} request.path - The request path.
  * @property {any} request.params - The route parameters.
  * @property {any} request.body - The request body data.
  * @property {any} request.query - The URL query parameters.
  * @property {HTTPMethod} request.method - The HTTP method used.
- * @property {IgniterHeaders} request.headers - The request headers.
- * @property {IgniterCookies} request.cookies - The request cookies.
+ * @property {FlameHeaders} request.headers - The request headers.
+ * @property {FlameCookies} request.cookies - The request cookies.
  * @property {TActionContext} context - Custom context passed to the procedure.
- * @property {IgniterResponseProcessor} response - The response processor for handling the procedure output.
+ * @property {FlameResponseProcessor} response - The response processor for handling the procedure output.
  *
  * @since 1.0.0
  */
-export type IgniterProcedureContext<TActionContext> = {
+export type FlameProcedureContext<TActionContext> = {
   request: {
     path: string;
     params: any;
     body: any;
     query: any;
     method: HTTPMethod;
-    headers: IgniterHeaders;
-    cookies: IgniterCookies;
+    headers: FlameHeaders;
+    cookies: FlameCookies;
   }
   context: TActionContext;
-  response: IgniterResponseProcessor<TActionContext>;
+  response: FlameResponseProcessor<TActionContext>;
   /**
    * Next function for continuing to the next middleware/procedure
    * or handling errors and custom results
@@ -42,7 +42,7 @@ export type IgniterProcedureContext<TActionContext> = {
 }
 
 /**
- * Represents a procedure in the Igniter framework.
+ * Represents a procedure in the Flame framework.
  * @template TActionContext - The type of the action context.
  * @template TOptions - The type of options passed to the procedure handler.
  * @template TOutput - The type of output returned by the procedure handler.
@@ -52,13 +52,13 @@ export type IgniterProcedureContext<TActionContext> = {
  * Takes options and a procedure context as parameters and returns a promise
  * or direct value of type TOutput.
  */
-export type IgniterProcedure<
+export type FlameProcedure<
   TActionContext,
   TOptions,
   TOutput
 > = {
   name: string;
-  handler: (options: TOptions, ctx: IgniterProcedureContext<TActionContext>) => Promise<TOutput> | TOutput;
+  handler: (options: TOptions, ctx: FlameProcedureContext<TActionContext>) => Promise<TOutput> | TOutput;
 }
 
 // ============================================================================
@@ -75,13 +75,13 @@ export type IgniterProcedure<
  * @example
  * ```typescript
  * // Basic usage
- * const loggerProcedure = igniter.procedure.simple(async (ctx) => {
+ * const loggerProcedure = Flame.procedure.simple(async (ctx) => {
  *   ctx.context.logger.info('Request received', { path: ctx.request.path });
  *   return { requestId: crypto.randomUUID() };
  * });
  *
  * // With typed options
- * const authProcedure = igniter.procedure()
+ * const authProcedure = Flame.procedure()
  *   .options(z.object({ required: z.boolean() }))
  *   .handler(async ({ options, request, context }) => {
  *     // options is fully typed as { required: boolean }
@@ -104,13 +104,13 @@ export type EnhancedProcedureContext<
     body: any;
     query: any;
     method: HTTPMethod;
-    headers: IgniterHeaders;
-    cookies: IgniterCookies;
+    headers: FlameHeaders;
+    cookies: FlameCookies;
   };
   /** Application context with injected services and data */
   context: TActionContext;
   /** Type-safe response processor for early returns */
-  response: IgniterResponseProcessor<TActionContext>;
+  response: FlameResponseProcessor<TActionContext>;
   /** Validated options (if schema provided) */
   options: TOptions;
   /**
@@ -225,7 +225,7 @@ export type EnhancedProcedureConfig<
  * @example
  * ```typescript
  * // Step-by-step building
- * const authProcedure = igniter.procedure()
+ * const authProcedure = Flame.procedure()
  *   .name('authentication')
  *   .options(z.object({
  *     required: z.boolean().default(false),
@@ -269,7 +269,7 @@ export interface EnhancedProcedureBuilder<TActionContext> {
    *
    * @example
    * ```typescript
-   * const procedure = igniter.procedure()
+   * const procedure = Flame.procedure()
    *   .name('user-authentication')
    *   .handler(async (ctx) => { ... });
    * ```
@@ -288,7 +288,7 @@ export interface EnhancedProcedureBuilder<TActionContext> {
    *
    * @example
    * ```typescript
-   * const procedure = igniter.procedure()
+   * const procedure = Flame.procedure()
    *   .options(z.object({
    *     maxRetries: z.number().min(0).max(10).default(3),
    *     timeout: z.number().positive().optional(),
@@ -313,7 +313,7 @@ export interface EnhancedProcedureBuilder<TActionContext> {
    *
    * @example
    * ```typescript
-   * const loggerProcedure = igniter.procedure()
+   * const loggerProcedure = Flame.procedure()
    *   .handler(async ({ request, context }) => {
    *     const requestId = crypto.randomUUID();
    *     context.logger.info('Request started', {
@@ -327,7 +327,7 @@ export interface EnhancedProcedureBuilder<TActionContext> {
    */
   handler<TOutput>(
     handler: EnhancedProcedureHandler<TActionContext, undefined, TOutput>
-  ): IgniterProcedure<TActionContext, undefined, TOutput>;
+  ): FlameProcedure<TActionContext, undefined, TOutput>;
 }
 
 /**
@@ -353,7 +353,7 @@ export interface EnhancedProcedureBuilderWithName<TActionContext, TName extends 
    */
   handler<TOutput>(
     handler: EnhancedProcedureHandler<TActionContext, undefined, TOutput>
-  ): IgniterProcedure<TActionContext, undefined, TOutput> & { name: TName };
+  ): FlameProcedure<TActionContext, undefined, TOutput> & { name: TName };
 }
 
 /**
@@ -383,7 +383,7 @@ export interface EnhancedProcedureBuilderWithOptions<TActionContext, TOptionsSch
       StandardSchemaV1.InferInput<TOptionsSchema>,
       TOutput
     >
-  ): IgniterProcedure<
+  ): FlameProcedure<
     TActionContext,
     StandardSchemaV1.InferInput<TOptionsSchema>,
     TOutput
@@ -411,7 +411,7 @@ export interface EnhancedProcedureBuilderWithNameAndOptions<
       StandardSchemaV1.InferInput<TOptionsSchema>,
       TOutput
     >
-  ): IgniterProcedure<
+  ): FlameProcedure<
     TActionContext,
     StandardSchemaV1.InferInput<TOptionsSchema>,
     TOutput
@@ -480,7 +480,7 @@ export interface EnhancedProcedureBuilderWithNameAndOptions<
  * });
  *
  * // Usage with custom configuration
- * const apiEndpoint = igniter.query({
+ * const apiEndpoint = Flame.query({
  *   use: [rateLimitProcedure({
  *     max: 50,
  *     windowMs: 30000,
@@ -504,7 +504,7 @@ export interface EnhancedProcedureFactories<TActionContext> {
    *
    * @example
    * ```typescript
-   * const requestLogger = igniter.procedure.simple(async ({ request, context }) => {
+   * const requestLogger = Flame.procedure.simple(async ({ request, context }) => {
    *   const start = performance.now();
    *   context.logger.info('Request started', {
    *     method: request.method,
@@ -524,7 +524,7 @@ export interface EnhancedProcedureFactories<TActionContext> {
    * });
    *
    * // Usage in actions
-   * const getUser = igniter.query({
+   * const getUser = Flame.query({
    *   path: '/users/:id',
    *   use: [requestLogger()],
    *   handler: ({ context }) => {
@@ -538,7 +538,7 @@ export interface EnhancedProcedureFactories<TActionContext> {
    */
   simple<TOutput>(
     handler: EnhancedProcedureHandler<TActionContext, undefined, TOutput>
-  ): IgniterProcedure<TActionContext, undefined, TOutput>;
+  ): FlameProcedure<TActionContext, undefined, TOutput>;
 
   /**
    * Create a procedure with schema validation for options.
@@ -549,7 +549,7 @@ export interface EnhancedProcedureFactories<TActionContext> {
    *
    * @example
    * ```typescript
-   * const authProcedure = igniter.procedure.withSchema({
+   * const authProcedure = Flame.procedure.withSchema({
    *   optionsSchema: z.object({
    *     required: z.boolean().default(false),
    *     roles: z.array(z.string()).optional(),
@@ -586,7 +586,7 @@ export interface EnhancedProcedureFactories<TActionContext> {
    * });
    *
    * // Usage with typed options
-   * const adminAction = igniter.query({
+   * const adminAction = Flame.query({
    *   use: [authProcedure({ required: true, roles: ['admin'] })],
    *   handler: ({ context }) => {
    *     // context.auth is fully typed
@@ -606,7 +606,7 @@ export interface EnhancedProcedureFactories<TActionContext> {
         TOutput
       >;
     }
-  ): IgniterProcedure<
+  ): FlameProcedure<
     TActionContext,
     StandardSchemaV1.InferInput<TOptionsSchema>,
     TOutput
@@ -621,7 +621,7 @@ export interface EnhancedProcedureFactories<TActionContext> {
    *
    * @example
    * ```typescript
-   * const rateLimitProcedure = igniter.procedure.fromConfig({
+   * const rateLimitProcedure = Flame.procedure.fromConfig({
    *   name: 'rate-limiter',
    *   optionsSchema: z.object({
    *     max: z.number().min(1).max(1000).default(100),
@@ -659,7 +659,7 @@ export interface EnhancedProcedureFactories<TActionContext> {
    * });
    *
    * // Usage with custom configuration
-   * const apiEndpoint = igniter.query({
+   * const apiEndpoint = Flame.query({
    *   use: [rateLimitProcedure({
    *     max: 50,
    *     windowMs: 30000,
@@ -675,7 +675,7 @@ export interface EnhancedProcedureFactories<TActionContext> {
    */
   fromConfig<TOptionsSchema extends StandardSchemaV1 | undefined, TOutput>(
     config: EnhancedProcedureConfig<TActionContext, TOptionsSchema, TOutput>
-  ): IgniterProcedure<
+  ): FlameProcedure<
     TActionContext,
     TOptionsSchema extends StandardSchemaV1
       ? StandardSchemaV1.InferInput<TOptionsSchema>
@@ -691,29 +691,29 @@ export interface EnhancedProcedureFactories<TActionContext> {
 /**
  * Extracts the output type from a single procedure.
  */
-type ExtractProcedureOutput<T> = T extends IgniterProcedure<any, any, infer TOutput> ? TOutput : never;
+type ExtractProcedureOutput<T> = T extends FlameProcedure<any, any, infer TOutput> ? TOutput : never;
 
 /**
- * Infers the procedure context type from an array of IgniterProcedure instances.
+ * Infers the procedure context type from an array of FlameProcedure instances.
  *
- * @typeParam TActionProcedures - An array of IgniterProcedure instances with generic types for input, output, and context
+ * @typeParam TActionProcedures - An array of FlameProcedure instances with generic types for input, output, and context
  * @returns A union-to-intersection type of the output types of all procedures
  *
  * @example
  * ```typescript
  * type Procedures = [
- *   IgniterProcedure<any, any, { user: User }>,
- *   IgniterProcedure<any, any, { requestId: string }>
+ *   FlameProcedure<any, any, { user: User }>,
+ *   FlameProcedure<any, any, { requestId: string }>
  * ]
  * type Context = InferProcedureContext<Procedures> // { user: User } & { requestId: string }
  * ```
  */
-export type InferProcedureContext<TActionProcedures extends readonly IgniterProcedure<unknown, unknown, unknown>[]> =
+export type InferProcedureContext<TActionProcedures extends readonly FlameProcedure<unknown, unknown, unknown>[]> =
   TActionProcedures extends readonly []
     ? {}
     : UnionToIntersection<
         TActionProcedures extends readonly (infer TProcedure)[]
-          ? TProcedure extends IgniterProcedure<any, any, infer TOutput>
+          ? TProcedure extends FlameProcedure<any, any, infer TOutput>
             ? TOutput extends Promise<infer TResolved>
               ? TResolved
               : TOutput
@@ -722,19 +722,24 @@ export type InferProcedureContext<TActionProcedures extends readonly IgniterProc
       >;
 
 /**
- * Infers the context type from an array of IgniterProcedure instances.
+ * Infers the context type from an array of FlameProcedure instances.
  */
 export type InferActionProcedureContext<
-  TActionProcedures extends readonly IgniterProcedure<any, any, unknown>[] | undefined
+  TActionProcedures extends readonly FlameProcedure<any, any, unknown>[] | undefined
 > =
   TActionProcedures extends undefined
     ? {}
     : UnionToIntersection<
         TActionProcedures extends readonly (infer TProcedure)[]
-          ? TProcedure extends IgniterProcedure<any, any, infer TOutput>
+          ? TProcedure extends FlameProcedure<any, any, infer TOutput>
             ? TOutput extends Promise<infer TResolved>
               ? TResolved
               : TOutput
             : never
           : never
       >;
+
+
+
+
+

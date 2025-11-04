@@ -1,6 +1,6 @@
-import { IgniterConsoleLogger } from "../services/logger.service";
+import { FlameConsoleLogger } from "../services/logger.service";
 import type { ProcessedContext } from "./context-builder.processor";
-import { IgniterLogLevel, type IgniterLogger } from "../types";
+import { FlameLogLevel, type FlameLogger } from "../types";
 import { resolveLogLevel, createLoggerContext } from "../utils/logger";
 
 /**
@@ -13,15 +13,15 @@ export interface TelemetrySpan {
 }
 
 /**
- * Telemetry manager processor for the Igniter Framework.
+ * Telemetry manager processor for the Flame Framework.
  * Handles span creation, management, and metrics recording.
  */
 export class TelemetryManagerProcessor {
-  private static _logger: IgniterLogger;
+  private static _logger: FlameLogger;
 
-  private static get logger(): IgniterLogger {
+  private static get logger(): FlameLogger {
     if (!this._logger) {
-      this._logger = IgniterConsoleLogger.create({
+      this._logger = FlameConsoleLogger.create({
         level: resolveLogLevel(),
         context: createLoggerContext('Telemetry'),
         showTimestamp: true,
@@ -230,3 +230,8 @@ export class TelemetryManagerProcessor {
     return "other";
   }
 }
+
+
+
+
+

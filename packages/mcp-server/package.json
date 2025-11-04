@@ -1,12 +1,12 @@
 {
-  "name": "@igniter-js/mcp-server",
+  "name": "@flame-js/mcp-server",
   "version": "0.0.62",
   "private": false,
-  "description": "MCP Server for Igniter.js ecosystem interaction via STDIO.",
+  "description": "MCP Server for Flame.js ecosystem interaction via STDIO.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "bin": {
-    "igniter-mcp": "dist/index.js"
+    "Flame-mcp": "dist/index.js"
   },
   "files": [
     "dist",
@@ -22,12 +22,12 @@
     "prepublishOnly": "npm run build"
   },
   "keywords": [
-    "igniter-js",
+    "Flame-js",
     "mcp",
     "ai",
     "agent"
   ],
-  "author": "Igniter.js Team",
+  "author": "Flame.js Team",
   "license": "MIT",
   "devDependencies": {
     "@types/axios": "^0.9.36",
@@ -54,3 +54,8 @@
     "access": "public"
   }
 }
+
+
+
+
+

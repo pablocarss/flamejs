@@ -1,6 +1,6 @@
 /* eslint-disable no-use-before-define */
 /**
- * Types and interfaces for @igniter-js/bot core system
+ * Types and interfaces for @flame-js/bot core system
  *
  * This file contains all shared types and interfaces for bot events, content, context, commands, adapters, and middleware.
  *
@@ -234,3 +234,8 @@ export type Middleware = (
   ctx: BotContext,
   next: () => Promise<void>,
 ) => Promise<void>
+
+
+
+
+

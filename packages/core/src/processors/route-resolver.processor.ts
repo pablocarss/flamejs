@@ -1,6 +1,6 @@
 import { findRoute, type RouterContext } from "rou3";
-import { IgniterLogLevel, type IgniterAction, type IgniterLogger } from "../types";
-import { IgniterConsoleLogger } from "../services/logger.service";
+import { FlameLogLevel, type FlameAction, type FlameLogger } from "../types";
+import { FlameConsoleLogger } from "../services/logger.service";
 import { resolveLogLevel, createLoggerContext } from "../utils/logger";
 
 /**
@@ -9,7 +9,7 @@ import { resolveLogLevel, createLoggerContext } from "../utils/logger";
  */
 export interface RouteResult {
   success: boolean;
-  action?: IgniterAction<any, any, any, any, any, any, any, any, any, any>;
+  action?: FlameAction<any, any, any, any, any, any, any, any, any, any>;
   params?: Record<string, string>;
   error?: {
     status: number;
@@ -18,15 +18,15 @@ export interface RouteResult {
 }
 
 /**
- * Route resolver processor for the Igniter Framework.
+ * Route resolver processor for the Flame Framework.
  * Handles route finding and validation logic.
  */
 export class RouteResolverProcessor {
-  private static _logger: IgniterLogger;
+  private static _logger: FlameLogger;
 
-  private static get logger(): IgniterLogger {
+  private static get logger(): FlameLogger {
     if (!this._logger) {
-      this._logger = IgniterConsoleLogger.create({
+      this._logger = FlameConsoleLogger.create({
         level: resolveLogLevel(),
         context: createLoggerContext('RouteResolver'),
         showTimestamp: true,
@@ -43,7 +43,7 @@ export class RouteResolverProcessor {
    * @returns RouteResult with success status and route data or error
    */
   static resolve(
-    router: RouterContext<IgniterAction<any, any, any, any, any, any, any, any, any, any>>,
+    router: RouterContext<FlameAction<any, any, any, any, any, any, any, any, any, any>>,
     method: string,
     path: string
   ): RouteResult {
@@ -84,8 +84,13 @@ export class RouteResolverProcessor {
 
     return {
       success: true,
-      action: route.data as IgniterAction<any, any, any, any, any, any, any, any, any, any>,
+      action: route.data as FlameAction<any, any, any, any, any, any, any, any, any, any>,
       params: finalParams
     };
   }
 }
+
+
+
+
+

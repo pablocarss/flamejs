@@ -4,9 +4,9 @@ import { generateMetadata } from "@/lib/metadata";
 
 export const metadata = generateMetadata({
   title: "Documentation",
-  description: "Complete documentation for Igniter.js - the AI-friendly, type-safe framework for modern TypeScript applications. Learn about controllers, actions, real-time features, and more.",
+  description: "Complete documentation for Flame.js - the AI-friendly, type-safe framework for modern TypeScript applications. Learn about controllers, actions, real-time features, and more.",
   canonical: "/docs",
-  keywords: ["Igniter.js documentation", "TypeScript framework", "API development", "Type safety", "Real-time", "Framework agnostic"]
+  keywords: ["Flame.js documentation", "TypeScript framework", "API development", "Type safety", "Real-time", "Framework agnostic"]
 });
 
 export default async function Layout({
@@ -16,3 +16,8 @@ export default async function Layout({
 }) {
   return <DocsLayout sections={menu}>{children}</DocsLayout>;
 }
+
+
+
+
+

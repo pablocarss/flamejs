@@ -1,4 +1,4 @@
-name: '📋 Lia Scheduled Issue Triage'
+name: '📋 Liz Scheduled Issue Triage'
 
 on:
   schedule:
@@ -81,7 +81,7 @@ jobs:
           ISSUE_COUNT="$(echo "${ISSUES}" | jq 'length')"
           echo "✅ Found ${ISSUE_COUNT} issue(s) to triage! 🎯"
 
-      - name: 'Run Lia Issue Analysis'
+      - name: 'Run Liz Issue Analysis'
         id: 'gemini_issue_analysis'
         if: |-
           ${{ steps.find_issues.outputs.issues_to_triage != '[]' }}
@@ -305,3 +305,7 @@ jobs:
                 labels: labelsToSet,
               });
             }
+
+
+
+

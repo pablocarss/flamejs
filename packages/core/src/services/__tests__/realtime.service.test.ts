@@ -1,6 +1,6 @@
 import { describe, expect, it, vi, beforeEach } from 'vitest';
-import { IgniterRealtimeService } from '../realtime.service';
-import type { IgniterStoreAdapter } from '../../types/store.interface';
+import { FlameRealtimeService } from '../realtime.service';
+import type { FlameStoreAdapter } from '../../types/store.interface';
 import { SSEProcessor } from '../../processors/sse.processor';
 
 // Mock do SSEProcessor que é o que realmente é usado pela implementação
@@ -21,8 +21,8 @@ interface TestContext {
 }
 
 describe('Realtime Service', () => {
-  let mockStore: IgniterStoreAdapter;
-  let realtimeService: IgniterRealtimeService<TestContext>;
+  let mockStore: FlameStoreAdapter;
+  let realtimeService: FlameRealtimeService<TestContext>;
 
   beforeEach(() => {
     // Reset todos os mocks
@@ -51,12 +51,12 @@ describe('Realtime Service', () => {
       { id: 'channel2', description: 'Test Channel 2' },
     ]);
 
-    realtimeService = new IgniterRealtimeService(mockStore);
+    realtimeService = new FlameRealtimeService(mockStore);
   });
 
-  describe('IgniterRealtimeService Construction', () => {
+  describe('FlameRealtimeService Construction', () => {
     it('should create realtime service with store adapter', () => {
-      expect(realtimeService).toBeInstanceOf(IgniterRealtimeService);
+      expect(realtimeService).toBeInstanceOf(FlameRealtimeService);
     });
 
     it('should store the adapter reference', () => {
@@ -573,3 +573,8 @@ describe('Realtime Service', () => {
     });
   });
 }); 
+
+
+
+
+

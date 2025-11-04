@@ -1,8 +1,8 @@
 {
-  "name": "@igniter-js/typescript-config",
+  "name": "@flame-js/typescript-config",
   "version": "0.2.0",
   "private": true,
-  "description": "TypeScript configuration for Igniter.js monorepo",
+  "description": "TypeScript configuration for Flame.js monorepo",
   "main": "index.json",
   "license": "MIT",
   "files": [
@@ -12,3 +12,8 @@
     "react.json"
   ]
 } 
+
+
+
+
+

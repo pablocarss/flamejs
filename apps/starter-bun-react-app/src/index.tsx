@@ -1,5 +1,5 @@
 import { serve } from "bun";
-import { AppRouter } from './igniter.router'
+import { AppRouter } from './Flame.router'
 
 import index from "./index.html";
 
@@ -8,7 +8,7 @@ const server = serve({
     // Serve index.html for all unmatched routes.
     "/*": index,
 
-    // Serve Igniter.js Router
+    // Serve Flame.js Router
     "/api/v1/*": AppRouter.handler,
   },
 
@@ -22,3 +22,8 @@ const server = serve({
 });
 
 console.log(`🚀 Server running at ${server.url}`);
+
+
+
+
+

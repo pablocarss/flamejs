@@ -2,11 +2,11 @@ import { Metadata } from 'next';
 import React from 'react';
 
 export const metadata: Metadata = {
-  title: 'Data Fetching with `useQuery` | Igniter.js',
+  title: 'Data Fetching with `useQuery` | Flame.js',
   description:
     'Learn to fetch data from your backend with the type-safe `useQuery` hook. This guide covers basic usage, passing parameters, and advanced configuration options like caching and refetching.',
   keywords: [
-    'Igniter.js',
+    'Flame.js',
     'useQuery',
     'data fetching',
     'React hooks',
@@ -18,26 +18,26 @@ export const metadata: Metadata = {
     'full-stack',
   ],
   openGraph: {
-    title: 'Data Fetching with `useQuery` | Igniter.js',
+    title: 'Data Fetching with `useQuery` | Flame.js',
     description:
-      'Master data fetching in Igniter.js with the `useQuery` hook. Explore its powerful, type-safe API for handling loading states, errors, caching, and more.',
+      'Master data fetching in Flame.js with the `useQuery` hook. Explore its powerful, type-safe API for handling loading states, errors, caching, and more.',
     type: 'article',
-    url: 'https://igniterjs.com/docs/client-side/use-query',
+    url: 'https://Flamejs.com/docs/client-side/use-query',
     images: [
       {
-        url: 'https://igniterjs.com/og/docs-use-query.png', // Assuming an OG image exists
+        url: 'https://Flamejs.com/og/docs-use-query.png', // Assuming an OG image exists
         width: 1200,
         height: 630,
-        alt: 'Using the `useQuery` hook in Igniter.js',
+        alt: 'Using the `useQuery` hook in Flame.js',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Data Fetching with `useQuery` | Igniter.js',
+    title: 'Data Fetching with `useQuery` | Flame.js',
     description:
-      'Master data fetching in Igniter.js with the `useQuery` hook. Explore its powerful, type-safe API for handling loading states, errors, caching, and more.',
-    images: ['https://igniterjs.com/og/docs-use-query.png'],
+      'Master data fetching in Flame.js with the `useQuery` hook. Explore its powerful, type-safe API for handling loading states, errors, caching, and more.',
+    images: ['https://Flamejs.com/og/docs-use-query.png'],
   },
 };
 
@@ -48,3 +48,8 @@ export default function DocsLayout({
 }) {
   return <>{children}</>;
 }
+
+
+
+
+

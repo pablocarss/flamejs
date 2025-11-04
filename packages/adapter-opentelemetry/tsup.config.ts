@@ -10,7 +10,7 @@ export default defineConfig({
   treeshake: true,
   minify: false,
   external: [
-    '@igniter-js/core',
+    '@flame-js/core',
     '@opentelemetry/api',
     '@opentelemetry/sdk-node',
     '@opentelemetry/exporter-jaeger',
@@ -18,3 +18,8 @@ export default defineConfig({
     '@opentelemetry/exporter-otlp-http'
   ]
 }); 
+
+
+
+
+

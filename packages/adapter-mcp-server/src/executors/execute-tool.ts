@@ -1,15 +1,15 @@
-import type { IgniterRouter, ContextCallback } from "@igniter-js/core";
+import type { FlameRouter, ContextCallback } from "@flame-js/core";
 import type { CallToolResult } from "@modelcontextprotocol/sdk/types.js";
 import type { InferMcpContextFromRouter, McpToolInfo, McpContext, McpAdapterOptions } from "src/types";
 
 /**
- * Execute a tool using the Igniter router with type inference.
+ * Execute a tool using the Flame router with type inference.
  */
 export async function executeTool<
-  TRouter extends IgniterRouter<any, any, any, any, any>,
+  TRouter extends FlameRouter<any, any, any, any, any>,
   TContext extends object | ContextCallback = InferMcpContextFromRouter<TRouter>
 >(
-  router: IgniterRouter<TContext, any, any, any, any>,
+  router: FlameRouter<TContext, any, any, any, any>,
   tool: McpToolInfo,
   args: any,
   context: McpContext<TContext>,
@@ -49,3 +49,8 @@ export async function executeTool<
     throw error;
   }
 }
+
+
+
+
+

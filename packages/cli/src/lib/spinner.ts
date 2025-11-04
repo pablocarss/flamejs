@@ -26,7 +26,7 @@ export class SpinnerManager {
   }
 
   /**
-   * Create a spinner with Igniter.js styling
+   * Create a spinner with Flame.js styling
    * If disableSpinner is true or running in browser, uses static ANSI icons instead
    */
   createSpinner(text: string, id?: string): {
@@ -58,7 +58,7 @@ export class SpinnerManager {
           text: this.colorize ? chalk.white(text) : text,
           color: 'cyan',
           spinner: {
-            frames: ['◒', '◐', '◓', '◑'], // Igniter.js spinner frames
+            frames: ['◒', '◐', '◓', '◑'], // Flame.js spinner frames
             interval: 120
           }
         });
@@ -285,7 +285,7 @@ export function createDetachedSpinner(text: string, options?: { color?: string }
         text: chalk.white(text),
         color: options?.color || 'cyan',
         spinner: {
-          frames: ['◒', '◐', '◓', '◑'], // Igniter.js spinner frames
+          frames: ['◒', '◐', '◓', '◑'], // Flame.js spinner frames
           interval: 120
         },
       });
@@ -338,3 +338,8 @@ export function createDetachedSpinner(text: string, options?: { color?: string }
     }
   };
 }
+
+
+
+
+

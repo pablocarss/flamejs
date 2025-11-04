@@ -2,11 +2,11 @@ import { Metadata } from 'next';
 import React from 'react';
 
 export const metadata: Metadata = {
-  title: 'Using Cursor as a Code Agent | Igniter.js',
+  title: 'Using Cursor as a Code Agent | Flame.js',
   description:
-    'Learn how to configure the Cursor code editor to work as an expert on your Igniter.js project by setting up rules and using our AI-friendly templates.',
+    'Learn how to configure the Cursor code editor to work as an expert on your Flame.js project by setting up rules and using our AI-friendly templates.',
   keywords: [
-    'Igniter.js',
+    'Flame.js',
     'Cursor',
     'AI code editor',
     'Code Agent',
@@ -17,26 +17,26 @@ export const metadata: Metadata = {
     'LLM',
   ],
   openGraph: {
-    title: 'Using Cursor as a Code Agent with Igniter.js',
+    title: 'Using Cursor as a Code Agent with Flame.js',
     description:
-      'A guide to making Cursor an expert on your Igniter.js project using custom rules and official templates for a seamless AI-assisted development experience.',
+      'A guide to making Cursor an expert on your Flame.js project using custom rules and official templates for a seamless AI-assisted development experience.',
     type: 'article',
-    url: 'https://igniterjs.com/docs/code-agents/cursor',
+    url: 'https://Flamejs.com/docs/code-agents/cursor',
     images: [
       {
-        url: 'https://igniterjs.com/og/docs-cursor.png', // Assuming an OG image exists
+        url: 'https://Flamejs.com/og/docs-cursor.png', // Assuming an OG image exists
         width: 1200,
         height: 630,
-        alt: 'Using Cursor with Igniter.js',
+        alt: 'Using Cursor with Flame.js',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Using Cursor as a Code Agent with Igniter.js',
+    title: 'Using Cursor as a Code Agent with Flame.js',
     description:
-      'A guide to making Cursor an expert on your Igniter.js project using custom rules and official templates for a seamless AI-assisted development experience.',
-    images: ['https://igniterjs.com/og/docs-cursor.png'],
+      'A guide to making Cursor an expert on your Flame.js project using custom rules and official templates for a seamless AI-assisted development experience.',
+    images: ['https://Flamejs.com/og/docs-cursor.png'],
   },
 };
 
@@ -47,3 +47,8 @@ export default function DocsLayout({
 }) {
   return <>{children}</>;
 }
+
+
+
+
+

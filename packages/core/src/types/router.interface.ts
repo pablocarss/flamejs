@@ -1,12 +1,12 @@
-import type { IgniterControllerConfig } from "./controller.interface";
-import type { DocsConfig, IgniterBaseConfig } from "./builder.interface";
+import type { FlameControllerConfig } from "./controller.interface";
+import type { DocsConfig, FlameBaseConfig } from "./builder.interface";
 import type { ContextCallback } from "./context.interface";
 import type { MutationActionCallerResult, QueryActionCallerResult } from "./client.interface";
-import type { IgniterAction } from "./action.interface";
+import type { FlameAction } from "./action.interface";
 import type { Prettify } from "./utils.interface";
 
-export type IgniterRouterCaller<
-  TControllers extends Record<string, IgniterControllerConfig<any>>, // ✅ Simplificado
+export type FlameRouterCaller<
+  TControllers extends Record<string, FlameControllerConfig<any>>, // ✅ Simplificado
 > = {
   [C in keyof TControllers]: {
     [A in keyof TControllers[C]['actions']]:
@@ -28,7 +28,7 @@ export type ServerExtraCallerInput = {
 }
 
 export type InferServerRouterCallerAction<
-  TAction extends IgniterAction<any, any, any, any, any, any, any, any, any, any>,
+  TAction extends FlameAction<any, any, any, any, any, any, any, any, any, any>,
   TCaller = TAction['$Infer']['$Caller'],
   TCallerParams = TCaller extends (input: infer P) => any ? P : never,
   TCallerReturn = TCaller extends (input: any) => Promise<infer R> ? R : never
@@ -43,9 +43,9 @@ export type InferServerRouterCallerAction<
     };
 
 export type InferServerRouterCaller<
-  TRouter extends IgniterRouter<any, any, any, any, any>,
+  TRouter extends FlameRouter<any, any, any, any, any>,
 > =
-  TRouter extends IgniterRouter<any, infer TControllers, any, any, any>
+  TRouter extends FlameRouter<any, infer TControllers, any, any, any>
     ? {
         [TControllerName in keyof TControllers]: {
           [TActionName in keyof TControllers[TControllerName]["actions"]]: InferServerRouterCallerAction<
@@ -55,10 +55,10 @@ export type InferServerRouterCaller<
       }
     : never;
 
-export type IgniterRouterConfig<
+export type FlameRouterConfig<
   TContext extends object | ContextCallback,
-  TControllers extends Record<string, IgniterControllerConfig<any>>, // ✅ Simplificado
-  TConfig extends IgniterBaseConfig,
+  TControllers extends Record<string, FlameControllerConfig<any>>, // ✅ Simplificado
+  TConfig extends FlameBaseConfig,
   TPlugins extends Record<string, any>,
   TDocs extends DocsConfig
 > = {
@@ -69,19 +69,24 @@ export type IgniterRouterConfig<
   docs: TDocs;
 }
 
-export type IgniterRouter<
+export type FlameRouter<
   TContext extends object | ContextCallback,
-  TControllers extends Record<string, IgniterControllerConfig<any>>, // ✅ Simplificado
-  TConfig extends IgniterBaseConfig,
+  TControllers extends Record<string, FlameControllerConfig<any>>, // ✅ Simplificado
+  TConfig extends FlameBaseConfig,
   TPlugins extends Record<string, any>,
   TDocs extends DocsConfig,
 > = {
   config: TConfig & { docs?: TDocs };
   controllers: TControllers;
   handler: (request: Request) => Promise<Response>;
-  caller: InferServerRouterCaller<IgniterRouter<TContext, TControllers, TConfig, TPlugins, TDocs>>;
+  caller: InferServerRouterCaller<FlameRouter<TContext, TControllers, TConfig, TPlugins, TDocs>>;
   $Infer: {
     $context: TContext;
     $plugins: TPlugins;
   }
 }
+
+
+
+
+

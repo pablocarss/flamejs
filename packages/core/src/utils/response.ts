@@ -1,4 +1,4 @@
-import { IgniterError } from "../error";
+import { FlameError } from "../error";
 
 /**
  * Helper function to preserve union types in conditional returns.
@@ -12,8 +12,8 @@ import { IgniterError } from "../error";
  * @example
  * ```typescript
  * return preserveUnion<
- *   IgniterResponseProcessor<any, { data: string }> |
- *   IgniterResponseProcessor<any, IgniterResponseNotFound>
+ *   FlameResponseProcessor<any, { data: string }> |
+ *   FlameResponseProcessor<any, FlameResponseNotFound>
  * >(response.success({ data: "test" }));
  * ```
  */
@@ -78,7 +78,7 @@ export async function parseResponse(
 
     return { data, error: null };
   } catch (error) {
-    if (error instanceof IgniterError) {
+    if (error instanceof FlameError) {
       return {
         data: null,
         error: {
@@ -184,3 +184,8 @@ export function normalizeResponseData<T>(response: any): { data: T | null; error
   // Raw data case: wrap the response as data
   return { data: response as T, error: null };
 }
+
+
+
+
+

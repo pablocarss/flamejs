@@ -1,12 +1,12 @@
-import type { ContextCallback, IgniterProcedure } from "../types";
+import type { ContextCallback, FlameProcedure } from "../types";
 import type { StandardSchemaV1 } from "../types/schema.interface";
 import type {
   HTTPMethod,
-  IgniterHeaders,
-  IgniterCookies,
+  FlameHeaders,
+  FlameCookies,
   InferParamPath,
 } from "../types";
-import { IgniterResponseProcessor } from "@/processors/response.processor";
+import { FlameResponseProcessor } from "@/processors/response.processor";
 
 // ============ SELF-REFERENTIAL PLUGIN ARCHITECTURE ============
 
@@ -86,8 +86,8 @@ export type PluginControllerAction<
       method: TMethod;
       path: TPath;
       params: InferParamPath<TPath>;
-      headers: IgniterHeaders;
-      cookies: IgniterCookies;
+      headers: FlameHeaders;
+      cookies: FlameCookies;
       body: TBody extends StandardSchemaV1
         ? StandardSchemaV1.InferInput<TBody>
         : undefined;
@@ -100,7 +100,7 @@ export type PluginControllerAction<
     /** Self-reference for accessing plugin's own actions */
     self: PluginSelfContext<TContext, TActions>;
     /** Response processor for building responses */
-    response: IgniterResponseProcessor<TContext>;
+    response: FlameResponseProcessor<TContext>;
   }) => any | Promise<any>;
 };
 
@@ -131,7 +131,7 @@ export type PluginActionDefinition<
 /**
  * Factory para criar plugin actions type-safe
  */
-export function createIgniterPluginAction<
+export function createFlamePluginAction<
   TContext extends object | ContextCallback,
   TName extends string,
   TInput extends StandardSchemaV1,
@@ -182,7 +182,7 @@ export type PluginEventListener<
 /**
  * Factory para criar event listeners type-safe
  */
-export function createIgniterPluginEventListener<
+export function createFlamePluginEventListener<
   const TEventName extends string,
   TPayload extends StandardSchemaV1,
   TContext extends object | ContextCallback = any,
@@ -225,7 +225,7 @@ export type PluginEventEmitter<
 /**
  * Factory para criar event emitters type-safe
  */
-export function createIgniterPluginEventEmitter<
+export function createFlamePluginEventEmitter<
   const TEventName extends string,
   TPayload extends StandardSchemaV1,
 >(config: {
@@ -313,8 +313,8 @@ export type PluginMiddlewareConfig<
   TContext extends object | ContextCallback,
 > =
   {
-    global?: IgniterProcedure<TContext, any, any>[];
-    routes?: Record<RoutePattern, IgniterProcedure<TContext, any, any>[]>;
+    global?: FlameProcedure<TContext, any, any>[];
+    routes?: Record<RoutePattern, FlameProcedure<TContext, any, any>[]>;
   };
 
 // ============ TYPE-SAFE DEPENDENCY SYSTEM ============
@@ -458,11 +458,11 @@ export type PluginRegistration = {
  *
  * @example
  * ```typescript
- * const authPlugin = createIgniterPlugin({
+ * const authPlugin = createFlamePlugin({
  *   name: 'auth',
  *   $actions: {
- *     validateToken: createIgniterPluginAction({ ... }),
- *     createSession: createIgniterPluginAction({ ... })
+ *     validateToken: createFlamePluginAction({ ... }),
+ *     createSession: createFlamePluginAction({ ... })
  *   },
  *   $controllers: (actions) => ({
  *     login: {
@@ -475,7 +475,7 @@ export type PluginRegistration = {
  * });
  * ```
  */
-export type IgniterPlugin<
+export type FlamePlugin<
   TContext extends object | ContextCallback,
   TName extends string,
   TMeta extends Record<string, any>,
@@ -532,10 +532,10 @@ export type IgniterPlugin<
  *
  * @example
  * ```typescript
- * const authPlugin = createIgniterPlugin({
+ * const authPlugin = createFlamePlugin({
  *   name: 'auth',
  *   $actions: {
- *     validateToken: createIgniterPluginAction({
+ *     validateToken: createFlamePluginAction({
  *       name: 'validateToken',
  *       input: z.object({ token: z.string() }),
  *       handler: async ({ args }) => ({ userId: '123', valid: true })
@@ -550,7 +550,7 @@ export type IgniterPlugin<
  * });
  * ```
  */
-export function createIgniterPlugin<
+export function createFlamePlugin<
   TContext extends object | ContextCallback,
   TName extends string = string,
   TMeta extends Record<string, any> = Record<string, any>,
@@ -583,7 +583,7 @@ export function createIgniterPlugin<
   hooks?: PluginLifecycleHooks<TContext, TActions>;
   middleware: PluginMiddlewareConfig<TContext>;
   resources: PluginResourceManager<TContext>;
-}): IgniterPlugin<
+}): FlamePlugin<
   TContext,
   TName,
   TMeta,
@@ -606,7 +606,7 @@ export function createIgniterPlugin<
   return Object.freeze({
     ...definition,
     hooks: definition.hooks || {},
-  }) as IgniterPlugin<
+  }) as FlamePlugin<
     TContext,
     TName,
     TMeta,
@@ -625,7 +625,7 @@ export function createIgniterPlugin<
  */
 export type PluginRegistry<TContext extends object | ContextCallback> = Map<
     string,
-    IgniterPlugin<
+    FlamePlugin<
       TContext,
       string,
       Record<string, any>,
@@ -703,7 +703,7 @@ export type PluginManagerConfig<TContext extends object | ContextCallback> = {
  * Extract plugin configuration type
  */
 export type InferPluginConfig<T> =
-  T extends IgniterPlugin<
+  T extends FlamePlugin<
     infer TContext,
     infer TName,
     infer TMeta,
@@ -720,7 +720,7 @@ export type InferPluginConfig<T> =
  * Extract plugin actions type
  */
 export type InferPluginActions<T> =
-  T extends IgniterPlugin<any, any, any, any, any, infer TActions, any, any>
+  T extends FlamePlugin<any, any, any, any, any, infer TActions, any, any>
     ? TActions
     : never;
 
@@ -728,7 +728,7 @@ export type InferPluginActions<T> =
  * Extract plugin event listeners type
  */
 export type InferPluginEventListeners<T> =
-  T extends IgniterPlugin<
+  T extends FlamePlugin<
     any,
     any,
     any,
@@ -745,7 +745,7 @@ export type InferPluginEventListeners<T> =
  * Extract plugin event emitters type
  */
 export type InferPluginEventEmitters<T> =
-  T extends IgniterPlugin<
+  T extends FlamePlugin<
     any,
     any,
     any,
@@ -762,7 +762,7 @@ export type InferPluginEventEmitters<T> =
  * Extract plugin context type
  */
 export type InferPluginContext<T> =
-  T extends IgniterPlugin<infer TContext, any, any, any, any, any, any, any>
+  T extends FlamePlugin<infer TContext, any, any, any, any, any, any, any>
     ? TContext
     : never;
 
@@ -800,7 +800,7 @@ export type InferPluginRegistry<TContext extends object | ContextCallback, TPlug
  */
 export type InferPluginContextExtensions<TPlugins extends Record<string, any>> =
   {
-    [K in keyof TPlugins]: TPlugins[K] extends IgniterPlugin<
+    [K in keyof TPlugins]: TPlugins[K] extends FlamePlugin<
       any,
       any,
       any,
@@ -836,5 +836,10 @@ export type InferPluginContextExtensions<TPlugins extends Record<string, any>> =
  * }
  * ```
  */
-export type InferIgniterPlugins<TPlugins extends Record<string, any>> =
+export type InferFlamePlugins<TPlugins extends Record<string, any>> =
   TPlugins extends Record<string, any> ? InferPluginRegistry<any,TPlugins> : never;
+
+
+
+
+

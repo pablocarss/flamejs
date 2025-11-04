@@ -1,18 +1,18 @@
 import { SSEProcessor, type SSEChannel } from "../processors/sse.processor";
 import { generateQueryKey } from "../utils/queryKey";
 import type {
-  IgniterRealtimeService as IgniterRealtimeServiceType,
+  FlameRealtimeService as FlameRealtimeServiceType,
   RealtimeBuilder,
   RealtimeEventPayload,
   RevalidationTarget,
 } from "../types";
-import type { IgniterStoreAdapter } from "../types/store.interface";
-import { IgniterError } from "../error";
-import { IgniterConsoleLogger } from "./logger.service";
+import type { FlameStoreAdapter } from "../types/store.interface";
+import { FlameError } from "../error";
+import { FlameConsoleLogger } from "./logger.service";
 import { resolveLogLevel, createLoggerContext } from "../utils/logger";
 
 /**
- * Type-safe, fluent RealtimeBuilder implementation for Igniter.js.
+ * Type-safe, fluent RealtimeBuilder implementation for Flame.js.
  *
  * @typeParam TContext - The context type available to event scopes.
  *
@@ -41,13 +41,13 @@ import { resolveLogLevel, createLoggerContext } from "../utils/logger";
  */
 class RealtimeBuilderImpl<TContext = unknown> implements RealtimeBuilder<TContext> {
   private payload: RealtimeEventPayload;
-  private readonly store: IgniterStoreAdapter;
+  private readonly store: FlameStoreAdapter;
 
   /**
    * @param store - The store adapter for event publishing (reserved for future use).
    * @param initial - The initial payload for the realtime event.
    */
-  constructor(store: IgniterStoreAdapter, initial: RealtimeEventPayload) {
+  constructor(store: FlameStoreAdapter, initial: RealtimeEventPayload) {
     this.store = store;
     this.payload = { ...initial };
   }
@@ -167,13 +167,13 @@ class RealtimeBuilderImpl<TContext = unknown> implements RealtimeBuilder<TContex
 }
 
 /**
- * IgniterRealtimeService provides a type-safe, developer-friendly API for realtime event publishing.
+ * FlameRealtimeService provides a type-safe, developer-friendly API for realtime event publishing.
  *
  * @typeParam TContext - The context type available to event scopes.
  *
  * @example
  * // Create the service (usually injected via builder)
- * const realtime = new IgniterRealtimeService(store);
+ * const realtime = new FlameRealtimeService(store);
  *
  * // Publish a simple event
  * await realtime.publish("chat:room-1", { text: "Hi!" });
@@ -188,20 +188,20 @@ class RealtimeBuilderImpl<TContext = unknown> implements RealtimeBuilder<TContex
  * // Broadcast to all channels
  * await realtime.broadcast({ system: "maintenance" });
  */
-export class IgniterRealtimeService<TContext = any>
-  implements IgniterRealtimeServiceType<TContext>
+export class FlameRealtimeService<TContext = any>
+  implements FlameRealtimeServiceType<TContext>
 {
-  private readonly store: IgniterStoreAdapter;
+  private readonly store: FlameStoreAdapter;
 
   /**
-   * Construct a new IgniterRealtimeService.
+   * Construct a new FlameRealtimeService.
    *
    * @param store - The store adapter for event publishing (reserved for future use).
    *
    * @example
-   * const realtime = new IgniterRealtimeService(store);
+   * const realtime = new FlameRealtimeService(store);
    */
-  constructor(store: IgniterStoreAdapter) {
+  constructor(store: FlameStoreAdapter) {
     this.store = store;
   }
 
@@ -300,7 +300,7 @@ export class IgniterRealtimeService<TContext = any>
 
       if (!controller || !action) {
         // Potentially log this error, but don't throw, to allow other valid targets to proceed
-        const logger = IgniterConsoleLogger.create({
+        const logger = FlameConsoleLogger.create({
           level: resolveLogLevel(),
           context: createLoggerContext('Realtime')
         });
@@ -356,3 +356,8 @@ export class IgniterRealtimeService<TContext = any>
     }
   }
 }
+
+
+
+
+

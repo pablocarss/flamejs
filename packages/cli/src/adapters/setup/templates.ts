@@ -6,16 +6,16 @@ import { getEnvironmentVariables, getDockerServices, DATABASE_CONFIGS } from './
 import type { SupportedFramework } from '../framework'
 
 /**
- * Generate main igniter.ts file with proper imports and configuration
+ * Generate main Flame.ts file with proper imports and configuration
  */
-export function generateIgniterRouter(config: ProjectSetupConfig): TemplateFile {
+export function generateFlameRouter(config: ProjectSetupConfig): TemplateFile {
   const { features } = config
 
-  let imports = [`import { Igniter } from '@igniter-js/core'`]
+  let imports = [`import { Flame } from '@flame-js/core'`]
   let serviceImports: string[] = []
 
   // Add context import
-  imports.push('import { createIgniterAppContext } from "./igniter.context"')
+  imports.push('import { createFlameAppContext } from "./Flame.context"')
 
   // Add feature service imports based on enabled features
   if (features.store) {
@@ -38,7 +38,7 @@ export function generateIgniterRouter(config: ProjectSetupConfig): TemplateFile 
   const allImports = [...imports, ...serviceImports].join('\n')
 
   // Build configuration chain
-  let configChain = ['export const igniter = Igniter', '  .context(createIgniterAppContext)']
+  let configChain = ['export const Flame = Flame', '  .context(createFlameAppContext)']
 
   if (features.store) configChain.push('  .store(store)')
   if (features.jobs) configChain.push('  .jobs(REGISTERED_JOBS)')
@@ -50,22 +50,22 @@ export function generateIgniterRouter(config: ProjectSetupConfig): TemplateFile 
   const content = `${allImports}
 
 /**
- * @description Initialize the Igniter.js
- * @see https://github.com/felipebarcelospro/igniter-js
+ * @description Initialize the Flame.js
+ * @see https://github.com/felipebarcelospro/Flame-js
  */
 ${configChain.join('\n')}
 `
 
   return {
-    path: 'src/igniter.ts',
+    path: 'src/Flame.ts',
     content
   }
 }
 
 /**
- * Generate igniter.context.ts file with proper type definitions
+ * Generate Flame.context.ts file with proper type definitions
  */
-export function generateIgniterContext(config: ProjectSetupConfig): TemplateFile {
+export function generateFlameContext(config: ProjectSetupConfig): TemplateFile {
   const { database } = config
 
   let serviceImports: string[] = []
@@ -81,24 +81,24 @@ export function generateIgniterContext(config: ProjectSetupConfig): TemplateFile
   const content = `${allImports}
 
 /**
- * @description Create the context of the Igniter.js application
- * @see https://github.com/felipebarcelospro/igniter-js
+ * @description Create the context of the Flame.js application
+ * @see https://github.com/felipebarcelospro/Flame-js
  */
-export const createIgniterAppContext = () => {
+export const createFlameAppContext = () => {
   return {
 ${contextProperties.join('\n')}
   }
 }
 
 /**
- * @description The context of the Igniter.js application
- * @see https://github.com/felipebarcelospro/igniter-js
+ * @description The context of the Flame.js application
+ * @see https://github.com/felipebarcelospro/Flame-js
  */
-export type IgniterAppContext = Awaited<ReturnType<typeof createIgniterAppContext>>
+export type FlameAppContext = Awaited<ReturnType<typeof createFlameAppContext>>
 `
 
   return {
-    path: 'src/igniter.context.ts',
+    path: 'src/Flame.context.ts',
     content
   }
 }
@@ -109,11 +109,11 @@ export type IgniterAppContext = Awaited<ReturnType<typeof createIgniterAppContex
 export function generateExampleController(config: ProjectSetupConfig): TemplateFile {
   const { features } = config
 
-  let imports = `import { igniter } from '@/igniter'
+  let imports = `import { Flame } from '@/Flame'
 import { z } from 'zod'`
 
   let exampleActions = `    // Health check action
-    health: igniter.query({
+    health: Flame.query({
       name: 'health',
       description: 'Health check',
       path: '/',
@@ -137,7 +137,7 @@ import { z } from 'zod'`
     exampleActions += `,
 
     // Cache demonstration action
-    cacheDemo: igniter.query({
+    cacheDemo: Flame.query({
       name: 'cacheDemo',
       description: 'Demonstrate caching',
       path: '/cache/:key' as const,
@@ -174,7 +174,7 @@ import { z } from 'zod'`
     exampleActions += `,
 
     // Background job scheduling action
-    scheduleJob: igniter.mutation({
+    scheduleJob: Flame.mutation({
       name: 'scheduleJob',
       description: 'Schedule a background job',
       path: '/schedule-job',
@@ -205,10 +205,10 @@ import { z } from 'zod'`
   const content = `${imports}
 
 /**
- * @description Example controller demonstrating Igniter.js features
- * @see https://github.com/felipebarcelospro/igniter-js
+ * @description Example controller demonstrating Flame.js features
+ * @see https://github.com/felipebarcelospro/Flame-js
  */
-export const exampleController = igniter.controller({
+export const exampleController = Flame.controller({
   name: 'example',
   path: '/example',
   actions: {
@@ -227,14 +227,14 @@ ${exampleActions}
  * Generate main router configuration
  */
 export function generateMainRouter(config: ProjectSetupConfig): TemplateFile {
-  const content = `import { igniter } from '@/igniter'
+  const content = `import { Flame } from '@/Flame'
 import { exampleController } from '@/features/example'
 
 /**
  * @description Main application router configuration
- * @see https://github.com/felipebarcelospro/igniter-js
+ * @see https://github.com/felipebarcelospro/Flame-js
  */
-export const AppRouter = igniter.router({
+export const AppRouter = Flame.router({
   controllers: {
     example: exampleController
   }
@@ -244,7 +244,7 @@ export type AppRouterType = typeof AppRouter
 `
 
   return {
-    path: 'src/igniter.router.ts',
+    path: 'src/Flame.router.ts',
     content
   }
 }
@@ -269,7 +269,7 @@ export * from './example.interfaces'
  * @param config - The project setup configuration.
  * @returns An array of TemplateFile objects representing service files.
  *
- * @see https://github.com/felipebarcelospro/igniter-js
+ * @see https://github.com/felipebarcelospro/Flame-js
  */
 export function generateServiceFiles(config: ProjectSetupConfig): TemplateFile[] {
   const { features, database } = config
@@ -277,8 +277,8 @@ export function generateServiceFiles(config: ProjectSetupConfig): TemplateFile[]
 
   files.push({
    path: 'src/app/api/v1/[[...all]]/route.ts',
-   content: `import { AppRouter } from '@/igniter.router'
-import { nextRouteHandlerAdapter } from '@igniter-js/core/adapters'
+   content: `import { AppRouter } from '@/Flame.router'
+import { nextRouteHandlerAdapter } from '@flame-js/core/adapters'
 
 export const { GET, POST, PUT, DELETE } = nextRouteHandlerAdapter(AppRouter)
 `
@@ -309,7 +309,7 @@ export const redis = new Redis(process.env.REDIS_URL!, {
   if (features.store) {
     files.push({
       path: 'src/services/store.ts',
-      content: `import { createRedisStoreAdapter } from '@igniter-js/adapter-redis'
+      content: `import { createRedisStoreAdapter } from '@flame-js/adapter-redis'
 import { redis } from './redis'
 
 /**
@@ -318,7 +318,7 @@ import { redis } from './redis'
   * @remarks
   * Provides a unified interface for data storage operations using Redis.
   *
-  * @see https://github.com/felipebarcelospro/igniter-js/tree/main/packages/adapter-redis
+  * @see https://github.com/felipebarcelospro/Flame-js/tree/main/packages/adapter-redis
   */
 export const store = createRedisStoreAdapter(redis)
 `
@@ -330,7 +330,7 @@ export const store = createRedisStoreAdapter(redis)
     files.push({
       path: 'src/services/jobs.ts',
       content: `import { store } from './store'
-import { createBullMQAdapter } from '@igniter-js/adapter-bullmq'
+import { createBullMQAdapter } from '@flame-js/adapter-bullmq'
 import { z } from 'zod'
 
 /**
@@ -339,7 +339,7 @@ import { z } from 'zod'
   * @remarks
   * Handles asynchronous job processing with BullMQ.
   *
-  * @see https://github.com/felipebarcelospro/igniter-js/tree/main/packages/adapter-bullmq
+  * @see https://github.com/felipebarcelospro/Flame-js/tree/main/packages/adapter-bullmq
   */
 export const jobs = createBullMQAdapter({
   store,
@@ -372,7 +372,7 @@ export const REGISTERED_JOBS = jobs.merge({
   if (features.logging) {
     files.push({
       path: 'src/services/logger.ts',
-      content: `import { createConsoleLogger, IgniterLogLevel } from '@igniter-js/core'
+      content: `import { createConsoleLogger, FlameLogLevel } from '@flame-js/core'
 
 /**
   * Logger instance for application logging.
@@ -380,10 +380,10 @@ export const REGISTERED_JOBS = jobs.merge({
   * @remarks
   * Provides structured logging with configurable log levels.
   *
-  * @see https://github.com/felipebarcelospro/igniter-js/tree/main/packages/core
+  * @see https://github.com/felipebarcelospro/Flame-js/tree/main/packages/core
   */
 export const logger = createConsoleLogger({
-  level: IgniterLogLevel.INFO,
+  level: FlameLogLevel.INFO,
   showTimestamp: true,
 })
 `
@@ -413,7 +413,7 @@ export const database = new PrismaClient()
   if (features.telemetry) {
     files.push({
       path: 'src/services/telemetry.ts',
-      content: `import { createConsoleTelemetryAdapter } from '@igniter-js/core/adapters'
+      content: `import { createConsoleTelemetryAdapter } from '@flame-js/core/adapters'
       import { store } from './store'
 
       /**
@@ -422,15 +422,15 @@ export const database = new PrismaClient()
        * @remarks
        * Provides telemetry tracking with configurable options.
        *
-       * @see https://github.com/felipebarcelospro/igniter-js/tree/main/packages/core
+       * @see https://github.com/felipebarcelospro/Flame-js/tree/main/packages/core
        */
       export const telemetry = createConsoleTelemetryAdapter({
-        serviceName: 'my-igniter-app',
-        enableEvents: process.env.IGNITER_TELEMETRY_ENABLE_EVENTS === 'true',
-        enableMetrics: process.env.IGNITER_TELEMETRY_ENABLE_METRICS === 'true',
-        enableTracing: process.env.IGNITER_TELEMETRY_ENABLE_TRACING === 'true',
+        serviceName: 'my-Flame-app',
+        enableEvents: process.env.Flame_TELEMETRY_ENABLE_EVENTS === 'true',
+        enableMetrics: process.env.Flame_TELEMETRY_ENABLE_METRICS === 'true',
+        enableTracing: process.env.Flame_TELEMETRY_ENABLE_TRACING === 'true',
       }, {
-        enableCliIntegration: process.env.IGNITER_TELEMETRY_ENABLE_CLI_INTEGRATION === 'true',
+        enableCliIntegration: process.env.Flame_TELEMETRY_ENABLE_CLI_INTEGRATION === 'true',
         store: store
       })
 `
@@ -443,17 +443,17 @@ export const database = new PrismaClient()
   if (features.mcp) {
     files.push({
       path: 'src/app/api/mcp/[transport].ts',
-      content: `import { createMcpAdapter } from '@igniter-js/adapter-mcp'
-import { AppRouter } from '@/igniter.router'
+      content: `import { createMcpAdapter } from '@flame-js/adapter-mcp'
+import { AppRouter } from '@/Flame.router'
 
 /**
  * MCP server instance for exposing API as a MCP server.
  *
- * @see https://github.com/felipebarcelospro/igniter-js/tree/main/packages/adapter-mcp
+ * @see https://github.com/felipebarcelospro/Flame-js/tree/main/packages/adapter-mcp
  */
 export default createMcpAdapter(AppRouter, {
   serverInfo: {
-    name: 'Igniter.js MCP Server',
+    name: 'Flame.js MCP Server',
     version: '1.0.0',
   },
   adapter: {
@@ -461,8 +461,8 @@ export default createMcpAdapter(AppRouter, {
       url: process.env.REDIS_URL!,
       maxRetriesPerRequest: null,
     },
-    basePath: process.env.IGNITER_MCP_SERVER_BASE_PATH || '/api/mcp',
-    maxDuration: process.env.IGNITER_MCP_SERVER_TIMEOUT || 60,
+    basePath: process.env.Flame_MCP_SERVER_BASE_PATH || '/api/mcp',
+    maxDuration: process.env.Flame_MCP_SERVER_TIMEOUT || 60,
   },
 })
 `
@@ -475,12 +475,12 @@ export default createMcpAdapter(AppRouter, {
 /**
  * Generate client file for frontend usage
  */
-export function generateIgniterClient(config: ProjectSetupConfig): TemplateFile {
-  const content = `import { createIgniterClient, useIgniterQueryClient } from '@igniter-js/core/client'
-import type { AppRouterType } from './igniter.router'
+export function generateFlameClient(config: ProjectSetupConfig): TemplateFile {
+  const content = `import { createFlameClient, useFlameQueryClient } from '@flame-js/core/client'
+import type { AppRouterType } from './Flame.router'
 
 /**
-  * Type-safe API client generated from your Igniter router
+  * Type-safe API client generated from your Flame router
   *
   * Usage in Server Components:
   * const users = await api.users.list.query()
@@ -488,20 +488,20 @@ import type { AppRouterType } from './igniter.router'
   * Usage in Client Components:
   * const { data } = api.users.list.useQuery()
   */
-export const api = createIgniterClient<AppRouterType>({
+export const api = createFlameClient<AppRouterType>({
   baseURL: 'http://localhost:3000',
   basePath: '/api/v1/',
   router: () => {
     if (typeof window === 'undefined') {
-      return require('./igniter.router').AppRouter
+      return require('./Flame.router').AppRouter
     }
 
-    return require('./igniter.schema').AppRouterSchema
+    return require('./Flame.schema').AppRouterSchema
   },
 })
 
 /**
-  * Type-safe API client generated from your Igniter router
+  * Type-safe API client generated from your Flame router
   *
   * Usage in Server Components:
   * const users = await api.users.list.query()
@@ -512,16 +512,16 @@ export const api = createIgniterClient<AppRouterType>({
 export type ApiClient = typeof api
 
 /**
-  * Type-safe query client generated from your Igniter router
+  * Type-safe query client generated from your Flame router
   *
   * Usage in Client Components:
   * const { invalidate } = useQueryClient()
   */
-export const useQueryClient = useIgniterQueryClient<AppRouterType>;
+export const useQueryClient = useFlameQueryClient<AppRouterType>;
 `
 
   return {
-    path: 'src/igniter.client.ts',
+    path: 'src/Flame.client.ts',
     content
   }
 }
@@ -707,7 +707,7 @@ export function generateEnvFile(config: ProjectSetupConfig): TemplateFile {
   )
 
   let content = `# Environment variables for ${config.projectName}
-# Generated by @igniter-js/cli
+# Generated by @flame-js/cli
 
 `
 
@@ -763,7 +763,7 @@ export function generateDockerCompose(config: ProjectSetupConfig): TemplateFile 
   return {
     path: 'docker-compose.yml',
     content: `# Docker Compose for ${config.projectName}
-# Generated by @igniter-js/cli
+# Generated by @flame-js/cli
 
 version: '3.8'
 
@@ -852,7 +852,7 @@ export function generateReadme(config: ProjectSetupConfig): TemplateFile {
 
   const content = `# ${config.projectName}
 
-A modern, type-safe API built with [Igniter.js](https://github.com/felipebarcelospro/igniter-js) and ${config.framework}.
+A modern, type-safe API built with [Flame.js](https://github.com/felipebarcelospro/Flame-js) and ${config.framework}.
 
 ## Features
 
@@ -896,11 +896,11 @@ Visit [http://localhost:3000](http://localhost:3000) to see your app!
 
 \`\`\`
 src/
-├── igniter.ts                     # Core initialization
-├── igniter.client.ts              # Client implementation
-├── igniter.context.ts             # Context management
-├── igniter.router.ts              # Router configuration
-├── igniter.schema.ts             # Schemas configuration
+├── Flame.ts                     # Core initialization
+├── Flame.client.ts              # Client implementation
+├── Flame.context.ts             # Context management
+├── Flame.router.ts              # Router configuration
+├── Flame.schema.ts             # Schemas configuration
 ├── features/                      # Application features
 │   └── example/
 │       ├── controllers/           # Feature controllers
@@ -918,7 +918,7 @@ ${config.features.jobs ? '- `POST /api/v1/example/schedule-job` - Schedule backg
 
 ## Learn More
 
-- [Igniter.js Documentation](https://github.com/felipebarcelospro/igniter-js)
+- [Flame.js Documentation](https://github.com/felipebarcelospro/Flame-js)
 - [${config.framework} Documentation](https://docs.${config.framework === 'nextjs' ? 'nextjs.org' : config.framework + '.dev'})
 ${config.database.provider !== 'none' ? '- [Prisma Documentation](https://prisma.io/docs)' : ''}
 
@@ -949,11 +949,11 @@ export function generateAllTemplates(
   isExistingProject: boolean
 ): TemplateFile[] {
   const templates: TemplateFile[] = [
-    // Core Igniter files - always generate
-    generateIgniterRouter(config),
-    generateIgniterContext(config),
+    // Core Flame files - always generate
+    generateFlameRouter(config),
+    generateFlameContext(config),
     generateMainRouter(config),
-    generateIgniterClient(config),
+    generateFlameClient(config),
 
     // Feature files - always generate
     generateExampleController(config),
@@ -979,3 +979,8 @@ export function generateAllTemplates(
 
   return templates
 }
+
+
+
+
+

@@ -1,16 +1,16 @@
-import type { IgniterTelemetrySpan, IgniterSpanOptions, IgniterSpanContext } from '@igniter-js/core';
-import { IgniterConsoleLogger, resolveLogLevel } from '@igniter-js/core';
+import type { FlameTelemetrySpan, FlameSpanOptions, FlameSpanContext } from '@flame-js/core';
+import { FlameConsoleLogger, resolveLogLevel } from '@flame-js/core';
 
 // Centralized logger for span module
-const logger = IgniterConsoleLogger.create({
+const logger = FlameConsoleLogger.create({
   level: resolveLogLevel(),
   context: { component: 'OpenTelemetrySpan' },
 });
 
 /**
- * OpenTelemetry Span wrapper that implements IgniterTelemetrySpan interface
+ * OpenTelemetry Span wrapper that implements FlameTelemetrySpan interface
  */
-export class OpenTelemetrySpanWrapper implements IgniterTelemetrySpan {
+export class OpenTelemetrySpanWrapper implements FlameTelemetrySpan {
   private _span: any;
   private _tracer: any;
   private _startTime: number;
@@ -96,7 +96,7 @@ export class OpenTelemetrySpanWrapper implements IgniterTelemetrySpan {
     }
   }
 
-  child(name: string, options?: IgniterSpanOptions): IgniterTelemetrySpan {
+  child(name: string, options?: FlameSpanOptions): FlameTelemetrySpan {
     try {
       // Create child span using OpenTelemetry context
       const childSpan = this._tracer.startSpan(name, {
@@ -112,7 +112,7 @@ export class OpenTelemetrySpanWrapper implements IgniterTelemetrySpan {
     }
   }
 
-  getContext(): IgniterSpanContext {
+  getContext(): FlameSpanContext {
     try {
       const spanContext = this._span.spanContext();
       return {
@@ -141,7 +141,7 @@ export class OpenTelemetrySpanWrapper implements IgniterTelemetrySpan {
 /**
  * No-op span implementation for graceful fallbacks
  */
-class NoOpSpan implements IgniterTelemetrySpan {
+class NoOpSpan implements FlameTelemetrySpan {
   private _startTime = Date.now();
 
   constructor(private _name: string) {}
@@ -190,11 +190,11 @@ class NoOpSpan implements IgniterTelemetrySpan {
     // No-op
   }
 
-  child(name: string): IgniterTelemetrySpan {
+  child(name: string): FlameTelemetrySpan {
     return new NoOpSpan(name);
   }
 
-  getContext(): IgniterSpanContext {
+  getContext(): FlameSpanContext {
     return {
       traceId: 'noop',
       spanId: 'noop',
@@ -202,3 +202,8 @@ class NoOpSpan implements IgniterTelemetrySpan {
     };
   }
 }
+
+
+
+
+

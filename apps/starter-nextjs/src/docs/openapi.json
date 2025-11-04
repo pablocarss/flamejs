@@ -1,9 +1,9 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "title": "Igniter.js Starter (Next.js)",
+    "title": "Flame.js Starter (Next.js)",
     "version": "1.0.0",
-    "description": "A sample Next.js App built with Igniter.js"
+    "description": "A sample Next.js App built with Flame.js"
   },
   "servers": [
     {
@@ -220,3 +220,8 @@
     "securitySchemes": {}
   }
 }
+
+
+
+
+

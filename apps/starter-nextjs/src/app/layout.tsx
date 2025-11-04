@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 import { Geist, Geist_Mono } from "next/font/google";
-import { IgniterProvider } from '@igniter-js/core/client'
+import { FlameProvider } from '@flame-js/core/client'
 
 import "./globals.css"
 
@@ -16,8 +16,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Igniter.js Boilerplate",
-  description: "A customizable boilerplate for Igniter.js applications",
+  title: "Flame.js Boilerplate",
+  description: "A customizable boilerplate for Flame.js applications",
 };
 
 export default function RootLayout({
@@ -30,10 +30,15 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased dark`}
       >
-        <IgniterProvider>
+        <FlameProvider>
           {children}
-        </IgniterProvider>
+        </FlameProvider>
       </body>
     </html>
   );
 }
+
+
+
+
+

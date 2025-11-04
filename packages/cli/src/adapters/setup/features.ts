@@ -11,13 +11,13 @@ import type {
  * Feature definitions for easy extensibility
  * Each feature defines its dependencies, templates, and Docker services
  */
-export const IGNITER_FEATURES: Record<string, FeatureDefinition> = {
+export const Flame_FEATURES: Record<string, FeatureDefinition> = {
   store: {
     key: 'store',
     name: 'Redis Store',
     description: 'Caching, sessions, and pub/sub messaging',
     dependencies: [
-      { name: '@igniter-js/adapter-redis', version: 'latest' },
+      { name: '@flame-js/adapter-redis', version: 'latest' },
       { name: 'ioredis', version: '^5.6.1' }
     ],
     devDependencies: [
@@ -46,8 +46,8 @@ export const IGNITER_FEATURES: Record<string, FeatureDefinition> = {
     name: 'BullMQ Jobs',
     description: 'Background task processing and job queues',
     dependencies: [
-      { name: '@igniter-js/adapter-redis', version: 'latest' },
-      { name: '@igniter-js/adapter-bullmq', version: 'latest' },
+      { name: '@flame-js/adapter-redis', version: 'latest' },
+      { name: '@flame-js/adapter-bullmq', version: 'latest' },
       { name: 'bullmq', version: '^4.0.0' },
       { name: 'ioredis', version: '^5.6.1' }
     ],
@@ -67,7 +67,7 @@ export const IGNITER_FEATURES: Record<string, FeatureDefinition> = {
     ],
     envVars: [
       { key: 'REDIS_URL', value: 'redis://localhost:6379', description: 'Redis connection URL for jobs' },
-      { key: 'IGNITER_JOBS_QUEUE_PREFIX', value: 'igniter', description: 'Job queue prefix' }
+      { key: 'Flame_JOBS_QUEUE_PREFIX', value: 'Flame', description: 'Job queue prefix' }
     ]
   },
 
@@ -76,7 +76,7 @@ export const IGNITER_FEATURES: Record<string, FeatureDefinition> = {
     name: 'MCP Server',
     description: 'Easy expose your API as a MCP server for AI assistants like Cursor, Claude, etc.',
     dependencies: [
-      { name: '@igniter-js/adapter-mcp', version: 'latest' },
+      { name: '@flame-js/adapter-mcp', version: 'latest' },
       { name: '@vercel/mcp-adapter', version: '^0.2.0' },
       { name: '@modelcontextprotocol/sdk', version: '^1.10.2' },
       { name: 'ioredis', version: '^5.6.1' }
@@ -96,8 +96,8 @@ export const IGNITER_FEATURES: Record<string, FeatureDefinition> = {
       }
     ],
     envVars: [
-      { key: 'IGNITER_MCP_SERVER_BASE_PATH', value: '/api/mcp', description: 'MCP server base path' },
-      { key: 'IGNITER_MCP_SERVER_TIMEOUT', value: '3600000', description: 'MCP session timeout in ms' },
+      { key: 'Flame_MCP_SERVER_BASE_PATH', value: '/api/mcp', description: 'MCP server base path' },
+      { key: 'Flame_MCP_SERVER_TIMEOUT', value: '3600000', description: 'MCP session timeout in ms' },
       { key: 'REDIS_URL', value: 'redis://localhost:6379', description: 'Redis connection URL' },
       { key: 'REDIS_HOST', value: 'localhost', description: 'Redis host' },
       { key: 'REDIS_PORT', value: '6379', description: 'Redis port' }
@@ -109,10 +109,10 @@ export const IGNITER_FEATURES: Record<string, FeatureDefinition> = {
     name: 'Enhanced Logging',
     description: 'Advanced console logging with structured output',
     dependencies: [
-      { name: '@igniter-js/core', version: 'latest' }
+      { name: '@flame-js/core', version: 'latest' }
     ],
     envVars: [
-      { key: 'IGNITER_LOG_LEVEL', value: 'info', description: 'Logging level (debug, info, warn, error)' },
+      { key: 'Flame_LOG_LEVEL', value: 'info', description: 'Logging level (debug, info, warn, error)' },
     ]
   },
 
@@ -121,13 +121,13 @@ export const IGNITER_FEATURES: Record<string, FeatureDefinition> = {
     name: 'Telemetry',
     description: 'Telemetry for tracking requests and errors',
     dependencies: [
-      { name: '@igniter-js/core', version: 'latest' }
+      { name: '@flame-js/core', version: 'latest' }
     ],
     envVars: [
-      { key: 'IGNITER_TELEMETRY_ENABLE_TRACING', value: 'true', description: 'Enable telemetry tracing' },
-      { key: 'IGNITER_TELEMETRY_ENABLE_METRICS', value: 'true', description: 'Enable telemetry metrics' },
-      { key: 'IGNITER_TELEMETRY_ENABLE_EVENTS', value: 'true', description: 'Enable telemetry metrics' },
-      { key: 'IGNITER_TELEMETRY_ENABLE_CLI_INTEGRATION', value: 'true', description: 'Enable telemetry metrics' },
+      { key: 'Flame_TELEMETRY_ENABLE_TRACING', value: 'true', description: 'Enable telemetry tracing' },
+      { key: 'Flame_TELEMETRY_ENABLE_METRICS', value: 'true', description: 'Enable telemetry metrics' },
+      { key: 'Flame_TELEMETRY_ENABLE_EVENTS', value: 'true', description: 'Enable telemetry metrics' },
+      { key: 'Flame_TELEMETRY_ENABLE_CLI_INTEGRATION', value: 'true', description: 'Enable telemetry metrics' },
     ]
   }
 }
@@ -223,7 +223,7 @@ export function getFeatureDependencies(enabledFeatures: string[]): {
   const devDependencies: PackageDependency[] = []
 
   for (const featureKey of enabledFeatures) {
-    const feature = IGNITER_FEATURES[featureKey]
+    const feature = Flame_FEATURES[featureKey]
     if (feature) {
       dependencies.push(...feature.dependencies)
       if (feature.devDependencies) {
@@ -257,7 +257,7 @@ export function getDockerServices(
 
   // Add feature services
   for (const featureKey of enabledFeatures) {
-    const feature = IGNITER_FEATURES[featureKey]
+    const feature = Flame_FEATURES[featureKey]
     if (feature?.dockerServices) {
       services.push(...feature.dockerServices)
     }
@@ -289,7 +289,7 @@ export function getEnvironmentVariables(
 
   // Add feature environment variables
   for (const featureKey of enabledFeatures) {
-    const feature = IGNITER_FEATURES[featureKey]
+    const feature = Flame_FEATURES[featureKey]
     if (feature?.envVars) {
       envVars.push(...feature.envVars)
     }
@@ -314,3 +314,8 @@ export function getEnvironmentVariables(
 
   return uniqueEnvVars
 }
+
+
+
+
+

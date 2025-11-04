@@ -1,6 +1,6 @@
-# Contributing to Igniter Framework
+# Contributing to Flame Framework
 
-We love your input! We want to make contributing to Igniter Framework as easy and transparent as possible, whether it's:
+We love your input! We want to make contributing to Flame Framework as easy and transparent as possible, whether it's:
 
 - Reporting a bug
 - Discussing the current state of the code
@@ -76,9 +76,9 @@ bun run build
 
 In short, when you submit code changes, your submissions are understood to be under the same [MIT License](http://choosealicense.com/licenses/mit/) that covers the project. Feel free to contact the maintainers if that's a concern.
 
-## Report bugs using Github's [issue tracker](https://github.com/igniter/core/issues)
+## Report bugs using Github's [issue tracker](https://github.com/Flame/core/issues)
 
-We use GitHub issues to track public bugs. Report a bug by [opening a new issue](https://github.com/igniter/core/issues/new).
+We use GitHub issues to track public bugs. Report a bug by [opening a new issue](https://github.com/Flame/core/issues/new).
 
 ## Write bug reports with detail, background, and sample code
 
@@ -107,10 +107,15 @@ This document was adapted from the open-source contribution guidelines for [Face
 
 ## Community
 
-* Join our [Discord community](https://discord.gg/igniter)
-* Follow us on [Twitter](https://twitter.com/igniterjs)
-* Read our [blog](https://igniter.dev/blog)
+* Join our [Discord community](https://discord.gg/Flame)
+* Follow us on [Twitter](https://twitter.com/Flamejs)
+* Read our [blog](https://Flame.dev/blog)
 
 ## Questions?
 
 Feel free to ask in our Discord community or open a discussion on GitHub.
+
+
+
+
+

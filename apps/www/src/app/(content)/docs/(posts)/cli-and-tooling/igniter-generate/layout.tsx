@@ -2,12 +2,12 @@ import { Metadata } from 'next';
 import React from 'react';
 
 export const metadata: Metadata = {
-  title: 'CLI: `igniter generate` for Scaffolding & Schemas | Igniter.js',
+  title: 'CLI: `Flame generate` for Scaffolding & Schemas | Flame.js',
   description:
-    'Learn how to use the `igniter generate` command to accelerate development by scaffolding entire features from your database schema and generating a type-safe client.',
+    'Learn how to use the `Flame generate` command to accelerate development by scaffolding entire features from your database schema and generating a type-safe client.',
   keywords: [
-    'Igniter.js',
-    'igniter generate',
+    'Flame.js',
+    'Flame generate',
     'CLI',
     'code generation',
     'scaffolding',
@@ -18,26 +18,26 @@ export const metadata: Metadata = {
     'developer tools',
   ],
   openGraph: {
-    title: 'CLI: `igniter generate` for Scaffolding & Schemas | Igniter.js',
+    title: 'CLI: `Flame generate` for Scaffolding & Schemas | Flame.js',
     description:
-      'Master the `igniter generate` command to automatically create feature boilerplate from your database schema and generate a fully type-safe client for your frontend.',
+      'Master the `Flame generate` command to automatically create feature boilerplate from your database schema and generate a fully type-safe client for your frontend.',
     type: 'article',
-    url: 'https://igniterjs.com/docs/cli-and-tooling/igniter-generate',
+    url: 'https://Flamejs.com/docs/cli-and-tooling/Flame-generate',
     images: [
       {
-        url: 'https://igniterjs.com/og/docs-igniter-generate.png', // Assuming an OG image exists
+        url: 'https://Flamejs.com/og/docs-Flame-generate.png', // Assuming an OG image exists
         width: 1200,
         height: 630,
-        alt: 'Igniter.js Code and Schema Generation',
+        alt: 'Flame.js Code and Schema Generation',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'CLI: `igniter generate` for Scaffolding & Schemas | Igniter.js',
+    title: 'CLI: `Flame generate` for Scaffolding & Schemas | Flame.js',
     description:
-      'Master the `igniter generate` command to automatically create feature boilerplate from your database schema and generate a fully type-safe client for your frontend.',
-    images: ['https://igniterjs.com/og/docs-igniter-generate.png'],
+      'Master the `Flame generate` command to automatically create feature boilerplate from your database schema and generate a fully type-safe client for your frontend.',
+    images: ['https://Flamejs.com/og/docs-Flame-generate.png'],
   },
 };
 
@@ -48,3 +48,8 @@ export default function DocsLayout({
 }) {
   return <>{children}</>;
 }
+
+
+
+
+

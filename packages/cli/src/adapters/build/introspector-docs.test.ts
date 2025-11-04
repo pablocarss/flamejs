@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { introspectRouter } from './introspector';
-import type { IgniterRouter } from '@igniter-js/core';
+import type { FlameRouter } from '@flame-js/core';
 
 describe('introspector - docs configuration', () => {
   it('should extract docs configuration from router config', () => {
@@ -26,7 +26,7 @@ describe('introspector - docs configuration', () => {
           info: {
             title: 'Test API',
             version: '1.0.0',
-            description: 'A test API for Igniter.js',
+            description: 'A test API for Flame.js',
           },
           servers: [
             { url: 'http://localhost:3000', description: 'Local Development Server' },
@@ -37,7 +37,7 @@ describe('introspector - docs configuration', () => {
           },
         },
       },
-    } as IgniterRouter<any, any, any, any, any>;
+    } as FlameRouter<any, any, any, any, any>;
 
     const { schema } = introspectRouter(mockRouter);
 
@@ -47,7 +47,7 @@ describe('introspector - docs configuration', () => {
       info: {
         title: 'Test API',
         version: '1.0.0',
-        description: 'A test API for Igniter.js',
+        description: 'A test API for Flame.js',
       },
       servers: [
         { url: 'http://localhost:3000', description: 'Local Development Server' },
@@ -79,7 +79,7 @@ describe('introspector - docs configuration', () => {
         baseURL: 'http://localhost:3000',
         basePATH: '/api/v1',
       },
-    } as IgniterRouter<any, any, any, any, any>;
+    } as FlameRouter<any, any, any, any, any>;
 
     const { schema } = introspectRouter(mockRouter);
 
@@ -103,7 +103,7 @@ describe('introspector - docs configuration', () => {
           },
         },
       },
-    } as IgniterRouter<any, any, any, any, any>;
+    } as FlameRouter<any, any, any, any, any>;
 
     const { schema } = introspectRouter(mockRouter);
 
@@ -134,7 +134,7 @@ describe('introspector - docs configuration', () => {
           },
         },
       },
-    } as IgniterRouter<any, any, any, any, any>;
+    } as FlameRouter<any, any, any, any, any>;
 
     const { schema } = introspectRouter(mockRouter);
 
@@ -147,3 +147,8 @@ describe('introspector - docs configuration', () => {
     });
   });
 });
+
+
+
+
+

@@ -1,7 +1,7 @@
 import { defineConfig } from 'tsup'
 
 /**
- * tsup build configuration for @igniter-js/bot
+ * tsup build configuration for @flame-js/bot
  *
  * Goals:
  *  - Generate both ESM and CJS builds for wide compatibility
@@ -25,11 +25,11 @@ export default defineConfig({
     // Adapters barrel
     'adapters/index': 'src/adapters/index.ts',
 
-    // Individual adapters (for @igniter-js/bot/adapters/*)
+    // Individual adapters (for @flame-js/bot/adapters/*)
     'adapters/telegram/index': 'src/adapters/telegram/index.ts',
     'adapters/whatsapp/index': 'src/adapters/whatsapp/index.ts',
 
-    // Types barrel (for @igniter-js/bot/types)
+    // Types barrel (for @flame-js/bot/types)
     'types/index': 'src/types/index.ts',
   },
   format: ['esm', 'cjs'],
@@ -59,7 +59,7 @@ export default defineConfig({
   },
   banner: {
     js: `/**
-* @igniter-js/bot
+* @flame-js/bot
 * Build: ${new Date().toISOString()}
 * Format: {format}
 */`,
@@ -68,5 +68,10 @@ export default defineConfig({
     // Helpful for library debugging
     options.logOverride = { 'this-is-undefined-in-esm': 'silent' }
   },
-  onSuccess: 'echo Build completed for @igniter-js/bot',
+  onSuccess: 'echo Build completed for @flame-js/bot',
 })
+
+
+
+
+

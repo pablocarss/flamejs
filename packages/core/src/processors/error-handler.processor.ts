@@ -1,9 +1,9 @@
-import { IgniterLogLevel, type IgniterLogger } from "../types";
-import { IgniterError } from "../error";
+import { FlameLogLevel, type FlameLogger } from "../types";
+import { FlameError } from "../error";
 import type { ProcessedContext } from "./context-builder.processor";
 import type { TelemetrySpan } from "./telemetry-manager.processor";
 import { TelemetryManagerProcessor } from "./telemetry-manager.processor";
-import { IgniterConsoleLogger } from "../services/logger.service";
+import { FlameConsoleLogger } from "../services/logger.service";
 import { resolveLogLevel, createLoggerContext } from "../utils/logger";
 
 /**
@@ -15,15 +15,15 @@ export interface ErrorHandlingResult {
 }
 
 /**
- * Error handler processor for the Igniter Framework.
+ * Error handler processor for the Flame Framework.
  * Provides unified error handling for different types of errors.
  */
 export class ErrorHandlerProcessor {
-  private static _logger: IgniterLogger;
+  private static _logger: FlameLogger;
 
-  private static get logger(): IgniterLogger {
+  private static get logger(): FlameLogger {
     if (!this._logger) {
-      this._logger = IgniterConsoleLogger.create({
+      this._logger = FlameConsoleLogger.create({
         level: resolveLogLevel(),
         context: createLoggerContext('ErrorHandler'),
       });
@@ -89,16 +89,16 @@ export class ErrorHandlerProcessor {
   }
 
   /**
-   * Handles IgniterError instances.
+   * Handles FlameError instances.
    *
-   * @param error - The IgniterError instance
+   * @param error - The FlameError instance
    * @param context - The processed context
    * @param telemetrySpan - The telemetry span for tracking
    * @param startTime - Request start time
    * @returns Standardized error response
    */
-  static async handleIgniterError(
-    error: IgniterError,
+  static async handleFlameError(
+    error: FlameError,
     context: ProcessedContext,
     telemetrySpan: TelemetrySpan | null,
     startTime: number
@@ -106,7 +106,7 @@ export class ErrorHandlerProcessor {
     const statusCode = 500;
     const normalizedError = this.normalizeError(error);
 
-    this.logger.error("Igniter framework error", {
+    this.logger.error("Flame framework error", {
       error: {
         code: normalizedError.code,
         message: normalizedError.message,
@@ -118,7 +118,7 @@ export class ErrorHandlerProcessor {
       }
     });
 
-    // Track igniter error for CLI dashboard
+    // Track Flame error for CLI dashboard
     await this.trackError(context, startTime, statusCode, error);
 
     // Finish telemetry span with error
@@ -290,9 +290,9 @@ export class ErrorHandlerProcessor {
       return this.handleValidationError(zodError, context, telemetrySpan, startTime);
     }
 
-    // IgniterError instances
-    if (error instanceof IgniterError) {
-      return this.handleIgniterError(error, context, telemetrySpan, startTime);
+    // FlameError instances
+    if (error instanceof FlameError) {
+      return this.handleFlameError(error, context, telemetrySpan, startTime);
     }
 
     // Generic errors
@@ -327,7 +327,7 @@ export class ErrorHandlerProcessor {
       };
     }
 
-    if (error instanceof IgniterError) {
+    if (error instanceof FlameError) {
       return {
         message: error.message,
         code: error.code,
@@ -437,11 +437,16 @@ export class ErrorHandlerProcessor {
     } catch (trackingError) {
       // Use a fallback logger to avoid circular logging
       // This creates a minimal logger that bypasses telemetry to prevent infinite loops
-      const fallbackLogger = IgniterConsoleLogger.create({
-        level: IgniterLogLevel.ERROR,
+      const fallbackLogger = FlameConsoleLogger.create({
+        level: FlameLogLevel.ERROR,
         context: { component: 'ErrorHandler-Fallback' }
       });
       fallbackLogger.error('Error tracking system failure', { error: trackingError });
     }
   }
 }
+
+
+
+
+

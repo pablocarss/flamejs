@@ -1,20 +1,20 @@
-import type { IgniterResponseProcessor } from "../processors/response.processor";
-import type { IgniterCommonErrorCode, IgniterResponse } from "./response.interface";
-import type { IgniterCookie } from "../services/cookie.service";
-import type { IgniterProcedure, InferActionProcedureContext } from "./procedure.interface";
+import type { FlameResponseProcessor } from "../processors/response.processor";
+import type { FlameCommonErrorCode, FlameResponse } from "./response.interface";
+import type { FlameCookie } from "../services/cookie.service";
+import type { FlameProcedure, InferActionProcedureContext } from "./procedure.interface";
 import type { StandardSchemaV1 } from "./schema.interface";
 import type { InferParamPath, NonUnknownObject, Prettify } from "./utils.interface";
-import type { IgniterRealtimeService } from "./realtime.interface";
-import type { IgniterPlugin, InferIgniterPlugins } from "./plugin.interface";
+import type { FlameRealtimeService } from "./realtime.interface";
+import type { FlamePlugin, InferFlamePlugins } from "./plugin.interface";
 
 export type QueryMethod = "GET";
 export type MutationMethod = "POST" | "PUT" | "DELETE" | "PATCH";
 export type HTTPMethod = QueryMethod | MutationMethod;
-export type IgniterCookies = IgniterCookie;
-export type IgniterHeaders = Headers;
+export type FlameCookies = FlameCookie;
+export type FlameHeaders = Headers;
 
 /**
- * Infers the caller signature for a given IgniterAction.
+ * Infers the caller signature for a given FlameAction.
  * If the action expects input, returns a function that takes input and returns a Promise of output.
  * Otherwise, returns a function with no input and a Promise of output.
  */
@@ -30,8 +30,8 @@ export type InferActionCaller<TActionInput, TActionOutput> =
    TReturn extends any
      ? TReturn extends Promise<infer TData>
        ? InferActionResponse<TData>
-       : TReturn extends IgniterResponse<infer TDataType, infer TErrorType>
-         ? IgniterResponse<TDataType, TErrorType>
+       : TReturn extends FlameResponse<infer TDataType, infer TErrorType>
+         ? FlameResponse<TDataType, TErrorType>
          : TReturn extends Response
          ? InferWebResponse<TReturn>
        : InferDirectResponse<TReturn>
@@ -42,24 +42,24 @@ export type InferActionCaller<TActionInput, TActionOutput> =
  */
 type InferWebResponse<T> = {
   data?: unknown;
-  error?: IgniterErrorResponse<IgniterCommonErrorCode>;
+  error?: FlameErrorResponse<FlameCommonErrorCode>;
 };
 
 /**
  * Infer types when returning value directly
  */
-type InferDirectResponse<T> = T extends IgniterResponse<infer TData, infer TError>
-  ? IgniterResponse<TData, TError>
+type InferDirectResponse<T> = T extends FlameResponse<infer TData, infer TError>
+  ? FlameResponse<TData, TError>
   : {
       data?: T;
-      error?: IgniterErrorResponse;
+      error?: FlameErrorResponse;
     };
 
 /**
  * Base error response type
  */
-type IgniterErrorResponse<
-  TCode = IgniterCommonErrorCode,
+type FlameErrorResponse<
+  TCode = FlameCommonErrorCode,
   TData = unknown
 > = {
   code: TCode;
@@ -69,9 +69,9 @@ type IgniterErrorResponse<
 
 type InferActionContext<
   TActionContext extends object,
-  TActionMiddlewares extends readonly IgniterProcedure<any, any, unknown>[] | undefined
+  TActionMiddlewares extends readonly FlameProcedure<any, any, unknown>[] | undefined
 > = TActionContext & (
-  TActionMiddlewares extends readonly IgniterProcedure<any, any, unknown>[]
+  TActionMiddlewares extends readonly FlameProcedure<any, any, unknown>[]
     ? InferActionProcedureContext<TActionMiddlewares>
     : {}
 );
@@ -90,7 +90,7 @@ type InferActionContext<
  * @example
  * ```typescript
  * // In action handler
- * handler: async (ctx: IgniterActionContext<AppContext, "/users/:id", "POST", UserSchema, never, []>) => {
+ * handler: async (ctx: FlameActionContext<AppContext, "/users/:id", "POST", UserSchema, never, []>) => {
  *   // ✅ Request data (fully typed)
  *   const userId = ctx.request.params.id;  // string (inferred from path)
  *   const userData = ctx.request.body;     // UserSchema input type
@@ -108,13 +108,13 @@ type InferActionContext<
  * }
  * ```
  */
-export type IgniterActionContext<
+export type FlameActionContext<
   TActionContext extends object,
   TActionPath extends string,
   TActionMethod extends HTTPMethod,
   TActionBody extends StandardSchemaV1 | undefined,
   TActionQuery extends StandardSchemaV1 | undefined,
-  TActionMiddlewares extends readonly IgniterProcedure<any, unknown, unknown>[] | undefined,
+  TActionMiddlewares extends readonly FlameProcedure<any, unknown, unknown>[] | undefined,
   TActionPlugins extends Record<string, any>,
 > = {
   /**
@@ -125,8 +125,8 @@ export type IgniterActionContext<
     method: TActionMethod;
     path: TActionPath;
     params: InferParamPath<TActionPath>;
-    headers: IgniterHeaders;
-    cookies: IgniterCookies;
+    headers: FlameHeaders;
+    cookies: FlameCookies;
     body: TActionBody extends StandardSchemaV1
       ? StandardSchemaV1.InferInput<TActionBody>
       : undefined;
@@ -146,13 +146,13 @@ export type IgniterActionContext<
    * Response processor for creating typed HTTP responses.
    * Supports JSON, HTML, SSE, and custom response types.
    */
-   response: IgniterResponseProcessor<InferActionContext<TActionContext, TActionMiddlewares>>;
+   response: FlameResponseProcessor<InferActionContext<TActionContext, TActionMiddlewares>>;
 
   /**
    * Realtime service for server-sent events and websocket communication.
    * Enables real-time updates to connected clients.
    */
-  realtime: IgniterRealtimeService<InferActionContext<TActionContext, TActionMiddlewares>>;
+  realtime: FlameRealtimeService<InferActionContext<TActionContext, TActionMiddlewares>>;
 
   /**
    * Type-safe plugin access registry.
@@ -173,22 +173,22 @@ export type IgniterActionContext<
    * console.log(ctx.context.auth.currentUser);  // From auth plugin context extension
    * ```
    */
-  plugins: InferIgniterPlugins<TActionPlugins>
+  plugins: InferFlamePlugins<TActionPlugins>
 };
 
-export type IgniterActionHandler<
-  TActionContext extends IgniterActionContext<any, any, any, any, any, any, any>,
+export type FlameActionHandler<
+  TActionContext extends FlameActionContext<any, any, any, any, any, any, any>,
   TActionResponse,
 > = (ctx: TActionContext) => TActionResponse;
 
-export type IgniterQueryOptions<
+export type FlameQueryOptions<
   TQueryContext extends object,
   TQueryPath extends string,
   TQueryQuery extends StandardSchemaV1 | undefined,
-  TQueryMiddlewares extends readonly IgniterProcedure<any, any, unknown>[] | undefined,
-  TQueryPlugins extends Record<string, IgniterPlugin<any, any, any, any, any, any, any, any>>,
-  TQueryHandler extends IgniterActionHandler<
-    IgniterActionContext<
+  TQueryMiddlewares extends readonly FlameProcedure<any, any, unknown>[] | undefined,
+  TQueryPlugins extends Record<string, FlamePlugin<any, any, any, any, any, any, any, any>>,
+  TQueryHandler extends FlameActionHandler<
+    FlameActionContext<
       TQueryContext,
       TQueryPath,
       QueryMethod,
@@ -210,16 +210,16 @@ export type IgniterQueryOptions<
   handler: TQueryHandler;
 };
 
-export type IgniterMutationOptions<
+export type FlameMutationOptions<
   TMutationContext extends object,
   TMutationPath extends string,
   TMutationMethod extends MutationMethod,
   TMutationBody extends StandardSchemaV1 | undefined,
   TMutationQuery extends StandardSchemaV1 | undefined,
-  TMutationMiddlewares extends readonly IgniterProcedure<any, any, unknown>[] | undefined,
-  TMutationPlugins extends Record<string, IgniterPlugin<any, any, any, any, any, any, any, any>>,
-  TMutationHandler extends IgniterActionHandler<
-    IgniterActionContext<
+  TMutationMiddlewares extends readonly FlameProcedure<any, any, unknown>[] | undefined,
+  TMutationPlugins extends Record<string, FlamePlugin<any, any, any, any, any, any, any, any>>,
+  TMutationHandler extends FlameActionHandler<
+    FlameActionContext<
       TMutationContext,
       TMutationPath,
       TMutationMethod,
@@ -244,16 +244,16 @@ export type IgniterMutationOptions<
   handler: TMutationHandler;
 };
 
-export type IgniterAction<
+export type FlameAction<
   TActionContext extends object,
   TActionPath extends string,
   TActionMethod extends HTTPMethod,
   TActionBody extends StandardSchemaV1 | undefined,
   TActionQuery extends StandardSchemaV1 | undefined,
-  TActionMiddlewares extends readonly IgniterProcedure<any, any, unknown>[] | undefined,
-  TActionPlugins extends Record<string, IgniterPlugin<any, any, any, any, any, any, any, any>>,
-  TActionHandler extends IgniterActionHandler<
-    IgniterActionContext<
+  TActionMiddlewares extends readonly FlameProcedure<any, any, unknown>[] | undefined,
+  TActionPlugins extends Record<string, FlamePlugin<any, any, any, any, any, any, any, any>>,
+  TActionHandler extends FlameActionHandler<
+    FlameActionContext<
       TActionContext,
       TActionPath,
       TActionMethod,
@@ -295,10 +295,10 @@ export type InferEndpoint<
   TActionMethod extends HTTPMethod,
   TActionBody extends StandardSchemaV1 | undefined,
   TActionQuery extends StandardSchemaV1 | undefined,
-  TActionMiddlewares extends readonly IgniterProcedure<any, any, unknown>[] | undefined,
-  TActionPlugins extends Record<string, IgniterPlugin<any, any, any, any, any, any, any, any>>,
-  TActionHandler extends IgniterActionHandler<
-    IgniterActionContext<
+  TActionMiddlewares extends readonly FlameProcedure<any, any, unknown>[] | undefined,
+  TActionPlugins extends Record<string, FlamePlugin<any, any, any, any, any, any, any, any>>,
+  TActionHandler extends FlameActionHandler<
+    FlameActionContext<
       TActionContext,
       TActionPath,
       TActionMethod,
@@ -339,7 +339,12 @@ export type InferEndpoint<
   handler: TActionHandler;
   $Input: TActionInferInput;
   $Output: TActionInferResponse extends { data: infer TData } ? TData : never;
-  $Errors: TActionInferResponse extends { error: infer TError } ? TError : IgniterErrorResponse<IgniterCommonErrorCode>;
+  $Errors: TActionInferResponse extends { error: infer TError } ? TError : FlameErrorResponse<FlameCommonErrorCode>;
   $Caller: TActionInferCaller;
   $Response: TActionInferResponse;
 }>;
+
+
+
+
+

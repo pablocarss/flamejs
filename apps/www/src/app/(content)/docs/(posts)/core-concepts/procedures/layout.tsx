@@ -2,11 +2,11 @@ import { Metadata } from 'next';
 import React from 'react';
 
 export const metadata: Metadata = {
-  title: 'Procedures: Type-Safe Middleware | Igniter.js',
+  title: 'Procedures: Type-Safe Middleware | Flame.js',
   description:
-    'Learn about Procedures in Igniter.js, the powerful, type-safe middleware pattern for handling authentication, logging, and other cross-cutting concerns while extending the context.',
+    'Learn about Procedures in Flame.js, the powerful, type-safe middleware pattern for handling authentication, logging, and other cross-cutting concerns while extending the context.',
   keywords: [
-    'Igniter.js',
+    'Flame.js',
     'Procedures',
     'middleware',
     'type-safe',
@@ -18,26 +18,26 @@ export const metadata: Metadata = {
     'reusable logic',
   ],
   openGraph: {
-    title: 'Procedures: Reusable, Type-Safe Middleware | Igniter.js',
+    title: 'Procedures: Reusable, Type-Safe Middleware | Flame.js',
     description:
-      'Master Procedures, the Igniter.js implementation of middleware. Learn how to create reusable logic and dynamically extend the request context with full type safety.',
+      'Master Procedures, the Flame.js implementation of middleware. Learn how to create reusable logic and dynamically extend the request context with full type safety.',
     type: 'article',
-    url: 'https://igniterjs.com/docs/core-concepts/procedures',
+    url: 'https://Flamejs.com/docs/core-concepts/procedures',
     images: [
       {
-        url: 'https://igniterjs.com/og/docs-procedures.png', // Assuming an OG image exists
+        url: 'https://Flamejs.com/og/docs-procedures.png', // Assuming an OG image exists
         width: 1200,
         height: 630,
-        alt: 'Creating Middleware with Procedures in Igniter.js',
+        alt: 'Creating Middleware with Procedures in Flame.js',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Procedures: Reusable, Type-Safe Middleware | Igniter.js',
+    title: 'Procedures: Reusable, Type-Safe Middleware | Flame.js',
     description:
-      'Master Procedures, the Igniter.js implementation of middleware. Learn how to create reusable logic and dynamically extend the request context with full type safety.',
-    images: ['https://igniterjs.com/og/docs-procedures.png'],
+      'Master Procedures, the Flame.js implementation of middleware. Learn how to create reusable logic and dynamically extend the request context with full type safety.',
+    images: ['https://Flamejs.com/og/docs-procedures.png'],
   },
 };
 
@@ -48,3 +48,8 @@ export default function DocsLayout({
 }) {
   return <>{children}</>;
 }
+
+
+
+
+

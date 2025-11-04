@@ -6,7 +6,7 @@ import Link from "next/link";
 
 const packages = [
   {
-    name: "Igniter Core",
+    name: "Flame Core",
     description: "The heart of the framework with type-safe APIs and context management",
     icon: (
       <svg className="w-12 h-12" viewBox="0 0 50 50" fill="none">
@@ -15,10 +15,10 @@ const packages = [
         <path d="M25 20L35 30L25 40L15 30L25 20Z" fill="white" fillOpacity="0.7"/>
       </svg>
     ),
-    link: "https://github.com/felipebarcelospro/igniter-js/tree/main/packages/core"
+    link: "https://github.com/felipebarcelospro/Flame-js/tree/main/packages/core"
   },
   {
-    name: "Igniter CLI",
+    name: "Flame CLI",
     description: "Powerful scaffolding and development tools for rapid project setup",
     icon: (
       <svg className="w-12 h-12" viewBox="0 0 50 50" fill="none">
@@ -28,10 +28,10 @@ const packages = [
         <path d="M15 30L25 25L35 30L25 35L15 30Z" fill="white" fillOpacity="0.6"/>
       </svg>
     ),
-    link: "https://github.com/felipebarcelospro/igniter-js/tree/main/packages/cli"
+    link: "https://github.com/felipebarcelospro/Flame-js/tree/main/packages/cli"
   },
   {
-    name: "Igniter Queues",
+    name: "Flame Queues",
     description: "Background job processing with BullMQ integration",
     icon: (
       <svg className="w-12 h-12" viewBox="0 0 50 50" fill="none">
@@ -45,7 +45,7 @@ const packages = [
     link: "#"
   },
   {
-    name: "Igniter Store",
+    name: "Flame Store",
     description: "Redis-powered caching, sessions, and pub/sub messaging",
     icon: (
       <svg className="w-12 h-12" viewBox="0 0 50 50" fill="none">
@@ -60,7 +60,7 @@ const packages = [
     link: "#"
   },
   {
-    name: "Igniter Realtime",
+    name: "Flame Realtime",
     description: "Real-time updates and live data synchronization",
     icon: (
       <svg className="w-12 h-12" viewBox="0 0 50 50" fill="none">
@@ -91,7 +91,7 @@ const packages = [
 const starterKits = [
   {
     name: "Next.js Starter",
-    description: "Full-stack Next.js application with Igniter.js backend",
+    description: "Full-stack Next.js application with Flame.js backend",
     icon: (
       <svg className="w-12 h-12" viewBox="0 0 50 50" fill="none">
         <rect width="50" height="50" rx="8" fill="#000000"/>
@@ -115,7 +115,7 @@ const starterKits = [
   },
   {
     name: "Express REST API",
-    description: "Traditional Express.js REST API with Igniter.js",
+    description: "Traditional Express.js REST API with Flame.js",
     icon: (
       <svg className="w-12 h-12" viewBox="0 0 50 50" fill="none">
         <rect width="50" height="50" rx="8" fill="#000000"/>
@@ -178,8 +178,8 @@ const products = [
     link: "#"
   },
   {
-    name: "Igniter Studio",
-    description: "Visual development environment for Igniter.js applications",
+    name: "Flame Studio",
+    description: "Visual development environment for Flame.js applications",
     status: "coming-soon",
     link: "#"
   },
@@ -338,3 +338,8 @@ export function EcosystemSection() {
 
 // Add React import
 import React from "react";
+
+
+
+
+

@@ -104,11 +104,11 @@ export type RevalidationTarget = {
 };
 
 /**
- * Interface for the Igniter Realtime Service.
+ * Interface for the Flame Realtime Service.
  * Provides methods for publishing events to channels, building realtime events,
  * and broadcasting data to all channels.
  */
-export interface IgniterRealtimeService<TContext = any> {
+export interface FlameRealtimeService<TContext = any> {
   /**
    * Publishes an event to a specific channel.
    *
@@ -152,3 +152,8 @@ export interface IgniterRealtimeService<TContext = any> {
     targets: RevalidationTarget | RevalidationTarget[],
   ): Promise<void>;
 }
+
+
+
+
+

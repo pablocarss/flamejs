@@ -1,1 +1,6 @@
-export * from './igniter.error';
+export * from './Flame.error';
+
+
+
+
+

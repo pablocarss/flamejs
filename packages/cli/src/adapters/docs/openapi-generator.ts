@@ -30,7 +30,7 @@ export class OpenAPIGenerator {
 
     const spec: OpenApiV3Document = {
       openapi: '3.0.0',
-      info: this.docsConfig.info || { title: 'Igniter API', version: '1.0.0' },
+      info: this.docsConfig.info || { title: 'Flame API', version: '1.0.0' },
       servers,
       tags: this.buildTags(router),
       paths: this.buildPaths(router),
@@ -142,3 +142,8 @@ export class OpenAPIGenerator {
     return paths;
   }
 }
+
+
+
+
+

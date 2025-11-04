@@ -3,7 +3,7 @@
  * It's a good practice to define your Zod schemas and TypeScript types
  * in a separate file to keep your code organized.
  *
- * @see https://github.com/felipebarcelospro/igniter-js
+ * @see https://github.com/felipebarcelospro/Flame-js
  */
 
 import { z } from 'zod';
@@ -19,3 +19,8 @@ export const HealthCheckResponseSchema = z.object({
 // TypeScript type inferred from the Zod schema.
 // This allows you to use the type in your application.
 export type HealthCheckResponse = z.infer<typeof HealthCheckResponseSchema>;
+
+
+
+
+

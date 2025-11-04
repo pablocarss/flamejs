@@ -3,7 +3,7 @@
  *
  * A "Schema Provider" is an adapter responsible for reading a database
  * schema from a specific source (like Prisma or Drizzle) and translating
- * it into a standardized format that the Igniter.js scaffolding engine
+ * it into a standardized format that the Flame.js scaffolding engine
  * can understand. This abstraction allows the CLI to support different
  * ORMs and database tools in a pluggable way.
  */
@@ -96,3 +96,8 @@ export interface SchemaProvider {
    */
   listModels(): Promise<string[]>;
 }
+
+
+
+
+

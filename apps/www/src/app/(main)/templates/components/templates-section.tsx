@@ -58,7 +58,7 @@ export function TemplatesSection() {
               Templates
             </h2>
             <p className="text-muted-foreground max-w-md mb-5">
-              Igniter.js is a collection of templates that help you get started with web development. Whether you're building a personal blog, an e-commerce platform, or a complex web application, Igniter.js has you covered.
+              Flame.js is a collection of templates that help you get started with web development. Whether you're building a personal blog, an e-commerce platform, or a complex web application, Flame.js has you covered.
             </p>
 
             {/* Search Bar */}
@@ -138,3 +138,8 @@ export function TemplatesSection() {
     </div>
   );
 }
+
+
+
+
+

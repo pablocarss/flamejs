@@ -579,7 +579,7 @@ export type MergedJobsExecutor<T extends Record<string, any>> =
  * Main interface for the Job Queue Adapter.
  * Defines all required operations for a complete queue system.
  */
-export interface IgniterJobQueueAdapter<TContext extends object> {
+export interface FlameJobQueueAdapter<TContext extends object> {
   /** Underlying client (e.g., BullMQ instance) */
   readonly client: unknown;
 
@@ -1392,3 +1392,8 @@ export interface CronJobExecutionContext<TContext extends object> {
     metadata?: Record<string, any>;
   };
 }
+
+
+
+
+

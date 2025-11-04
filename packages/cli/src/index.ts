@@ -23,14 +23,14 @@ import {
   handleGenerateController,
   handleGenerateProcedure
 } from './adapters/scaffold';
-import { IgniterRouter } from "@igniter-js/core";
+import { FlameRouter } from "@flame-js/core";
 import { killProcessOnPort } from "./lib/port-manager";
 
 const program = new Command();
 
 program
-  .name("igniter")
-  .description("CLI for Igniter.js type-safe client generation")
+  .name("Flame")
+  .description("CLI for Flame.js type-safe client generation")
   .version("1.0.0")
   .option('--debug', 'Enable debug mode for detailed logging', false)
   .hook('preAction', (thisCommand) => {
@@ -42,7 +42,7 @@ program
 // Init command
 program
   .command("init")
-  .description("Create a new Igniter.js project with interactive setup")
+  .description("Create a new Flame.js project with interactive setup")
   .argument("[project-name]", "Name of the project directory")
   .option("--force", "Skip confirmation prompts and overwrite existing files")
   .option("--pm, --package-manager <manager>", "Package manager to use (npm, yarn, pnpm, bun)")
@@ -115,12 +115,12 @@ program
 // Dev command
 program
   .command("dev")
-  .description("Start development mode with framework and Igniter (interactive dashboard and OpenAPI docs by default)")
+  .description("Start development mode with framework and Flame (interactive dashboard and OpenAPI docs by default)")
   .option("--framework <type>", `Framework type (${getFrameworkList()}, generic)`)
   .option("--output <dir>", "Output directory for generated client files", "src/")
   .option("--port <number>", "Port for the dev server", "3000")
   .option("--cmd <command>", "Custom command to start dev server")
-  .option("--no-framework", "Disable framework dev server (Igniter only)")
+  .option("--no-framework", "Disable framework dev server (Flame only)")
   .option("--no-interactive", "Disable interactive mode (use regular concurrent mode)")
   .option("--docs-output <dir>", "Output directory for OpenAPI docs", "./src/docs")
   .action(async (options) => {
@@ -160,8 +160,8 @@ program
     const docsFlags = ` --docs --docs-output ${options.docsOutput}`;
     
     processes.push({
-      name: "Igniter",
-      command: `npx @igniter-js/cli@latest generate schema --watch --framework ${framework} --output ${options.output}${docsFlags}`,
+      name: "Flame",
+      command: `npx @flame-js/cli@latest generate schema --watch --framework ${framework} --output ${options.output}${docsFlags}`,
       color: "blue",
       cwd: process.cwd()
     });
@@ -180,7 +180,7 @@ const generate = program
 // Generate Schema subcommand
 generate
   .command("schema")
-  .description("Generate client schema from your Igniter router (for CI/CD or manual builds)")
+  .description("Generate client schema from your Flame router (for CI/CD or manual builds)")
   .option("--framework <type>", `Framework type (${getFrameworkList()}, generic)`)
   .option("--output <dir>", "Output directory", "src/")
   .option("--watch", "Watch for changes and regenerate automatically")
@@ -190,12 +190,12 @@ generate
     const startTime = performance.now();
     const detectedFramework = detectFramework();
     const framework = options.framework ? (isFrameworkSupported(options.framework) ? options.framework : "generic") : detectedFramework;
-    logger.group("Igniter.js CLI");
+    logger.group("Flame.js CLI");
     logger.info(`Starting client schema ${options.watch ? 'watching' : 'generation'}`, { framework, output: options.output });
     const watcherSpinner = createDetachedSpinner("Loading generator...");
     watcherSpinner.start();
-    const { IgniterWatcher } = await import("./adapters/build/watcher");
-    const watcher = new IgniterWatcher({
+    const { FlameWatcher } = await import("./adapters/build/watcher");
+    const watcher = new FlameWatcher({
       framework,
       outputDir: options.output,
       debug: program.opts().debug, // Pass global debug flag to watcher
@@ -234,17 +234,17 @@ generate
       const { OpenAPIGenerator } = await import("./adapters/docs/openapi-generator");
 
       const possibleRouterPaths = [
-        'src/igniter.router.ts',
-        'src/igniter.router.js',
+        'src/Flame.router.ts',
+        'src/Flame.router.js',
         'src/router.ts',
         'src/router.js',
-        'igniter.router.ts',
-        'igniter.router.js',
+        'Flame.router.ts',
+        'Flame.router.js',
         'router.ts',
         'router.js'
       ];
 
-      let router: IgniterRouter<any, any, any, any, any> | null = null;
+      let router: FlameRouter<any, any, any, any, any> | null = null;
       let foundRouterPath = '';
       for (const routerPath of possibleRouterPaths) {
         if (fs.existsSync(routerPath)) {
@@ -257,7 +257,7 @@ generate
       }
 
       if (!router) {
-        timeline.fail('No Igniter router found in your project. Please ensure you have a router file (e.g., src/igniter.router.ts).');
+        timeline.fail('No Flame router found in your project. Please ensure you have a router file (e.g., src/Flame.router.ts).');
         process.exit(1);
       }
       
@@ -369,3 +369,8 @@ function validateConfig(config: any): { isValid: boolean; message?: string } {
   }
   return { isValid: true }
 }
+
+
+
+
+

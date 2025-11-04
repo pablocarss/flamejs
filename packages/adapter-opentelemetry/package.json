@@ -1,7 +1,7 @@
 {
-  "name": "@igniter-js/adapter-opentelemetry",
+  "name": "@flame-js/adapter-opentelemetry",
   "version": "0.2.1",
-  "description": "OpenTelemetry adapter for Igniter.js telemetry system",
+  "description": "OpenTelemetry adapter for Flame.js telemetry system",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -24,7 +24,7 @@
     "test": "vitest"
   },
   "dependencies": {
-    "@igniter-js/core": "*"
+    "@flame-js/core": "*"
   },
   "peerDependencies": {
     "@opentelemetry/api": "^1.7.0",
@@ -62,7 +62,7 @@
     "vitest": "^1.0.0"
   },
   "keywords": [
-    "igniter",
+    "Flame",
     "opentelemetry",
     "telemetry",
     "observability",
@@ -73,11 +73,16 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/igniter-js/igniter-router.git",
+    "url": "git+https://github.com/Flame-js/Flame-router.git",
     "directory": "packages/adapter-opentelemetry"
   },
   "bugs": {
-    "url": "https://github.com/igniter-js/igniter-router/issues"
+    "url": "https://github.com/Flame-js/Flame-router/issues"
   },
-  "homepage": "https://github.com/igniter-js/igniter-router#readme"
+  "homepage": "https://github.com/Flame-js/Flame-router#readme"
 }
+
+
+
+
+

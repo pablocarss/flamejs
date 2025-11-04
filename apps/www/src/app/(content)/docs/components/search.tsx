@@ -82,3 +82,8 @@ export function Search({ className, sections }: SearchProps) {
     </motion.div>
   );
 }
+
+
+
+
+

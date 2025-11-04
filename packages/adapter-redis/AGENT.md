@@ -1,17 +1,17 @@
-# AI Agent Maintenance Manual: `@igniter-js/adapter-redis`
+# AI Agent Maintenance Manual: `@flame-js/adapter-redis`
 
 **Version:** 1.0.0
-**For AI Agent:** You are an expert TypeScript software engineer. This document is your primary technical guide to the `@igniter-js/adapter-redis` package. Read and understand it thoroughly before attempting any modifications. Your goal is to perform maintenance tasks accurately, respecting the architectural principles outlined here.
+**For AI Agent:** You are an expert TypeScript software engineer. This document is your primary technical guide to the `@flame-js/adapter-redis` package. Read and understand it thoroughly before attempting any modifications. Your goal is to perform maintenance tasks accurately, respecting the architectural principles outlined here.
 
 ---
 
 ## 1. Package Overview
 
 ### 1.1. Package Name
-`@igniter-js/adapter-redis`
+`@flame-js/adapter-redis`
 
 ### 1.2. Purpose
-This package is an **Adapter**. Its sole purpose is to provide a concrete, production-ready implementation of the `IgniterStoreAdapter` interface (defined in `@igniter-js/core`). It uses the `ioredis` library to connect to a Redis server, enabling two critical functionalities for the Igniter.js framework:
+This package is an **Adapter**. Its sole purpose is to provide a concrete, production-ready implementation of the `FlameStoreAdapter` interface (defined in `@flame-js/core`). It uses the `ioredis` library to connect to a Redis server, enabling two critical functionalities for the Flame.js framework:
 1.  **Key-Value Caching:** High-performance storage and retrieval of frequently accessed data.
 2.  **Pub/Sub Messaging:** A message bus for event-driven communication between different parts of an application or between microservices.
 
@@ -19,13 +19,13 @@ This package is an **Adapter**. Its sole purpose is to provide a concrete, produ
 
 ## 2. Architecture & Key Concepts
 
-To effectively maintain this package, you must understand its role as a "translation layer" that connects the abstract concepts of the Igniter.js Store to the concrete commands of Redis.
+To effectively maintain this package, you must understand its role as a "translation layer" that connects the abstract concepts of the Flame.js Store to the concrete commands of Redis.
 
 ### 2.1. The Adapter Pattern and the Core Contract
 
-This package is a textbook example of the **Adapter Pattern**. `@igniter-js/core` defines a standard interface, `IgniterStoreAdapter`, which dictates the methods a store must provide (e.g., `get`, `set`, `del`, `publish`, `subscribe`). This can be found in `packages/core/src/types/store.interface.ts`.
+This package is a textbook example of the **Adapter Pattern**. `@flame-js/core` defines a standard interface, `FlameStoreAdapter`, which dictates the methods a store must provide (e.g., `get`, `set`, `del`, `publish`, `subscribe`). This can be found in `packages/core/src/types/store.interface.ts`.
 
-**This interface is the absolute source of truth.** The `@igniter-js/adapter-redis` package **must** implement every method defined in `IgniterStoreAdapter` correctly. Any changes to the public-facing API of the store should begin by modifying the interface in `@igniter-js/core`.
+**This interface is the absolute source of truth.** The `@flame-js/adapter-redis` package **must** implement every method defined in `FlameStoreAdapter` correctly. Any changes to the public-facing API of the store should begin by modifying the interface in `@flame-js/core`.
 
 ### 2.2. The `ioredis` Dependency
 
@@ -38,7 +38,7 @@ A critical architectural point is that `ioredis` requires **separate client inst
 
 ### 2.3. Data Serialization
 
-Redis stores data as strings. However, the Igniter.js Store is designed to handle any JSON-serializable JavaScript object. This adapter is therefore responsible for:
+Redis stores data as strings. However, the Flame.js Store is designed to handle any JSON-serializable JavaScript object. This adapter is therefore responsible for:
 -   **Serializing:** Using `JSON.stringify()` on objects before they are sent to Redis with `set`.
 -   **Deserializing:** Using `JSON.parse()` on strings retrieved from Redis with `get`.
 
@@ -55,7 +55,7 @@ The package has a minimal and focused file structure.
     > **Maintenance**: This file should only change if the signature of the main export is modified.
 
 *   `src/redis.adapter.ts`
-    > **Purpose**: **This is the core implementation file.** It contains the `createRedisStoreAdapter` factory function. All the logic for connecting to Redis, managing separate command/subscriber clients, and implementing the methods of the `IgniterStoreAdapter` interface (like `get`, `set`, `publish`) resides here.
+    > **Purpose**: **This is the core implementation file.** It contains the `createRedisStoreAdapter` factory function. All the logic for connecting to Redis, managing separate command/subscriber clients, and implementing the methods of the `FlameStoreAdapter` interface (like `get`, `set`, `publish`) resides here.
     > **Maintenance**: Any task involving a change to caching behavior, pub/sub logic, or how Redis commands are executed will happen in this file. You must study this file's contents carefully before any modification.
 
 *   `src/__tests__/`
@@ -72,14 +72,14 @@ This section provides explicit, step-by-step instructions for performing common 
 
 **Scenario:** A developer wants to add a `getSetMembers(key: string)` method to the store to retrieve all members of a Redis Set.
 
-1.  **Objective Analysis:** The goal is to expose a native Redis command (`SMEMBERS`) through the Igniter.js Store API. This requires updating the core interface and then implementing the logic in this adapter.
+1.  **Objective Analysis:** The goal is to expose a native Redis command (`SMEMBERS`) through the Flame.js Store API. This requires updating the core interface and then implementing the logic in this adapter.
 
-2.  **Locate and Update Core Interface:** The `IgniterStoreAdapter` interface is the source of truth for the store's contract.
+2.  **Locate and Update Core Interface:** The `FlameStoreAdapter` interface is the source of truth for the store's contract.
     -   **File:** `packages/core/src/types/store.interface.ts`.
-    -   **Action:** Add the new method signature to the `IgniterStoreAdapter` interface.
+    -   **Action:** Add the new method signature to the `FlameStoreAdapter` interface.
     ```typescript
     // In packages/core/src/types/store.interface.ts
-    export interface IgniterStoreAdapter {
+    export interface FlameStoreAdapter {
       // ... existing methods: get, set, etc.
       getSetMembers(key: string): Promise<string[]>; // Add the new method
     }
@@ -187,4 +187,9 @@ This section provides explicit, step-by-step instructions for performing common 
         -   Test the case with a function prefix. Mock the function and assert that it's called with the correct original key.
         -   Ensure existing tests for `get`, `set`, etc., are updated to work with this new dynamic key logic.
 
-This methodical, type-first, and test-driven approach is mandatory for maintaining the quality and reliability of the Igniter.js adapters.
+This methodical, type-first, and test-driven approach is mandatory for maintaining the quality and reliability of the Flame.js adapters.
+
+
+
+
+

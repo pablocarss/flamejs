@@ -1,4 +1,4 @@
-# Igniter.js Starter: TanStack Start Full-Stack App
+# Flame.js Starter: TanStack Start Full-Stack App
 
 [![TanStack Start](https://img.shields.io/badge/TanStack%20Start-1-blue.svg)](https://tanstack.com/start/latest)
 [![Vite](https://img.shields.io/badge/Vite-5-blue.svg)](https://vitejs.dev/)
@@ -6,18 +6,18 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0%2B-blue.svg)](https://www.typescriptlang.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-Welcome to the Igniter.js starter for building full-stack, type-safe applications with **TanStack Start**. This template provides a modern, performant foundation for web applications, combining the power of Vite, file-based routing with TanStack Router, and an end-to-end type-safe API layer provided by Igniter.js.
+Welcome to the Flame.js starter for building full-stack, type-safe applications with **TanStack Start**. This template provides a modern, performant foundation for web applications, combining the power of Vite, file-based routing with TanStack Router, and an end-to-end type-safe API layer provided by Flame.js.
 
 ## Features
 
 -   **Full-Stack with TanStack Start**: A cohesive, modern full-stack framework powered by Vite.
--   **End-to-End Type Safety**: Powered by Igniter.js, ensuring type safety between your front-end and back-end.
+-   **End-to-End Type Safety**: Powered by Flame.js, ensuring type safety between your front-end and back-end.
 -   **File-Based Routing**: Uses TanStack Router for intuitive, type-safe routing.
 -   **Server-Side Data Fetching**: Leverages TanStack Router's loaders to fetch data on the server.
 -   **Feature-Based API Architecture**: A scalable project structure that organizes API code by business domain.
 -   **Ready-to-Use Services**: Pre-configured examples for:
-    -   **Caching**: Integrated with Redis via `@igniter-js/adapter-redis`.
-    -   **Background Jobs**: Asynchronous task processing with BullMQ via `@igniter-js/adapter-bullmq`.
+    -   **Caching**: Integrated with Redis via `@flame-js/adapter-redis`.
+    -   **Background Jobs**: Asynchronous task processing with BullMQ via `@flame-js/adapter-bullmq`.
 -   **Auto-Generated API Client**: A fully-typed client that mirrors your API, providing autocomplete and compile-time error checking.
 
 ## Prerequisites
@@ -35,8 +35,8 @@ Follow these steps to get your project up and running:
 
 1.  **Clone the Repository**
     ```bash
-    git clone https://github.com/felipebarcelospro/igniter-js.git
-    cd igniter-js/apps/starter-tanstack-start
+    git clone https://github.com/felipebarcelospro/Flame-js.git
+    cd Flame-js/apps/starter-tanstack-start
     ```
 
 2.  **Install Dependencies**
@@ -45,7 +45,7 @@ Follow these steps to get your project up and running:
     ```
 
 3.  **Configure Environment Variables**
-    Create a `.env` file in the root of this starter (`igniter-js/apps/starter-tanstack-start/.env`) and add your database and Redis connection URLs:
+    Create a `.env` file in the root of this starter (`Flame-js/apps/starter-tanstack-start/.env`) and add your database and Redis connection URLs:
 
     ```env
     # .env
@@ -66,35 +66,35 @@ Follow these steps to get your project up and running:
 
 ## How It Works
 
-This starter integrates an Igniter.js API backend directly into a TanStack Start application.
+This starter integrates an Flame.js API backend directly into a TanStack Start application.
 
 ### 1. API Integration via Catch-All Route
 
-The connection point between TanStack Start and Igniter.js is a **catch-all API route**.
+The connection point between TanStack Start and Flame.js is a **catch-all API route**.
 
 -   **Location**: `src/routes/api/v1/$.ts`
--   **Mechanism**: This file uses `createFileRoute` from TanStack Router to capture all requests made to `/api/v1/*`. Both the `loader` (for GET requests) and `action` (for POST, PUT, etc.) functions call a handler that passes the standard `Request` object directly to the `AppRouter.handler` from Igniter.js. This seamlessly delegates API handling to the Igniter.js runtime.
+-   **Mechanism**: This file uses `createFileRoute` from TanStack Router to capture all requests made to `/api/v1/*`. Both the `loader` (for GET requests) and `action` (for POST, PUT, etc.) functions call a handler that passes the standard `Request` object directly to the `AppRouter.handler` from Flame.js. This seamlessly delegates API handling to the Flame.js runtime.
 
-### 2. The Igniter.js API Layer
+### 2. The Flame.js API Layer
 
-The back-end API logic is defined purely within the Igniter.js structure.
+The back-end API logic is defined purely within the Flame.js structure.
 
--   **Initialization (`src/igniter.ts`)**: This is where the core Igniter instance is created and configured with adapters for the store (Redis), jobs (BullMQ), and logging.
--   **Router (`src/igniter.router.ts`)**: This file assembles the main API router by importing all feature controllers.
+-   **Initialization (`src/Flame.ts`)**: This is where the core Flame instance is created and configured with adapters for the store (Redis), jobs (BullMQ), and logging.
+-   **Router (`src/Flame.router.ts`)**: This file assembles the main API router by importing all feature controllers.
 -   **Controllers (`src/features/[feature]/controllers/`)**: Controllers group related API actions (`query` and `mutation`). This is where your business logic lives.
 
 ### 3. Type-Safe Client & React Hooks
 
-Igniter.js automatically generates a type-safe client based on your API router.
+Flame.js automatically generates a type-safe client based on your API router.
 
--   The `api` object in `src/igniter.client.ts` is your gateway to the back-end.
+-   The `api` object in `src/Flame.client.ts` is your gateway to the back-end.
 -   You can use the provided React hooks (`.useQuery()`, `.useMutation()`) in your components to fetch and mutate data with full type safety.
 
 **Example Client Component Usage:**
 ```tsx
 // src/routes/index.tsx
 'use client';
-import { api } from '@/igniter.client';
+import { api } from '@/Flame.client';
 
 export function Component() {
   const { data, isLoading } = api.example.health.useQuery();
@@ -112,7 +112,7 @@ export function Component() {
 
 ## Project Structure
 
-The project combines TanStack Start's file-based routing with Igniter.js's feature-based API structure.
+The project combines TanStack Start's file-based routing with Flame.js's feature-based API structure.
 
 ```
 src/
@@ -123,13 +123,13 @@ src/
 ├── routes/               # TanStack Router: file-based routes
 │   ├── api/
 │   │   └── v1/
-│   │       └── $.ts      # Igniter.js API catch-all entry point
+│   │       └── $.ts      # Flame.js API catch-all entry point
 │   ├── __root.tsx        # Root layout component
 │   └── index.tsx         # Component for the '/' route
 ├── services/             # Service initializations (Redis, Prisma, etc.)
-├── igniter.ts            # Igniter.js core instance
-├── igniter.client.ts     # Auto-generated type-safe API client
-├── igniter.router.ts     # Main API router
+├── Flame.ts            # Flame.js core instance
+├── Flame.client.ts     # Auto-generated type-safe API client
+├── Flame.router.ts     # Main API router
 └── router.tsx            # TanStack Router setup
 ```
 
@@ -141,11 +141,16 @@ src/
 
 ## Further Learning
 
--   **[Igniter.js GitHub Repository](https://github.com/felipebarcelospro/igniter-js)**
--   **[Igniter.js Documentation Wiki](https://igniterjs.com/docs)**
+-   **[Flame.js GitHub Repository](https://github.com/felipebarcelospro/Flame-js)**
+-   **[Flame.js Documentation Wiki](https://Flamejs.com/docs)**
 -   **[TanStack Start Documentation](https://tanstack.com/start/latest/docs/overview)**
 -   **[TanStack Router Documentation](https://tanstack.com/router/latest/docs/overview)**
 
 ## License
 
 This starter is licensed under the [MIT License](LICENSE).
+
+
+
+
+

@@ -1,4 +1,4 @@
-name: '🔀 Lia Dispatch'
+name: '🔀 Liz Dispatch'
 
 on:
   pull_request_review_comment:
@@ -44,7 +44,7 @@ jobs:
 
   dispatch:
     # For PRs: only if not from a fork
-    # For comments: only if user types @lia and is OWNER/MEMBER/COLLABORATOR
+    # For comments: only if user types @Liz and is OWNER/MEMBER/COLLABORATOR
     # For issues: only on open/reopen
     if: |-
       (
@@ -52,7 +52,7 @@ jobs:
         github.event.pull_request.head.repo.fork == false
       ) || (
         github.event.sender.type == 'User' &&
-        startsWith(github.event.comment.body || github.event.review.body || github.event.issue.body, '@lia') &&
+        startsWith(github.event.comment.body || github.event.review.body || github.event.issue.body, '@Liz') &&
         contains(fromJSON('["OWNER", "MEMBER", "COLLABORATOR"]'), github.event.comment.author_association || github.event.review.author_association || github.event.issue.author_association)
       ) || (
         github.event_name == 'issues' &&
@@ -93,15 +93,15 @@ jobs:
             const eventType = process.env.EVENT_TYPE
             core.setOutput('request', request);
 
-            if (request.startsWith("@lia /review")) {
+            if (request.startsWith("@Liz /review")) {
               core.setOutput('command', 'review');
-              const additionalContext = request.replace(/^@lia \/review/, '').trim();
+              const additionalContext = request.replace(/^@Liz \/review/, '').trim();
               core.setOutput('additional_context', additionalContext);
-            } else if (request.startsWith("@lia /triage")) {
+            } else if (request.startsWith("@Liz /triage")) {
               core.setOutput('command', 'triage');
-            } else if (request.startsWith("@lia")) {
+            } else if (request.startsWith("@Liz")) {
               core.setOutput('command', 'invoke');
-              const additionalContext = request.replace(/^@lia/, '').trim();
+              const additionalContext = request.replace(/^@Liz/, '').trim();
               core.setOutput('additional_context', additionalContext);
             } else if (eventType === 'pull_request.opened') {
               core.setOutput('command', 'review');
@@ -202,3 +202,7 @@ jobs:
           gh issue comment "${ISSUE_NUMBER}" \
             --body "${MESSAGE}" \
             --repo "${REPOSITORY}"
+
+
+
+

@@ -27,3 +27,8 @@ export function isServerEnvironment(): boolean {
 export function isClientEnvironment(): boolean {
   return typeof window !== 'undefined';
 }
+
+
+
+
+

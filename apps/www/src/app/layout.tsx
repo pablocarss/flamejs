@@ -21,7 +21,7 @@ export const metadata: Metadata = {
   openGraph: {
     images: [
       {
-        url: 'https://igniterjs.com/og-image.png',
+        url: 'https://Flamejs.com/og-image.png',
       }
     ]
   }
@@ -55,3 +55,8 @@ export default async function RootLayout({
     </html>
   );
 }
+
+
+
+
+

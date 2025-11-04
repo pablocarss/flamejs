@@ -10,7 +10,7 @@ const project = resolve(process.cwd(), "tsconfig.json");
  */
 module.exports = {
   extends: [
-    "@igniter-js/eslint-config",
+    "@flame-js/eslint-config",
     "plugin:react/recommended",
     "plugin:react-hooks/recommended",
     "plugin:jsx-a11y/recommended",
@@ -44,3 +44,7 @@ module.exports = {
     "jsx-a11y/anchor-is-valid": "warn",
   },
 }; 
+
+
+
+

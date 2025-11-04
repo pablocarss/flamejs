@@ -24,7 +24,12 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
-      '@igniter-js/core': path.resolve(__dirname, './src')
+      '@flame-js/core': path.resolve(__dirname, './src')
     }
   }
 }) 
+
+
+
+
+

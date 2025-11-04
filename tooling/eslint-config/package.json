@@ -1,8 +1,8 @@
 {
-  "name": "@igniter-js/eslint-config",
+  "name": "@flame-js/eslint-config",
   "version": "0.2.0",
   "private": true,
-  "description": "ESLint configuration for Igniter.js monorepo",
+  "description": "ESLint configuration for Flame.js monorepo",
   "main": "index.js",
   "license": "MIT",
   "files": [
@@ -26,3 +26,8 @@
     "typescript": "^5.0.0"
   }
 } 
+
+
+
+
+

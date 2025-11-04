@@ -110,3 +110,8 @@ export function ChangelogList({ releases }: ChangelogListProps) {
     </motion.div>
   );
 }
+
+
+
+
+

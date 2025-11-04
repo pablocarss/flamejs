@@ -2,11 +2,11 @@ import { Metadata } from 'next';
 import React from 'react';
 
 export const metadata: Metadata = {
-  title: 'Igniter.js Docs: The AI-Friendly, Typesafe Framework',
+  title: 'Flame.js Docs: The AI-Friendly, Typesafe Framework',
   description:
-    'Welcome to the official documentation for Igniter.js. Learn how to build modern, type-safe TypeScript applications with our comprehensive guides and tutorials.',
+    'Welcome to the official documentation for Flame.js. Learn how to build modern, type-safe TypeScript applications with our comprehensive guides and tutorials.',
   keywords: [
-    'Igniter.js',
+    'Flame.js',
     'documentation',
     'TypeScript framework',
     'full-stack',
@@ -19,26 +19,26 @@ export const metadata: Metadata = {
     'tutorial',
   ],
   openGraph: {
-    title: 'Igniter.js Docs: The AI-Friendly, Typesafe Framework',
+    title: 'Flame.js Docs: The AI-Friendly, Typesafe Framework',
     description:
-      'The official documentation for Igniter.js. Learn to build modern, type-safe applications with features like real-time updates, background jobs, and a powerful plugin system.',
+      'The official documentation for Flame.js. Learn to build modern, type-safe applications with features like real-time updates, background jobs, and a powerful plugin system.',
     type: 'website',
-    url: 'https://igniterjs.com/docs',
+    url: 'https://Flamejs.com/docs',
     images: [
       {
-        url: 'https://igniterjs.com/og/docs-home.png', // Assuming an OG image exists
+        url: 'https://Flamejs.com/og/docs-home.png', // Assuming an OG image exists
         width: 1200,
         height: 630,
-        alt: 'Official Documentation for Igniter.js',
+        alt: 'Official Documentation for Flame.js',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Igniter.js Docs: The AI-Friendly, Typesafe Framework',
+    title: 'Flame.js Docs: The AI-Friendly, Typesafe Framework',
     description:
-      'The official documentation for Igniter.js. Learn to build modern, type-safe applications with features like real-time updates, background jobs, and a powerful plugin system.',
-    images: ['https://igniterjs.com/og/docs-home.png'],
+      'The official documentation for Flame.js. Learn to build modern, type-safe applications with features like real-time updates, background jobs, and a powerful plugin system.',
+    images: ['https://Flamejs.com/og/docs-home.png'],
   },
 };
 
@@ -49,3 +49,8 @@ export default function DocsLayout({
 }) {
   return <>{children}</>;
 }
+
+
+
+
+

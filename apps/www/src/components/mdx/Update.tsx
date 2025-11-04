@@ -41,3 +41,8 @@ export const Update: React.FC<UpdateProps> = ({ children, tag, version, title, d
     </section>
   );
 };
+
+
+
+
+

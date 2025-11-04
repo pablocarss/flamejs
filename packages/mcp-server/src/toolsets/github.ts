@@ -12,7 +12,7 @@ export function registerGitHubTools({ server, octokit }: ToolsetContext) {
     description: "Search for GitHub issues across repositories",
     inputSchema: {
       query: z.string().describe("Search query for issues"),
-      repository: z.string().optional().describe("Repository in format 'owner/repo'. Defaults to 'felipebarcelospro/igniter-js'"),
+      repository: z.string().optional().describe("Repository in format 'owner/repo'. Defaults to 'felipebarcelospro/Flame-js'"),
       state: z.enum(['open', 'closed', 'all']).optional().describe("Issue state filter"),
       labels: z.array(z.string()).optional().describe("Labels to filter by"),
       sort: z.enum(['created', 'updated', 'comments']).optional().describe("Sort order"),
@@ -29,7 +29,7 @@ export function registerGitHubTools({ server, octokit }: ToolsetContext) {
     per_page?: number
   }) => {
     try {
-      const [owner, repo] = (repository || 'felipebarcelospro/igniter-js').split('/');
+      const [owner, repo] = (repository || 'felipebarcelospro/Flame-js').split('/');
 
       const searchQuery = `${query} repo:${owner}/${repo}`;
 
@@ -69,7 +69,7 @@ export function registerGitHubTools({ server, octokit }: ToolsetContext) {
     inputSchema: {
       title: z.string().describe("Issue title"),
       body: z.string().describe("Issue body/description"),
-      repository: z.string().optional().describe("Repository in format 'owner/repo'. Defaults to 'felipebarcelospro/igniter-js'"),
+      repository: z.string().optional().describe("Repository in format 'owner/repo'. Defaults to 'felipebarcelospro/Flame-js'"),
       labels: z.array(z.string()).optional().describe("Labels to add to the issue"),
       assignees: z.array(z.string()).optional().describe("Users to assign to the issue")
     },
@@ -81,7 +81,7 @@ export function registerGitHubTools({ server, octokit }: ToolsetContext) {
     assignees?: string[]
   }) => {
     try {
-      const [owner, repo] = (repository || 'felipebarcelospro/igniter-js').split('/');
+      const [owner, repo] = (repository || 'felipebarcelospro/Flame-js').split('/');
 
       const issue = await octokit.rest.issues.create({
         owner,
@@ -111,11 +111,11 @@ export function registerGitHubTools({ server, octokit }: ToolsetContext) {
     description: "Gets detailed information about a specific GitHub issue.",
     inputSchema: {
       issueNumber: z.number(),
-      repository: z.string().optional().describe("Repository in format 'owner/repo'. Defaults to 'felipebarcelospro/igniter-js'")
+      repository: z.string().optional().describe("Repository in format 'owner/repo'. Defaults to 'felipebarcelospro/Flame-js'")
     },
   }, async ({ issueNumber, repository }: { issueNumber: number, repository?: string }) => {
     try {
-      const [owner, repo] = (repository || 'felipebarcelospro/igniter-js').split('/');
+      const [owner, repo] = (repository || 'felipebarcelospro/Flame-js').split('/');
 
       const issue = await octokit.rest.issues.get({
         owner,
@@ -236,7 +236,7 @@ export function registerGitHubTools({ server, octokit }: ToolsetContext) {
     description: "Updates an existing GitHub issue (title, body, labels, assignees, state, etc.)",
     inputSchema: {
       issueNumber: z.number().describe("The issue number to update"),
-      repository: z.string().optional().describe("Repository in format 'owner/repo'. Defaults to 'felipebarcelospro/igniter-js'"),
+      repository: z.string().optional().describe("Repository in format 'owner/repo'. Defaults to 'felipebarcelospro/Flame-js'"),
       title: z.string().optional().describe("New title for the issue"),
       body: z.string().optional().describe("New body/description for the issue"),
       labels: z.array(z.string()).optional().describe("Labels to set on the issue"),
@@ -255,7 +255,7 @@ export function registerGitHubTools({ server, octokit }: ToolsetContext) {
     milestone?: number
   }) => {
     try {
-      const [owner, repo] = (repository || 'felipebarcelospro/igniter-js').split('/');
+      const [owner, repo] = (repository || 'felipebarcelospro/Flame-js').split('/');
 
       const updateData: any = {};
       if (title !== undefined) updateData.title = title;
@@ -294,11 +294,11 @@ export function registerGitHubTools({ server, octokit }: ToolsetContext) {
     description: "Closes an open GitHub issue",
     inputSchema: {
       issueNumber: z.number().describe("The issue number to close"),
-      repository: z.string().optional().describe("Repository in format 'owner/repo'. Defaults to 'felipebarcelospro/igniter-js'")
+      repository: z.string().optional().describe("Repository in format 'owner/repo'. Defaults to 'felipebarcelospro/Flame-js'")
     },
   }, async ({ issueNumber, repository }: { issueNumber: number, repository?: string }) => {
     try {
-      const [owner, repo] = (repository || 'felipebarcelospro/igniter-js').split('/');
+      const [owner, repo] = (repository || 'felipebarcelospro/Flame-js').split('/');
 
       const issue = await octokit.rest.issues.update({
         owner,
@@ -326,7 +326,7 @@ export function registerGitHubTools({ server, octokit }: ToolsetContext) {
     description: "Lists all comments on a specific GitHub issue",
     inputSchema: {
       issueNumber: z.number().describe("The issue number to get comments for"),
-      repository: z.string().optional().describe("Repository in format 'owner/repo'. Defaults to 'felipebarcelospro/igniter-js'"),
+      repository: z.string().optional().describe("Repository in format 'owner/repo'. Defaults to 'felipebarcelospro/Flame-js'"),
       per_page: z.number().min(1).max(100).optional().describe("Number of comments per page (max 100)"),
       page: z.number().min(1).optional().describe("Page number for pagination")
     },
@@ -337,7 +337,7 @@ export function registerGitHubTools({ server, octokit }: ToolsetContext) {
     page?: number
   }) => {
     try {
-      const [owner, repo] = (repository || 'felipebarcelospro/igniter-js').split('/');
+      const [owner, repo] = (repository || 'felipebarcelospro/Flame-js').split('/');
 
       const response = await octokit.rest.issues.listComments({
         owner,
@@ -368,11 +368,11 @@ export function registerGitHubTools({ server, octokit }: ToolsetContext) {
     inputSchema: {
       issueNumber: z.number().describe("The issue number to comment on"),
       body: z.string().describe("The comment body"),
-      repository: z.string().optional().describe("Repository in format 'owner/repo'. Defaults to 'felipebarcelospro/igniter-js'")
+      repository: z.string().optional().describe("Repository in format 'owner/repo'. Defaults to 'felipebarcelospro/Flame-js'")
     },
   }, async ({ issueNumber, body, repository }: { issueNumber: number, body: string, repository?: string }) => {
     try {
-      const [owner, repo] = (repository || 'felipebarcelospro/igniter-js').split('/');
+      const [owner, repo] = (repository || 'felipebarcelospro/Flame-js').split('/');
 
       const comment = await octokit.rest.issues.createComment({
         owner,
@@ -401,11 +401,11 @@ export function registerGitHubTools({ server, octokit }: ToolsetContext) {
     inputSchema: {
       commentId: z.number().describe("The comment ID to update"),
       body: z.string().describe("The new comment body"),
-      repository: z.string().optional().describe("Repository in format 'owner/repo'. Defaults to 'felipebarcelospro/igniter-js'")
+      repository: z.string().optional().describe("Repository in format 'owner/repo'. Defaults to 'felipebarcelospro/Flame-js'")
     },
   }, async ({ commentId, body, repository }: { commentId: number, body: string, repository?: string }) => {
     try {
-      const [owner, repo] = (repository || 'felipebarcelospro/igniter-js').split('/');
+      const [owner, repo] = (repository || 'felipebarcelospro/Flame-js').split('/');
 
       const comment = await octokit.rest.issues.updateComment({
         owner,
@@ -433,11 +433,11 @@ export function registerGitHubTools({ server, octokit }: ToolsetContext) {
     description: "Deletes a comment from a GitHub issue",
     inputSchema: {
       commentId: z.number().describe("The comment ID to delete"),
-      repository: z.string().optional().describe("Repository in format 'owner/repo'. Defaults to 'felipebarcelospro/igniter-js'")
+      repository: z.string().optional().describe("Repository in format 'owner/repo'. Defaults to 'felipebarcelospro/Flame-js'")
     },
   }, async ({ commentId, repository }: { commentId: number, repository?: string }) => {
     try {
-      const [owner, repo] = (repository || 'felipebarcelospro/igniter-js').split('/');
+      const [owner, repo] = (repository || 'felipebarcelospro/Flame-js').split('/');
 
       await octokit.rest.issues.deleteComment({
         owner,
@@ -451,3 +451,8 @@ export function registerGitHubTools({ server, octokit }: ToolsetContext) {
     }
   });
 }
+
+
+
+
+

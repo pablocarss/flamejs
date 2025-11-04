@@ -8,16 +8,16 @@ describe('loadRouter - error scenario from bug report', () => {
   it('should not throw "Cannot read properties of undefined (reading caller)" error', async () => {
     // This test reproduces the bug scenario where the router is loaded but
     // the caller property is missing or undefined, causing a TypeError
-    // when createIgniterClient tries to access router.caller
+    // when createFlameClient tries to access router.caller
     
-    const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'igniter-bug-test-'));
+    const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'Flame-bug-test-'));
     
     try {
       // Create a router file similar to what users would have
       const routerContent = `
-        import { Igniter } from '@igniter-js/core'
+        import { Flame } from '@flame-js/core'
 
-        const igniter = Igniter
+        const Flame = Flame
           .context(async () => ({ userId: 'test-user' }))
           .config({
             baseURL: 'http://localhost:3000',
@@ -25,10 +25,10 @@ describe('loadRouter - error scenario from bug report', () => {
           })
           .create()
 
-        const exampleController = igniter.controller({
+        const exampleController = Flame.controller({
           path: '/example',
           actions: {
-            hello: igniter.query({
+            hello: Flame.query({
               method: 'GET',
               path: '/hello',
               handler: async ({ ctx }) => {
@@ -38,14 +38,14 @@ describe('loadRouter - error scenario from bug report', () => {
           }
         })
 
-        export const AppRouter = igniter.router({
+        export const AppRouter = Flame.router({
           controllers: {
             example: exampleController
           }
         })
       `;
       
-      const routerPath = path.join(tempDir, 'igniter.router.ts');
+      const routerPath = path.join(tempDir, 'Flame.router.ts');
       fs.writeFileSync(routerPath, routerContent, 'utf-8');
       
       // This should not throw any errors
@@ -65,7 +65,7 @@ describe('loadRouter - error scenario from bug report', () => {
       expect(router.caller.example).toBeDefined();
       expect(router.caller.example.hello).toBeDefined();
       
-      // This is what createIgniterClient does - it should not throw
+      // This is what createFlameClient does - it should not throw
       expect(() => {
         const caller = router.caller;
         expect(caller).toBeTruthy();
@@ -79,3 +79,8 @@ describe('loadRouter - error scenario from bug report', () => {
     }
   });
 });
+
+
+
+
+

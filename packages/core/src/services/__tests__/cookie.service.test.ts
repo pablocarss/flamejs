@@ -1,5 +1,5 @@
 import { describe, expect, it, vi, beforeEach } from 'vitest';
-import { IgniterCookie } from '../cookie.service';
+import { FlameCookie } from '../cookie.service';
 
 // Mock the uncrypto module since that's what the code imports
 vi.mock('uncrypto', () => ({
@@ -45,18 +45,18 @@ class MockHeaders {
 
 describe('Cookie Service', () => {
   let headers: MockHeaders;
-  let cookies: IgniterCookie;
+  let cookies: FlameCookie;
 
   beforeEach(() => {
     vi.clearAllMocks();
     headers = new MockHeaders();
-    cookies = new IgniterCookie(headers as any);
+    cookies = new FlameCookie(headers as any);
   });
 
-  describe('IgniterCookie Construction', () => {
+  describe('FlameCookie Construction', () => {
     it('should create cookie instance with empty headers', () => {
       const emptyHeaders = new MockHeaders();
-      const emptyCookies = new IgniterCookie(emptyHeaders as any);
+      const emptyCookies = new FlameCookie(emptyHeaders as any);
 
       expect(emptyCookies).toBeDefined();
       expect(emptyCookies.getAll().size).toBe(0);
@@ -66,7 +66,7 @@ describe('Cookie Service', () => {
       const headersWithCookies = new MockHeaders({
         cookie: 'user=john; session=abc123; theme=dark'
       });
-      const parsedCookies = new IgniterCookie(headersWithCookies as any);
+      const parsedCookies = new FlameCookie(headersWithCookies as any);
 
       expect(parsedCookies.get('user')).toBe('john');
       expect(parsedCookies.get('session')).toBe('abc123');
@@ -78,7 +78,7 @@ describe('Cookie Service', () => {
       const malformedHeaders = new MockHeaders({
         cookie: 'invalid; =empty; valid=value; another='
       });
-      const parsedCookies = new IgniterCookie(malformedHeaders as any);
+      const parsedCookies = new FlameCookie(malformedHeaders as any);
 
       expect(parsedCookies.get('valid')).toBe('value');
       expect(parsedCookies.getAll().size).toBeGreaterThan(0);
@@ -86,7 +86,7 @@ describe('Cookie Service', () => {
 
     it('should handle empty cookie header', () => {
       const emptyHeaders = new MockHeaders({ cookie: '' });
-      const parsedCookies = new IgniterCookie(emptyHeaders as any);
+      const parsedCookies = new FlameCookie(emptyHeaders as any);
 
       expect(parsedCookies.getAll().size).toBe(0);
     });
@@ -421,7 +421,7 @@ describe('Cookie Service', () => {
 
     it('should handle missing headers gracefully', () => {
       const nullHeaders = new MockHeaders();
-      const nullCookies = new IgniterCookie(nullHeaders as any);
+      const nullCookies = new FlameCookie(nullHeaders as any);
       
       expect(nullCookies.getAll().size).toBe(0);
     });
@@ -454,3 +454,8 @@ describe('Cookie Service', () => {
     });
   });
 }); 
+
+
+
+
+

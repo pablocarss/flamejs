@@ -1,17 +1,17 @@
 {
-  "name": "@igniter-js/core",
+  "name": "@flame-js/core",
   "version": "0.2.88",
   "description": "A modern, type-safe, and flexible HTTP framework for building scalable APIs with TypeScript",
   "author": "Felipe Barcelos <felipebarcelospro@gmail.com>",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/felipebarcelospro/igniter-js.git"
+    "url": "git+https://github.com/felipebarcelospro/Flame-js.git"
   },
   "bugs": {
-    "url": "https://github.com/felipebarcelospro/igniter-js/issues"
+    "url": "https://github.com/felipebarcelospro/Flame-js/issues"
   },
-  "homepage": "https://felipebarcelospro.github.io/igniter-js",
+  "homepage": "https://felipebarcelospro.github.io/Flame-js",
   "keywords": [
     "typescript",
     "api",
@@ -120,3 +120,8 @@
     "access": "public"
   }
 }
+
+
+
+
+

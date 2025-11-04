@@ -3,17 +3,17 @@
  * This file contains all browser-only code and dependencies
  */
 
-import type { IgniterAction, IgniterControllerConfig, IgniterRouter, InferRouterCaller, ClientConfig } from '../types';
+import type { FlameAction, FlameControllerConfig, FlameRouter, InferRouterCaller, ClientConfig } from '../types';
 import { parseURL } from '../utils/url';
-import { createUseQuery, createUseMutation, createUseRealtime } from './igniter.hooks';
+import { createUseQuery, createUseMutation, createUseRealtime } from './Flame.hooks';
 
 /**
- * Creates a browser-side client for Igniter Router
+ * Creates a browser-side client for Flame Router
  * This version uses fetch + hooks (zero server dependencies)
  * @param config Client configuration
  * @returns A typed client for calling server actions
  */
-export const createIgniterClient = <TRouter extends IgniterRouter<any, any, any, any, any>>(
+export const createFlameClient = <TRouter extends FlameRouter<any, any, any, any, any>>(
   {
     basePATH,
     baseURL,
@@ -21,7 +21,7 @@ export const createIgniterClient = <TRouter extends IgniterRouter<any, any, any,
   }: ClientConfig<TRouter>
 ): InferRouterCaller<TRouter> => {
   if (!router) {
-    throw new Error('Router is required to create an Igniter client');
+    throw new Error('Router is required to create an Flame client');
   }
 
   if (typeof router === 'function') {
@@ -36,7 +36,7 @@ export const createIgniterClient = <TRouter extends IgniterRouter<any, any, any,
  * Browser-side client implementation
  * Uses fetch-based approach with hooks
  */
-export function createBrowserClient<TRouter extends IgniterRouter<any, any, any, any, any>>(
+export function createBrowserClient<TRouter extends FlameRouter<any, any, any, any, any>>(
   router: TRouter
 ): InferRouterCaller<TRouter> {
 
@@ -49,11 +49,11 @@ export function createBrowserClient<TRouter extends IgniterRouter<any, any, any,
   // Build client structure from router
   for (const controllerName in router.controllers) {
     client[controllerName as keyof typeof client] = {} as any;
-    const controller = router.controllers[controllerName] as IgniterControllerConfig<any>;
+    const controller = router.controllers[controllerName] as FlameControllerConfig<any>;
     const parsedBaseURL = parseURL(baseURL, basePATH, controller.path);
 
     for (const actionName in controller.actions) {
-      const action = controller.actions[actionName] as IgniterAction<any, any, any, any, any, any, any, any, any, any>;
+      const action = controller.actions[actionName] as FlameAction<any, any, any, any, any, any, any, any, any, any>;
 
       // Create fetcher for this specific action
       const fetcher = createActionFetcher(action, parsedBaseURL);
@@ -81,7 +81,7 @@ export function createBrowserClient<TRouter extends IgniterRouter<any, any, any,
  * Creates a fetch-based caller for browser environment
  * This function includes all browser-specific fetch logic
  */
-function createActionFetcher<TAction extends IgniterAction<any, any, any, any, any, any, any, any, any, any>>(
+function createActionFetcher<TAction extends FlameAction<any, any, any, any, any, any, any, any, any, any>>(
   action: TAction,
   baseURL: string,
 ) {
@@ -169,9 +169,14 @@ function createActionFetcher<TAction extends IgniterAction<any, any, any, any, a
       // In both cases, we re-throw it to be handled by the hooks.
       if (error instanceof Error) {
         // Add more context to network errors
-        throw new Error(`IgniterClient fetch error: ${error.message}`);
+        throw new Error(`FlameClient fetch error: ${error.message}`);
       }
       throw error;
     }
   };
 }
+
+
+
+
+

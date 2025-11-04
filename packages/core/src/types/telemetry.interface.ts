@@ -1,5 +1,5 @@
 /**
- * Telemetry interfaces for the Igniter Router framework.
+ * Telemetry interfaces for the Flame Router framework.
  * Provides observability through tracing, metrics, and events.
  * 
  * @since 0.2.0
@@ -9,7 +9,7 @@
  * Span individual para tracing distribuído.
  * Representa uma unidade de trabalho em um trace distribuído.
  */
-export interface IgniterTelemetrySpan {
+export interface FlameTelemetrySpan {
   /** Nome do span */
   readonly name: string;
   /** ID único do span */
@@ -34,15 +34,15 @@ export interface IgniterTelemetrySpan {
   /** Finalizar span */
   finish(): void;
   /** Criar child span */
-  child(name: string, options?: IgniterSpanOptions): IgniterTelemetrySpan;
+  child(name: string, options?: FlameSpanOptions): FlameTelemetrySpan;
   /** Obter contexto do span para propagação */
-  getContext(): IgniterSpanContext;
+  getContext(): FlameSpanContext;
 }
 
 /**
  * Contexto de span para propagação entre serviços.
  */
-export interface IgniterSpanContext {
+export interface FlameSpanContext {
   traceId: string;
   spanId: string;
   traceFlags: number;
@@ -52,7 +52,7 @@ export interface IgniterSpanContext {
 /**
  * Timer para métricas de duração.
  */
-export interface IgniterTimer {
+export interface FlameTimer {
   /** Nome da métrica */
   readonly name: string;
   /** Timestamp de início */
@@ -70,9 +70,9 @@ export interface IgniterTimer {
  * Provider principal de telemetria.
  * Interface unificada para diferentes provedores (OpenTelemetry, DataDog, Console).
  */
-export interface IgniterTelemetryProvider {
+export interface FlameTelemetryProvider {
   /** Configuração do provider */
-  readonly config: IgniterTelemetryConfig;
+  readonly config: FlameTelemetryConfig;
   /** Nome do provider */
   readonly name: string;
   /** Status do provider */
@@ -83,13 +83,13 @@ export interface IgniterTelemetryProvider {
   // ==========================================
   
   /** Iniciar novo span */
-  startSpan(name: string, options?: IgniterSpanOptions): IgniterTelemetrySpan;
+  startSpan(name: string, options?: FlameSpanOptions): FlameTelemetrySpan;
   /** Obter span ativo atual */
-  getActiveSpan(): IgniterTelemetrySpan | null;
+  getActiveSpan(): FlameTelemetrySpan | null;
   /** Definir span como ativo */
-  setActiveSpan(span: IgniterTelemetrySpan): void;
+  setActiveSpan(span: FlameTelemetrySpan): void;
   /** Executar função com span ativo */
-  withActiveSpan<T>(span: IgniterTelemetrySpan, fn: () => T): T;
+  withActiveSpan<T>(span: FlameTelemetrySpan, fn: () => T): T;
   
   // ==========================================
   // METRICS
@@ -104,7 +104,7 @@ export interface IgniterTelemetryProvider {
   /** Gauge (valor atual) */
   gauge(metric: string, value: number, tags?: Record<string, string>): void;
   /** Timer (duração) */
-  timer(metric: string, tags?: Record<string, string>): IgniterTimer;
+  timer(metric: string, tags?: Record<string, string>): FlameTimer;
   /** Timing (registrar duração diretamente) */
   timing(metric: string, duration: number, tags?: Record<string, string>): void;
   
@@ -138,7 +138,7 @@ export interface IgniterTelemetryProvider {
 /**
  * Configuração de telemetria.
  */
-export interface IgniterTelemetryConfig {
+export interface FlameTelemetryConfig {
   /** Nome do serviço */
   serviceName: string;
   /** Versão do serviço */
@@ -172,11 +172,11 @@ export interface IgniterTelemetryConfig {
 /**
  * Opções para criação de spans.
  */
-export interface IgniterSpanOptions {
+export interface FlameSpanOptions {
   /** Span pai */
-  parent?: IgniterTelemetrySpan;
+  parent?: FlameTelemetrySpan;
   /** Contexto de span pai para propagação */
-  parentContext?: IgniterSpanContext;
+  parentContext?: FlameSpanContext;
   /** Tags iniciais */
   tags?: Record<string, string | number | boolean>;
   /** Timestamp de início customizado */
@@ -193,13 +193,13 @@ export interface IgniterSpanOptions {
  * Context enriquecido com telemetria.
  * Adicionado ao contexto existente quando telemetria está habilitada.
  */
-export interface IgniterContextWithTelemetry<TContext extends object> {
+export interface FlameContextWithTelemetry<TContext extends object> {
   /** Provider de telemetria */
-  telemetry?: IgniterTelemetryProvider;
+  telemetry?: FlameTelemetryProvider;
   /** Span ativo atual */
-  span?: IgniterTelemetrySpan;
+  span?: FlameTelemetrySpan;
   /** Contexto de trace para propagação */
-  traceContext?: IgniterSpanContext;
+  traceContext?: FlameSpanContext;
 }
 
 /**
@@ -326,17 +326,17 @@ export interface CliTelemetryConfig {
  * Factory function type para criar telemetry providers.
  */
 export type TelemetryProviderFactory<TConfig = any> = (
-  config: IgniterTelemetryConfig & TConfig
-) => IgniterTelemetryProvider | Promise<IgniterTelemetryProvider>;
+  config: FlameTelemetryConfig & TConfig
+) => FlameTelemetryProvider | Promise<FlameTelemetryProvider>;
 
 /**
  * Utility types para inferência de tipos.
  */
 export type InferTelemetryProvider<T> = 
-  T extends IgniterTelemetryProvider ? T : never;
+  T extends FlameTelemetryProvider ? T : never;
 
 export type InferTelemetryConfig<T> = 
-  T extends IgniterTelemetryProvider ? T['config'] : never;
+  T extends FlameTelemetryProvider ? T['config'] : never;
 
 /**
  * Constantes para operações padronizadas.
@@ -370,3 +370,8 @@ export const SPAN_STATUS = {
   COMPLETED: 'completed',
   ERROR: 'error'
 } as const; 
+
+
+
+
+

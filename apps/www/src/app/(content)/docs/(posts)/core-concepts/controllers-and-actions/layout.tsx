@@ -2,11 +2,11 @@ import { Metadata } from 'next';
 import React from 'react';
 
 export const metadata: Metadata = {
-  title: 'Controllers & Actions: Building API Logic | Igniter.js',
+  title: 'Controllers & Actions: Building API Logic | Flame.js',
   description:
-    'Learn how to structure your API with Controllers and implement business logic with Actions (query and mutation). Master the core of building endpoints in Igniter.js.',
+    'Learn how to structure your API with Controllers and implement business logic with Actions (query and mutation). Master the core of building endpoints in Flame.js.',
   keywords: [
-    'Igniter.js',
+    'Flame.js',
     'Controllers',
     'Actions',
     'query',
@@ -18,26 +18,26 @@ export const metadata: Metadata = {
     'type-safe API',
   ],
   openGraph: {
-    title: 'Controllers & Actions: Building API Logic | Igniter.js',
+    title: 'Controllers & Actions: Building API Logic | Flame.js',
     description:
-      'A comprehensive guide to building your API endpoints using Igniter.js. Understand the role of Controllers for organization and Actions for implementing your business logic.',
+      'A comprehensive guide to building your API endpoints using Flame.js. Understand the role of Controllers for organization and Actions for implementing your business logic.',
     type: 'article',
-    url: 'https://igniterjs.com/docs/core-concepts/controllers-and-actions',
+    url: 'https://Flamejs.com/docs/core-concepts/controllers-and-actions',
     images: [
       {
-        url: 'https://igniterjs.com/og/docs-controllers-actions.png', // Assuming an OG image exists
+        url: 'https://Flamejs.com/og/docs-controllers-actions.png', // Assuming an OG image exists
         width: 1200,
         height: 630,
-        alt: 'Building APIs with Controllers and Actions in Igniter.js',
+        alt: 'Building APIs with Controllers and Actions in Flame.js',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Controllers & Actions: Building API Logic | Igniter.js',
+    title: 'Controllers & Actions: Building API Logic | Flame.js',
     description:
-      'A comprehensive guide to building your API endpoints using Igniter.js. Understand the role of Controllers for organization and Actions for implementing your business logic.',
-    images: ['https://igniterjs.com/og/docs-controllers-actions.png'],
+      'A comprehensive guide to building your API endpoints using Flame.js. Understand the role of Controllers for organization and Actions for implementing your business logic.',
+    images: ['https://Flamejs.com/og/docs-controllers-actions.png'],
   },
 };
 
@@ -48,3 +48,8 @@ export default function DocsLayout({
 }) {
   return <>{children}</>;
 }
+
+
+
+
+

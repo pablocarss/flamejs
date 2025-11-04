@@ -1,18 +1,18 @@
-import type { IgniterRealtimeService } from "../services/realtime.service";
+import type { FlameRealtimeService } from "../services/realtime.service";
 import type { JobsNamespaceProxy } from "./jobs.interface";
-import type { IgniterLogger } from "./logger.interface";
-import type { IgniterProcedure } from "./procedure.interface";
-import type { IgniterStoreAdapter } from "./store.interface";
-import type { IgniterTelemetryProvider } from "./telemetry.interface";
-import type { IgniterBuilder } from "../services";
+import type { FlameLogger } from "./logger.interface";
+import type { FlameProcedure } from "./procedure.interface";
+import type { FlameStoreAdapter } from "./store.interface";
+import type { FlameTelemetryProvider } from "./telemetry.interface";
+import type { FlameBuilder } from "../services";
 import type { ContextCallback } from "./context.interface";
-import type { IgniterPlugin, PluginActionsCollection, PluginSelfContext } from "./plugin.interface";
+import type { FlamePlugin, PluginActionsCollection, PluginSelfContext } from "./plugin.interface";
 
 /**
- * Base configuration interface for the Igniter Framework.
- * Defines the base configuration options that can be applied to an Igniter application instance.
+ * Base configuration interface for the Flame Framework.
+ * Defines the base configuration options that can be applied to an Flame application instance.
  */
-export type IgniterBaseConfig = {
+export type FlameBaseConfig = {
   baseURL?: string;
   basePATH?: string;
 }
@@ -111,9 +111,9 @@ export interface DocsConfig {
 
 
 /**
- * Configuration interface for the Igniter Framework builder setup.
+ * Configuration interface for the Flame Framework builder setup.
  * Defines all the core adapters and configuration options that can be applied
- * to an Igniter application instance.
+ * to an Flame application instance.
  *
  * @template TContext - The application context type (object or callback function)
  * @template TStore - The store adapter type for data persistence and caching
@@ -126,7 +126,7 @@ export interface DocsConfig {
  * @example
  * ```typescript
  * // Basic configuration
- * type BasicConfig = IgniterBuilderConfig<
+ * type BasicConfig = FlameBuilderConfig<
  *   { db: Database },
  *   RedisStoreAdapter,
  *   ConsoleLogger,
@@ -135,23 +135,23 @@ export interface DocsConfig {
  * >;
  *
  * // Configuration with context callback
- * type CallbackConfig = IgniterBuilderConfig<
+ * type CallbackConfig = FlameBuilderConfig<
  *   (req: Request) => Promise<{ user: User; db: Database }>,
- *   IgniterStoreAdapter,
- *   IgniterLogger,
+ *   FlameStoreAdapter,
+ *   FlameLogger,
  *   JobsNamespaceProxy<any>,
- *   IgniterTelemetryProvider
+ *   FlameTelemetryProvider
  * >;
  * ```
  */
-export interface IgniterBuilderConfig<
+export interface FlameBuilderConfig<
   TContext extends object | ContextCallback,
-  TConfig extends IgniterBaseConfig,
-  TStore extends IgniterStoreAdapter = any,
-  TLogger extends IgniterLogger = any,
+  TConfig extends FlameBaseConfig,
+  TStore extends FlameStoreAdapter = any,
+  TLogger extends FlameLogger = any,
   TJobs extends JobsNamespaceProxy<TContext> = any,
-  TTelemetry extends IgniterTelemetryProvider = any,
-  TPlugins extends Record<string, IgniterPlugin<any, any, any, any, any, any, any, any>> = Record<string, any>,
+  TTelemetry extends FlameTelemetryProvider = any,
+  TPlugins extends Record<string, FlamePlugin<any, any, any, any, any, any, any, any>> = Record<string, any>,
   TDocs extends DocsConfig = any,
 > {
   /**
@@ -187,7 +187,7 @@ export interface IgniterBuilderConfig<
    * ]
    * ```
    */
-  middleware?: readonly IgniterProcedure<unknown, unknown, unknown>[];
+  middleware?: readonly FlameProcedure<unknown, unknown, unknown>[];
 
   /**
    * Store adapter for data persistence, caching, pub/sub messaging, and sessions.
@@ -203,7 +203,7 @@ export interface IgniterBuilderConfig<
    * })
    * ```
    */
-  store: TStore extends IgniterStoreAdapter ? TStore : never;
+  store: TStore extends FlameStoreAdapter ? TStore : never;
 
   /**
    * Logger adapter for structured logging with configurable levels and outputs.
@@ -218,7 +218,7 @@ export interface IgniterBuilderConfig<
    * })
    * ```
    */
-  logger: TLogger extends IgniterLogger ? TLogger : never;
+  logger: TLogger extends FlameLogger ? TLogger : never;
 
   /**
    * Job queue adapter for background processing and scheduled tasks.
@@ -245,14 +245,14 @@ export interface IgniterBuilderConfig<
    * @example
    * ```typescript
    * telemetry: createOpenTelemetryProvider({
-   *   serviceName: 'igniter-api',
+   *   serviceName: 'Flame-api',
    *   serviceVersion: '1.0.0',
    *   traceExporter: 'jaeger',
    *   metricExporter: 'prometheus'
    * })
    * ```
    */
-  telemetry: TTelemetry extends IgniterTelemetryProvider ? TTelemetry : never;
+  telemetry: TTelemetry extends FlameTelemetryProvider ? TTelemetry : never;
 
   /**
    * Router-level configuration for URL handling and routing behavior.
@@ -271,7 +271,7 @@ export interface IgniterBuilderConfig<
    * Realtime service for event-driven communication.
    * Enables real-time updates and notifications to clients.
    */
-  realtime: IgniterRealtimeService
+  realtime: FlameRealtimeService
 
   /**
    * Plugin registry for type-safe access to plugin actions and events.
@@ -293,33 +293,33 @@ export interface IgniterBuilderConfig<
  *
  * @example
  * ```typescript
- * const withAuth: IgniterBuilderExtension<AppContext> = (builder) =>
+ * const withAuth: FlameBuilderExtension<AppContext> = (builder) =>
  *   builder.middleware([authProcedure({ required: true })]);
  *
- * const withRateLimit: IgniterBuilderExtension<AppContext> = (builder) =>
+ * const withRateLimit: FlameBuilderExtension<AppContext> = (builder) =>
  *   builder.middleware([rateLimitProcedure({ max: 100 })]);
  *
  * // Compose multiple extensions
- * const igniter = Igniter
+ * const Flame = Flame
  *   .context<AppContext>()
  *   .extend(withAuth)
  *   .extend(withRateLimit)
  *   .create();
  * ```
  */
-export type IgniterBuilderExtension<
+export type FlameBuilderExtension<
   TContext extends object, 
-  TConfig extends IgniterBaseConfig, 
-  TMiddlewares extends readonly IgniterProcedure<unknown, unknown, unknown>[], 
-  TStore extends IgniterStoreAdapter, 
-  TLogger extends IgniterLogger, 
+  TConfig extends FlameBaseConfig, 
+  TMiddlewares extends readonly FlameProcedure<unknown, unknown, unknown>[], 
+  TStore extends FlameStoreAdapter, 
+  TLogger extends FlameLogger, 
   TJobs extends JobsNamespaceProxy<any>, 
-  TTelemetry extends IgniterTelemetryProvider, 
-  TRealtime extends IgniterRealtimeService, 
-  TPlugins extends Record<string, IgniterPlugin<any, any, any, any, any, any, any, any>>, 
+  TTelemetry extends FlameTelemetryProvider, 
+  TRealtime extends FlameRealtimeService, 
+  TPlugins extends Record<string, FlamePlugin<any, any, any, any, any, any, any, any>>, 
   TDocs extends DocsConfig
 > = (
-  builder: IgniterBuilder<
+  builder: FlameBuilder<
     TContext, 
     TConfig, 
     TStore, 
@@ -330,7 +330,7 @@ export type IgniterBuilderExtension<
     TPlugins, 
     TDocs
   >,
-) => IgniterBuilder<
+) => FlameBuilder<
   TContext, 
   TConfig, 
   TStore, 
@@ -432,7 +432,7 @@ export type InferPluginContextExtensions<TPlugins extends Record<string, any>> =
 
 /**
  * Type-safe plugin configuration for builder registration.
- * Ensures all plugins implement the IgniterPlugin interface correctly.
+ * Ensures all plugins implement the FlamePlugin interface correctly.
  *
  * @template TPlugins - Record of plugin name to plugin instance
  *
@@ -444,7 +444,7 @@ export type InferPluginContextExtensions<TPlugins extends Record<string, any>> =
  *   email: emailPlugin     // ✅ Type-checked
  * };
  *
- * const igniter = Igniter
+ * const Flame = Flame
  *   .context<AppContext>()
  *   .plugins(plugins)      // ✅ Full IntelliSense
  *   .create();
@@ -499,3 +499,8 @@ export type MergePluginContexts<
  * ```
  */
 export type PluginProxyAccess<TPlugins extends Record<string, any>> = InferPluginRegistry<TPlugins>;
+
+
+
+
+

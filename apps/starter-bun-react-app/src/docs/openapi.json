@@ -1,9 +1,9 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "title": "Igniter.js Starter (Bun REST API)",
+    "title": "Flame.js Starter (Bun REST API)",
     "version": "1.0.0",
-    "description": "A sample Bun REST API built with Igniter.js"
+    "description": "A sample Bun REST API built with Flame.js"
   },
   "servers": [
     {
@@ -43,3 +43,8 @@
     "securitySchemes": {}
   }
 }
+
+
+
+
+

@@ -5,9 +5,9 @@ import { BlogList } from "./components/blog-list";
 
 export const metadata = generateMetadata({
   title: "Blog",
-  description: "Stay updated with the latest news, tutorials, and insights about Igniter.js. Learn best practices, discover new features, and get tips from the community.",
+  description: "Stay updated with the latest news, tutorials, and insights about Flame.js. Learn best practices, discover new features, and get tips from the community.",
   canonical: "/blog",
-  keywords: ["Igniter.js blog", "TypeScript tutorials", "Framework updates", "Web development", "API development", "Best practices"]
+  keywords: ["Flame.js blog", "TypeScript tutorials", "Framework updates", "Web development", "API development", "Best practices"]
 });
 
 export default async function Page() {
@@ -24,7 +24,7 @@ export default async function Page() {
               Blog
             </h2>
             <p className="text-muted-foreground max-w-md">
-              Stay updated with the latest news, tutorials, and insights about Igniter.js. Learn best practices, discover new features, and get tips from the community.
+              Stay updated with the latest news, tutorials, and insights about Flame.js. Learn best practices, discover new features, and get tips from the community.
             </p>
           </div>
         </div>
@@ -43,3 +43,8 @@ export default async function Page() {
     </div>
   );
 }
+
+
+
+
+

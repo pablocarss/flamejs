@@ -254,3 +254,8 @@ export function registerFileAnalysisTools({ server }: ToolsetContext) {
     }
   });
 }
+
+
+
+
+

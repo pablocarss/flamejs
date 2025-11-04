@@ -135,3 +135,8 @@ export type WhatsAppContact = z.infer<typeof WhatsAppContactSchema>
 export type WhatsAppMessage = z.infer<typeof WhatsAppMessageSchema>
 export type WhatsAppWebhookValue = z.infer<typeof WhatsAppWebhookValueSchema>
 export type WhatsAppWebhook = z.infer<typeof WhatsAppWebhookSchema>
+
+
+
+
+

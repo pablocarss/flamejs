@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from 'vitest';
-import { createIgniterController } from '../controller.service';
+import { createFlameController } from '../controller.service';
 
 // Mock types and functions for testing
 const mockAction1 = {
@@ -21,7 +21,7 @@ const mockAction3 = {
 };
 
 describe('Controller Service', () => {
-  describe('createIgniterController', () => {
+  describe('createFlameController', () => {
     it('should return the exact configuration passed to it', () => {
       const config = {
         name: 'users',
@@ -32,8 +32,8 @@ describe('Controller Service', () => {
         },
       };
 
-      // @ts-expect-error - Testing with simplified mock actions, not full IgniterAction objects
-      const controller = createIgniterController(config);
+      // @ts-expect-error - Testing with simplified mock actions, not full FlameAction objects
+      const controller = createFlameController(config);
 
       expect(controller).toBe(config);
       expect(controller).toEqual(config);
@@ -48,8 +48,8 @@ describe('Controller Service', () => {
         },
       };
 
-      // @ts-expect-error - Testing with simplified mock actions, not full IgniterAction objects
-      const controller = createIgniterController(config);
+      // @ts-expect-error - Testing with simplified mock actions, not full FlameAction objects
+      const controller = createFlameController(config);
 
       expect(controller.path).toBe('posts');
     });
@@ -67,8 +67,8 @@ describe('Controller Service', () => {
         actions,
       };
 
-      // @ts-expect-error - Testing with simplified mock actions, not full IgniterAction objects
-      const controller = createIgniterController(config);
+      // @ts-expect-error - Testing with simplified mock actions, not full FlameAction objects
+      const controller = createFlameController(config);
 
       expect(controller.actions).toBe(actions);
       expect(controller.actions.list).toBe(mockAction1);
@@ -83,7 +83,7 @@ describe('Controller Service', () => {
         actions: {},
       };
 
-      const controller = createIgniterController(config);
+      const controller = createFlameController(config);
 
       expect(controller.actions).toEqual({});
       expect(Object.keys(controller.actions)).toHaveLength(0);
@@ -98,8 +98,8 @@ describe('Controller Service', () => {
         },
       };
 
-      // @ts-expect-error - Testing with simplified mock actions, not full IgniterAction objects
-      const controller = createIgniterController(config);
+      // @ts-expect-error - Testing with simplified mock actions, not full FlameAction objects
+      const controller = createFlameController(config);
 
       expect(controller.actions.only).toBe(mockAction1);
       expect(Object.keys(controller.actions)).toHaveLength(1);
@@ -116,8 +116,8 @@ describe('Controller Service', () => {
         actions,
       };
 
-      // @ts-expect-error - Testing with simplified mock actions, not full IgniterAction objects
-      const controller = createIgniterController(config);
+      // @ts-expect-error - Testing with simplified mock actions, not full FlameAction objects
+      const controller = createFlameController(config);
 
       // Should maintain exact reference
       expect(controller.actions).toBe(actions);
@@ -134,8 +134,8 @@ describe('Controller Service', () => {
         },
       };
 
-      // @ts-expect-error - Testing with simplified mock actions, not full IgniterAction objects
-      const controller = createIgniterController(config);
+      // @ts-expect-error - Testing with simplified mock actions, not full FlameAction objects
+      const controller = createFlameController(config);
 
       expect(controller.path).toBe('api/v1/users');
     });
@@ -149,8 +149,8 @@ describe('Controller Service', () => {
         },
       };
 
-      // @ts-expect-error - Testing with simplified mock actions, not full IgniterAction objects
-      const controller = createIgniterController(config);
+      // @ts-expect-error - Testing with simplified mock actions, not full FlameAction objects
+      const controller = createFlameController(config);
 
       expect(controller.path).toBe('');
     });
@@ -164,8 +164,8 @@ describe('Controller Service', () => {
         },
       };
 
-      // @ts-expect-error - Testing with simplified mock actions, not full IgniterAction objects
-      const controller = createIgniterController(config);
+      // @ts-expect-error - Testing with simplified mock actions, not full FlameAction objects
+      const controller = createFlameController(config);
 
       expect(controller.path).toBe('/');
     });
@@ -183,7 +183,7 @@ describe('Controller Service', () => {
         customProperty: 'custom',
       };
 
-      const controller = createIgniterController(originalConfig as any);
+      const controller = createFlameController(originalConfig as any);
 
       // Should be the exact same object
       expect(controller).toBe(originalConfig);
@@ -200,8 +200,8 @@ describe('Controller Service', () => {
       };
 
       const configCopy = { ...originalConfig };
-      // @ts-expect-error - Testing with simplified mock actions, not full IgniterAction objects
-      const controller = createIgniterController(originalConfig);
+      // @ts-expect-error - Testing with simplified mock actions, not full FlameAction objects
+      const controller = createFlameController(originalConfig);
 
       // Original should remain unchanged
       expect(originalConfig).toEqual(configCopy);
@@ -243,8 +243,8 @@ describe('Controller Service', () => {
         actions: complexActions,
       };
 
-      // @ts-expect-error - Testing with simplified mock actions, not full IgniterAction objects
-      const controller = createIgniterController(config);
+      // @ts-expect-error - Testing with simplified mock actions, not full FlameAction objects
+      const controller = createFlameController(config);
 
       expect(controller.actions).toBe(complexActions);
       expect(controller.actions.list.use).toHaveLength(2);
@@ -270,7 +270,7 @@ describe('Controller Service', () => {
         },
       };
 
-      const controller = createIgniterController(config as any);
+      const controller = createFlameController(config as any);
 
       expect(controller.actions.withNull.query).toBeNull();
       expect(controller.actions.withNull.body).toBeUndefined();
@@ -285,8 +285,8 @@ describe('Controller Service', () => {
         },
       };
 
-      // @ts-expect-error - Testing with simplified mock actions, not full IgniterAction objects
-      const controller = createIgniterController(config);
+      // @ts-expect-error - Testing with simplified mock actions, not full FlameAction objects
+      const controller = createFlameController(config);
 
       expect(controller.path).toBe('special-chars_123!@#');
     });
@@ -300,8 +300,8 @@ describe('Controller Service', () => {
         },
       };
 
-      // @ts-expect-error - Testing with simplified mock actions, not full IgniterAction objects
-      const controller = createIgniterController(config);
+      // @ts-expect-error - Testing with simplified mock actions, not full FlameAction objects
+      const controller = createFlameController(config);
 
       expect(controller.path).toBe('unicode-测试-路径');
     });
@@ -316,8 +316,8 @@ describe('Controller Service', () => {
         actions,
       };
 
-      // @ts-expect-error - Testing with simplified mock actions, not full IgniterAction objects
-      const controller = createIgniterController(config);
+      // @ts-expect-error - Testing with simplified mock actions, not full FlameAction objects
+      const controller = createFlameController(config);
 
       // Should be the exact same references
       expect(controller).toBe(config);
@@ -343,7 +343,7 @@ describe('Controller Service', () => {
         actions: largeActions,
       };
 
-      const controller = createIgniterController(config);
+      const controller = createFlameController(config);
 
       expect(controller.actions).toBe(largeActions);
       expect(Object.keys(controller.actions)).toHaveLength(100);
@@ -352,3 +352,8 @@ describe('Controller Service', () => {
     });
   });
 }); 
+
+
+
+
+

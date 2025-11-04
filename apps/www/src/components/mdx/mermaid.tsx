@@ -29,3 +29,8 @@ export function Mermaid({ chart, className }: MermaidProps) {
 
   return <div ref={ref} className={className} />;
 }
+
+
+
+
+

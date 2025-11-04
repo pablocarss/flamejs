@@ -1,5 +1,5 @@
 import type { Queue, Worker, Job, QueueOptions, WorkerOptions } from "bullmq";
-import type { IgniterLogger, IgniterStoreAdapter } from "@igniter-js/core";
+import type { FlameLogger, FlameStoreAdapter } from "@flame-js/core";
 
 /**
  * Options for configuring the BullMQ Adapter.
@@ -9,13 +9,13 @@ export interface BullMQAdapterOptions {
    * Store adapter (Redis) to use with BullMQ.
    * If not provided, a separate Redis connection configuration will be required.
    */
-  store?: IgniterStoreAdapter;
+  store?: FlameStoreAdapter;
 
   /**
    * Context factory to use with BullMQ.
    * If not provided, a separate context factory will be required.
    */
-  logger?: IgniterLogger;
+  logger?: FlameLogger;
 
   /**
    * Custom configuration for BullMQ queues.
@@ -79,3 +79,8 @@ export interface BullMQInstances {
 export type BullMQJob = Job;
 export type BullMQQueue = Queue;
 export type BullMQWorker = Worker;
+
+
+
+
+

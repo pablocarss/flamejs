@@ -53,7 +53,7 @@ export interface ConcurrentProcessesOptions {
  * Color palette for different process types
  */
 const PROCESS_COLORS = {
-  igniter: 'blue',
+  Flame: 'blue',
   nextjs: 'green', 
   vite: 'yellow',
   nuxt: 'cyan',
@@ -227,7 +227,7 @@ interface ProcessStatus {
  */
 interface ProjectInfo {
   name: string;
-  igniterVersion?: string;
+  FlameVersion?: string;
 }
 
 /**
@@ -261,7 +261,7 @@ class InteractiveProcessManager {
   private refreshInterval: NodeJS.Timeout | null = null;
   private apiMonitoringInterval: NodeJS.Timeout | null = null;
   private jobMonitoringInterval: NodeJS.Timeout | null = null;
-  private igniterTabIndex: number; // Index of the Igniter tab
+  private FlameTabIndex: number; // Index of the Flame tab
   private apiTabIndex: number; // Index of the API tab
   private jobsTabIndex: number; // Index of the Jobs tab
   private telemetryTabIndex: number; // Index of the Telemetry tab
@@ -283,11 +283,11 @@ class InteractiveProcessManager {
   private telemetrySubTab: 'spans' | 'metrics' | 'events' = 'spans';
 
   constructor(configs: ProcessConfig[]) {
-    // Reorganize configs: Framework first, then Igniter
+    // Reorganize configs: Framework first, then Flame
     this.processConfigs = this.reorganizeConfigs(configs);
     
     // Set tab indices based on new order
-    this.igniterTabIndex = 1; // Igniter is always second
+    this.FlameTabIndex = 1; // Flame is always second
     this.apiTabIndex = 2; // API tab is third
     this.jobsTabIndex = 3; // Jobs tab is fourth
     this.telemetryTabIndex = 4; // Telemetry tab is fifth
@@ -318,7 +318,7 @@ class InteractiveProcessManager {
     
     // Initialize API tab status
     this.processStatus.set(this.apiTabIndex, {
-      name: 'Igniter.js API',
+      name: 'Flame.js API',
       status: 'running',
       color: this.getSimplifiedColor('api', 'default'),
       lastActivity: new Date()
@@ -326,7 +326,7 @@ class InteractiveProcessManager {
     
     // Initialize Jobs tab status
     this.processStatus.set(this.jobsTabIndex, {
-      name: 'Igniter.js Jobs',
+      name: 'Flame.js Jobs',
       status: 'running',
       color: this.getSimplifiedColor('jobs', 'default'),
       lastActivity: new Date()
@@ -347,7 +347,7 @@ class InteractiveProcessManager {
   }
 
   /**
-   * Reorganize configs to put framework first, then Igniter
+   * Reorganize configs to put framework first, then Flame
    */
   private reorganizeConfigs(configs: ProcessConfig[]): ProcessConfig[] {
     const frameworkConfig = configs.find(c => 
@@ -359,15 +359,15 @@ class InteractiveProcessManager {
       c.name.toLowerCase().includes('astro')
     );
     
-    const igniterConfig = configs.find(c => 
-      c.name.toLowerCase().includes('igniter')
+    const FlameConfig = configs.find(c => 
+      c.name.toLowerCase().includes('Flame')
     );
     
-    const otherConfigs = configs.filter(c => c !== frameworkConfig && c !== igniterConfig);
+    const otherConfigs = configs.filter(c => c !== frameworkConfig && c !== FlameConfig);
     
     const result = [];
     if (frameworkConfig) result.push(frameworkConfig);
-    if (igniterConfig) result.push(igniterConfig);
+    if (FlameConfig) result.push(FlameConfig);
     result.push(...otherConfigs);
     
     return result;
@@ -382,20 +382,20 @@ class InteractiveProcessManager {
       if (fs.existsSync(packageJsonPath)) {
         const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'));
         
-        // Try to find Igniter version from dependencies
+        // Try to find Flame version from dependencies
         const allDeps = {
           ...packageJson.dependencies,
           ...packageJson.devDependencies,
           ...packageJson.peerDependencies
         };
         
-        const igniterVersion = allDeps['@igniter-js/core'] || 
-                              allDeps['@igniter-js/cli'] || 
-                              allDeps['igniter-js'];
+        const FlameVersion = allDeps['@flame-js/core'] || 
+                              allDeps['@flame-js/cli'] || 
+                              allDeps['Flame-js'];
         
         return {
           name: packageJson.name || 'Unknown Project',
-          igniterVersion: igniterVersion ? igniterVersion.replace(/[\^~]/, '') : undefined
+          FlameVersion: FlameVersion ? FlameVersion.replace(/[\^~]/, '') : undefined
         };
       }
     } catch (error) {
@@ -441,13 +441,13 @@ class InteractiveProcessManager {
           this.systemCapabilities.hasJobQueue = true;
         }
 
-        // Detect Igniter adapters
-        if (allDeps['@igniter-js/adapter-redis'] || allDeps['@igniter-js/adapter-redis']) {
+        // Detect Flame adapters
+        if (allDeps['@flame-js/adapter-redis'] || allDeps['@flame-js/adapter-redis']) {
           this.systemCapabilities.detectedPackages.redisAdapter = true;
           this.systemCapabilities.hasRedisStore = true;
         }
 
-        if (allDeps['@igniter-js/adapter-bullmq'] || allDeps['@igniter-js/adapter-bullmq']) {
+        if (allDeps['@flame-js/adapter-bullmq'] || allDeps['@flame-js/adapter-bullmq']) {
           this.systemCapabilities.detectedPackages.bullmqAdapter = true;
           this.systemCapabilities.hasJobQueue = true;
         }
@@ -503,10 +503,10 @@ class InteractiveProcessManager {
 
       // Subscribe to API requests and telemetry channels
       const subscriber = redis.duplicate();
-      await subscriber.subscribe('igniter:api-requests', 'igniter:telemetry');
+      await subscriber.subscribe('Flame:api-requests', 'Flame:telemetry');
       
       subscriber.on('message', (channel, message) => {
-        if (channel === 'igniter:api-requests') {
+        if (channel === 'Flame:api-requests') {
           try {
             const data = JSON.parse(message);
             if (data.type === 'api-request' && data.data) {
@@ -517,7 +517,7 @@ class InteractiveProcessManager {
           } catch (error) {
             console.warn('Failed to parse API request message:', error);
           }
-        } else if (channel === 'igniter:telemetry') {
+        } else if (channel === 'Flame:telemetry') {
           try {
             const data = JSON.parse(message);
             if (data.type === 'telemetry-event' && data.data) {
@@ -869,10 +869,10 @@ class InteractiveProcessManager {
 
   private drawHeader() {
     const uptime = this.formatUptime(Date.now() - this.startTime);
-    const versionInfo = this.projectInfo.igniterVersion ? `v${this.projectInfo.igniterVersion}` : '';
+    const versionInfo = this.projectInfo.FlameVersion ? `v${this.projectInfo.FlameVersion}` : '';
     const projectName = this.projectInfo.name !== 'Unknown Project' ? ` - ${this.projectInfo.name}` : '';
     
-    const title = `${ANSI_COLORS.bold}${ANSI_COLORS.blue}Igniter.js ${versionInfo}${projectName}${ANSI_COLORS.reset}`;
+    const title = `${ANSI_COLORS.bold}${ANSI_COLORS.blue}Flame.js ${versionInfo}${projectName}${ANSI_COLORS.reset}`;
     const subtitle = `${ANSI_COLORS.dim}Uptime: ${uptime} | Press h for help${ANSI_COLORS.reset}`;
     
     console.log(`\n${title}`);
@@ -926,7 +926,7 @@ class InteractiveProcessManager {
     
     const apiColor = this.getSimplifiedColor('api', apiColorState);
     const apiStyle = isApiActive ? ANSI_COLORS.bold : '';
-    tabs.push(`${apiStyle}${apiColor}${apiIcon} ${this.apiTabIndex + 1}. Igniter.js API${ANSI_COLORS.reset}`);
+    tabs.push(`${apiStyle}${apiColor}${apiIcon} ${this.apiTabIndex + 1}. Flame.js API${ANSI_COLORS.reset}`);
     
     // Add Jobs tab with queue count
     const isJobsActive = this.currentProcess === this.jobsTabIndex;
@@ -949,7 +949,7 @@ class InteractiveProcessManager {
     const jobsStyle = isJobsActive ? ANSI_COLORS.bold : '';
     const queueCount = this.queues.size;
     const queueDisplay = queueCount > 0 ? ` (${queueCount} Queue${queueCount !== 1 ? 's' : ''})` : '';
-    tabs.push(`${jobsStyle}${jobsColor}${jobsIcon} ${this.jobsTabIndex + 1}. Igniter.js Jobs${queueDisplay}${ANSI_COLORS.reset}`);
+    tabs.push(`${jobsStyle}${jobsColor}${jobsIcon} ${this.jobsTabIndex + 1}. Flame.js Jobs${queueDisplay}${ANSI_COLORS.reset}`);
     
     // Add Telemetry tab
     const isTelemetryActive = this.currentProcess === this.telemetryTabIndex;
@@ -1067,7 +1067,7 @@ class InteractiveProcessManager {
     const visibleRequests = this.apiRequests.slice(-15); // Show last 15 requests
     
     if (visibleRequests.length === 0) {
-      console.log(`${ANSI_COLORS.dim}No API requests yet. See docs at https://igniterjs.com/docs/api${ANSI_COLORS.reset}\n`);
+      console.log(`${ANSI_COLORS.dim}No API requests yet. See docs at https://Flamejs.com/docs/api${ANSI_COLORS.reset}\n`);
       return;
     }
 
@@ -1093,11 +1093,11 @@ class InteractiveProcessManager {
       console.log(`${ANSI_COLORS.dim}Background Jobs not configured${ANSI_COLORS.reset}\n`);
       console.log(`${ANSI_COLORS.yellow}To enable job monitoring:${ANSI_COLORS.reset}`);
       console.log(`  1. Install BullMQ: ${ANSI_COLORS.cyan}npm install bullmq${ANSI_COLORS.reset}`);
-      console.log(`  2. Install adapter: ${ANSI_COLORS.cyan}npm install @igniter-js/adapter-bullmq${ANSI_COLORS.reset}`);
-      console.log(`  3. Configure in your Igniter router:\n`);
-      console.log(`${ANSI_COLORS.dim}     import { createBullMQAdapter } from '@igniter-js/adapter-bullmq'${ANSI_COLORS.reset}`);
+      console.log(`  2. Install adapter: ${ANSI_COLORS.cyan}npm install @flame-js/adapter-bullmq${ANSI_COLORS.reset}`);
+      console.log(`  3. Configure in your Flame router:\n`);
+      console.log(`${ANSI_COLORS.dim}     import { createBullMQAdapter } from '@flame-js/adapter-bullmq'${ANSI_COLORS.reset}`);
       console.log(`${ANSI_COLORS.dim}     const jobs = createBullMQAdapter({ store: redisStore })${ANSI_COLORS.reset}`);
-      console.log(`${ANSI_COLORS.dim}     const igniter = Igniter.context().store(store).jobs(jobs).create()${ANSI_COLORS.reset}\n`);
+      console.log(`${ANSI_COLORS.dim}     const Flame = Flame.context().store(store).jobs(jobs).create()${ANSI_COLORS.reset}\n`);
       return;
     }
 
@@ -1120,7 +1120,7 @@ class InteractiveProcessManager {
     const visibleJobs = filteredJobs.slice(-12); // Show last 12 jobs
     
     if (visibleJobs.length === 0) {
-      console.log(`${ANSI_COLORS.dim}No jobs found. See docs at igniter.js.org/docs/jobs${ANSI_COLORS.reset}\n`);
+      console.log(`${ANSI_COLORS.dim}No jobs found. See docs at Flame.js.org/docs/jobs${ANSI_COLORS.reset}\n`);
       return;
     }
 
@@ -1588,10 +1588,10 @@ class InteractiveProcessManager {
       
       // Subscribe to API requests and telemetry channels
       const subscriber = redis.duplicate();
-      await subscriber.subscribe('igniter:api-requests', 'igniter:telemetry');
+      await subscriber.subscribe('Flame:api-requests', 'Flame:telemetry');
       
       subscriber.on('message', (channel, message) => {
-        if (channel === 'igniter:api-requests') {
+        if (channel === 'Flame:api-requests') {
           try {
             const data = JSON.parse(message);
             if (data.type === 'api-request' && data.data) {
@@ -1602,7 +1602,7 @@ class InteractiveProcessManager {
           } catch (error) {
             console.warn('Failed to parse API request message:', error);
           }
-        } else if (channel === 'igniter:telemetry') {
+        } else if (channel === 'Flame:telemetry') {
           try {
             const data = JSON.parse(message);
             if (data.type === 'telemetry-event' && data.data) {
@@ -1628,7 +1628,7 @@ class InteractiveProcessManager {
     });
 
     // Set environment variable to indicate interactive mode for child processes
-    process.env.IGNITER_INTERACTIVE_MODE = 'true';
+    process.env.Flame_INTERACTIVE_MODE = 'true';
 
     // Start all processes
     this.processes = this.processConfigs.map((config, index) => {
@@ -1637,7 +1637,7 @@ class InteractiveProcessManager {
         env: { 
           ...process.env, 
           ...config.env,
-          IGNITER_INTERACTIVE_MODE: 'true'
+          Flame_INTERACTIVE_MODE: 'true'
         },
         stdio: ['pipe', 'pipe', 'pipe'],
         shell: true
@@ -1800,16 +1800,16 @@ export async function runConcurrentProcesses(
 }
 
 /**
- * Create a process config for the Igniter watcher
+ * Create a process config for the Flame watcher
  */
-export function createIgniterWatcherProcess(options: {
+export function createFlameWatcherProcess(options: {
   cwd?: string;
   debug?: boolean;
 }): ProcessConfig {
   return {
-    name: 'Igniter',
-    command: `npx @igniter-js/cli@latest generate schema --watch${options.debug ? ' --debug' : ''}`,
-    color: PROCESS_COLORS.igniter,
+    name: 'Flame',
+    command: `npx @flame-js/cli@latest generate schema --watch${options.debug ? ' --debug' : ''}`,
+    color: PROCESS_COLORS.Flame,
     cwd: options.cwd,
     env: {
       NODE_ENV: 'development',
@@ -1846,19 +1846,19 @@ export function createFrameworkDevProcess(
 }
 
 /**
- * Start both Igniter watcher and framework dev server concurrently
+ * Start both Flame watcher and framework dev server concurrently
  */
-export async function startIgniterWithFramework(options: {
+export async function startFlameWithFramework(options: {
   framework: SupportedFramework;
   frameworkCommand: string;
   cwd?: string;
   port?: number;
   debug?: boolean;
-  igniterWatcherCommand?: string;
+  FlameWatcherCommand?: string;
 }): Promise<void> {
-  const logger = createChildLogger({ component: 'igniter-with-framework' });
+  const logger = createChildLogger({ component: 'Flame-with-framework' });
   
-  logger.info('Starting Igniter with framework', {
+  logger.info('Starting Flame with framework', {
     framework: options.framework,
     frameworkCommand: options.frameworkCommand,
     port: options.port,
@@ -1866,7 +1866,7 @@ export async function startIgniterWithFramework(options: {
   });
 
   const processes: ProcessConfig[] = [
-    createIgniterWatcherProcess({
+    createFlameWatcherProcess({
       cwd: options.cwd,
       debug: options.debug
     }),
@@ -1880,9 +1880,9 @@ export async function startIgniterWithFramework(options: {
     )
   ];
 
-  // Override igniter process command if provided
-  if (options.igniterWatcherCommand) {
-    processes[0].command = options.igniterWatcherCommand;
+  // Override Flame process command if provided
+  if (options.FlameWatcherCommand) {
+    processes[0].command = options.FlameWatcherCommand;
   }
 
   await runConcurrentProcesses({
@@ -1893,3 +1893,8 @@ export async function startIgniterWithFramework(options: {
     prefixLength: 8
   });
 }
+
+
+
+
+

@@ -1,16 +1,16 @@
-import type { IgniterLogger } from '@igniter-js/core';
+import type { FlameLogger } from '@flame-js/core';
 
 /**
  * Simple timeline manager that leverages existing logger functionality
  * to create a visual step-by-step process with ANSI icons
  */
 export class TimelineManager {
-  private logger: IgniterLogger;
+  private logger: FlameLogger;
   private currentStep: number = 0;
   private totalSteps: number = 0;
   private startTime: number = Date.now();
 
-  constructor(logger: IgniterLogger) {
+  constructor(logger: FlameLogger) {
     this.logger = logger;
   }
 
@@ -86,6 +86,11 @@ export class TimelineManager {
 /**
  * Factory function to create a TimelineManager
  */
-export function createTimelineManager(logger: IgniterLogger): TimelineManager {
+export function createTimelineManager(logger: FlameLogger): TimelineManager {
   return new TimelineManager(logger);
 }
+
+
+
+
+

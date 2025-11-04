@@ -1,6 +1,6 @@
-import type { IgniterRouter } from "../types";
+import type { FlameRouter } from "../types";
 import type { NextConfig } from "next";
-import { IgniterConsoleLogger } from "../services/logger.service";
+import { FlameConsoleLogger } from "../services/logger.service";
 import { resolveLogLevel, createLoggerContext } from "../utils/logger";
 
 /**
@@ -52,12 +52,12 @@ const NODE_MODULES = [
 ] as const;
 
 /**
- * Lista MÍNIMA de pacotes específicos do Igniter.js (server-only)
+ * Lista MÍNIMA de pacotes específicos do Flame.js (server-only)
  */
-const IGNITER_PACKAGES = [
-  "@igniter-js/adapter-redis",
-  "@igniter-js/adapter-bullmq",
-  "@igniter-js/adapter-opentelemetry",
+const Flame_PACKAGES = [
+  "@flame-js/adapter-redis",
+  "@flame-js/adapter-bullmq",
+  "@flame-js/adapter-opentelemetry",
 ] as const;
 
 /**
@@ -66,14 +66,14 @@ const IGNITER_PACKAGES = [
  */
 const PACKAGE_CONFIG = {
   server: [
-    // Apenas adapters do Igniter que são definitivamente server-only
-    ...IGNITER_PACKAGES,
+    // Apenas adapters do Flame que são definitivamente server-only
+    ...Flame_PACKAGES,
   ],
   client: [
     // Apenas Node.js built-ins que sempre causam problema
     ...NODE_MODULES,
-    // E alguns adapters específicos do Igniter
-    ...IGNITER_PACKAGES,
+    // E alguns adapters específicos do Flame
+    ...Flame_PACKAGES,
   ],
 } as const;
 
@@ -81,12 +81,12 @@ const PACKAGE_CONFIG = {
  * Utilitário para logging seguro (não quebra se console não estiver disponível)
  */
 const safeLog = (() => {
-  let logger: ReturnType<typeof IgniterConsoleLogger.create> | null = null;
+  let logger: ReturnType<typeof FlameConsoleLogger.create> | null = null;
   
   const getLogger = () => {
     if (!logger) {
       try {
-        logger = IgniterConsoleLogger.create({
+        logger = FlameConsoleLogger.create({
           level: resolveLogLevel(),
           context: createLoggerContext('NextJS')
         });
@@ -105,7 +105,7 @@ const safeLog = (() => {
         if (log) {
           log.warn(args.join(' '));
         } else if (typeof console !== "undefined" && console.warn) {
-          console.warn("[withIgniter]", ...args);
+          console.warn("[withFlame]", ...args);
         }
       } catch {
         // Silently fail if logging is not available
@@ -117,7 +117,7 @@ const safeLog = (() => {
         if (log) {
           log.info(args.join(' '));
         } else if (typeof console !== "undefined" && console.info) {
-          console.info("[withIgniter]", ...args);
+          console.info("[withFlame]", ...args);
         }
       } catch {
         // Silently fail if logging is not available
@@ -317,7 +317,7 @@ const createEmptyModule = () => {
   
   const showWarning = (prop) => {
     if (!warningShown.has(prop) && typeof console !== 'undefined' && console.warn) {
-      console.warn(\`[Igniter] Attempted to use server-only module "\${prop}" in client bundle. This is likely a bug.\`);
+      console.warn(\`[Flame] Attempted to use server-only module "\${prop}" in client bundle. This is likely a bug.\`);
       warningShown.add(prop);
     }
   };
@@ -589,7 +589,7 @@ export const getHeadersSafe = async (): Promise<Headers> => {
       return headers();
     } catch (error) {
       try {
-        const logger = IgniterConsoleLogger.create({
+        const logger = FlameConsoleLogger.create({
           level: resolveLogLevel(),
           context: createLoggerContext('NextJS-Headers')
         });
@@ -613,13 +613,13 @@ export const getHeadersSafe = async (): Promise<Headers> => {
 };
 
 /**
- * Adapter function to convert an IgniterRouter instance into Next.js route handlers
+ * Adapter function to convert an FlameRouter instance into Next.js route handlers
  *
- * @param router - An instance of IgniterRouter that will handle the incoming requests
+ * @param router - An instance of FlameRouter that will handle the incoming requests
  * @returns An object containing HTTP method handlers compatible with Next.js route handlers
  * @example
  * ```typescript
- * const router = new IgniterRouter()
+ * const router = new FlameRouter()
  * export const { GET, POST, PUT, DELETE, PATCH } = nextRouteHandlerAdapter(router)
  * ```
  *
@@ -633,7 +633,7 @@ export const getHeadersSafe = async (): Promise<Headers> => {
  *
  * Each method handler receives a Next.js Request object and forwards it to the router's handler
  */
-export const nextRouteHandlerAdapter = (router: IgniterRouter<any, any, any, any, any>) => {
+export const nextRouteHandlerAdapter = (router: FlameRouter<any, any, any, any, any>) => {
   return {
     GET: (request: Request) => {
       return router.handler(request);
@@ -701,7 +701,7 @@ export const createEmptyJsFile = async (
   }
 };
 
-export const withIgniter = (...configs: NextConfig[]): NextConfig => {
+export const withFlame = (...configs: NextConfig[]): NextConfig => {
   try {
     const criticalNodeModules = [
       "fs",
@@ -729,9 +729,9 @@ export const withIgniter = (...configs: NextConfig[]): NextConfig => {
 
       serverExternalPackages: [
         ...(mergedConfig.serverExternalPackages || []),
-        "@igniter-js/adapter-bullmq",
-        "@igniter-js/adapter-opentelemetry",
-        "@igniter-js/adapter-redis",
+        "@flame-js/adapter-bullmq",
+        "@flame-js/adapter-opentelemetry",
+        "@flame-js/adapter-redis",
         'ioredis',
         'bullmq',
       ],
@@ -792,3 +792,8 @@ export const withIgniter = (...configs: NextConfig[]): NextConfig => {
     return configs[0] || {};
   }
 };
+
+
+
+
+

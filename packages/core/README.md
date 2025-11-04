@@ -1,20 +1,20 @@
-# @igniter-js/core
+# @flame-js/core
 
-[![NPM Version](https://img.shields.io/npm/v/@igniter-js/core.svg)](https://www.npmjs.com/package/@igniter-js/core)
+[![NPM Version](https://img.shields.io/npm/v/@flame-js/core.svg)](https://www.npmjs.com/package/@flame-js/core)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Build Status](https://img.shields.io/github/actions/workflow/status/felipebarcelospro/igniter-js/main.yml?branch=main)](https://github.com/felipebarcelospro/igniter-js/actions)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/felipebarcelospro/Flame-js/main.yml?branch=main)](https://github.com/felipebarcelospro/Flame-js/actions)
 
-The core package for the Igniter.js framework. It contains the essential building blocks for creating type-safe, modern TypeScript applications.
+The core package for the Flame.js framework. It contains the essential building blocks for creating type-safe, modern TypeScript applications.
 
 ## Role in the Ecosystem
 
-This package is the heart of the Igniter.js framework. It provides all the fundamental tools you need to build a robust and scalable API, including:
+This package is the heart of the Flame.js framework. It provides all the fundamental tools you need to build a robust and scalable API, including:
 
--   **The Igniter Builder:** A fluent API for composing your application's features.
--   **Action Factories:** `igniter.query()` and `igniter.mutation()` to define your API endpoints.
--   **Controller Factory:** `igniter.controller()` to group related actions.
--   **Procedure Factory:** `igniter.procedure()` for creating reusable, type-safe middleware.
--   **The Router:** `igniter.router()` to assemble all your controllers into a single, executable API handler.
+-   **The Flame Builder:** A fluent API for composing your application's features.
+-   **Action Factories:** `Flame.query()` and `Flame.mutation()` to define your API endpoints.
+-   **Controller Factory:** `Flame.controller()` to group related actions.
+-   **Procedure Factory:** `Flame.procedure()` for creating reusable, type-safe middleware.
+-   **The Router:** `Flame.router()` to assemble all your controllers into a single, executable API handler.
 -   **Core Interfaces:** All the essential TypeScript types and interfaces that power the framework's end-to-end type safety.
 
 ## Installation
@@ -23,19 +23,19 @@ You can install the core package using your favorite package manager:
 
 ```bash
 # npm
-npm install @igniter-js/core
+npm install @flame-js/core
 
 # yarn
-yarn add @igniter-js/core
+yarn add @flame-js/core
 
 # pnpm
-pnpm add @igniter-js/core
+pnpm add @flame-js/core
 
 # bun
-bun add @igniter-js/core
+bun add @flame-js/core
 ```
 
-While `@igniter-js/core` has no required production dependencies, you will likely install `zod` for schema validation, as it is tightly integrated with the framework's type system.
+While `@flame-js/core` has no required production dependencies, you will likely install `zod` for schema validation, as it is tightly integrated with the framework's type system.
 
 ```bash
 npm install zod
@@ -43,14 +43,14 @@ npm install zod
 
 ## Basic Usage
 
-Here is a minimal example of how to create a complete Igniter.js application using only the `core` package.
+Here is a minimal example of how to create a complete Flame.js application using only the `core` package.
 
-### 1. Define the Context (`src/igniter.context.ts`)
+### 1. Define the Context (`src/Flame.context.ts`)
 
 Define the shape of your application's global context. This is where you'll provide dependencies like a database connection.
 
 ```typescript
-// src/igniter.context.ts
+// src/Flame.context.ts
 export interface AppContext {
   // In a real app, this would be a database client instance.
   db: {
@@ -59,30 +59,30 @@ export interface AppContext {
 }
 ```
 
-### 2. Initialize the Igniter Builder (`src/igniter.ts`)
+### 2. Initialize the Flame Builder (`src/Flame.ts`)
 
-Create the main `igniter` instance, telling it about your `AppContext`.
+Create the main `Flame` instance, telling it about your `AppContext`.
 
 ```typescript
-// src/igniter.ts
-import { Igniter } from '@igniter-js/core';
-import type { AppContext } from './igniter.context';
+// src/Flame.ts
+import { Flame } from '@flame-js/core';
+import type { AppContext } from './Flame.context';
 
-export const igniter = Igniter.context<AppContext>().create();
+export const Flame = Flame.context<AppContext>().create();
 ```
 
 ### 3. Create a Controller (`src/features/user/user.controller.ts`)
 
-Define your API endpoints using `igniter.controller()` and `igniter.query()`.
+Define your API endpoints using `Flame.controller()` and `Flame.query()`.
 
 ```typescript
 // src/features/user/user.controller.ts
-import { igniter } from '@/igniter';
+import { Flame } from '@/Flame';
 
-export const userController = igniter.controller({
+export const userController = Flame.controller({
   path: '/users',
   actions: {
-    list: igniter.query({
+    list: Flame.query({
       path: '/',
       handler: async ({ context, response }) => {
         const users = await context.db.findUsers();
@@ -93,16 +93,16 @@ export const userController = igniter.controller({
 });
 ```
 
-### 4. Assemble the Router (`src/igniter.router.ts`)
+### 4. Assemble the Router (`src/Flame.router.ts`)
 
 Register your controller with the main application router.
 
 ```typescript
-// src/igniter.router.ts
-import { igniter } from '@/igniter';
+// src/Flame.router.ts
+import { Flame } from '@/Flame';
 import { userController } from '@/features/user/user.controller';
 
-export const AppRouter = igniter.router({
+export const AppRouter = Flame.router({
   controllers: {
     users: userController,
   },
@@ -115,7 +115,7 @@ Finally, use the `AppRouter.handler` to serve HTTP requests. The handler is fram
 
 ```typescript
 // src/server.ts
-import { AppRouter } from './igniter.router';
+import { AppRouter } from './Flame.router';
 import { createServer } from 'http';
 
 // A simple example with Node.js http server
@@ -139,7 +139,7 @@ createServer(async (req, res) => {
 });
 ```
 
-For more detailed guides and advanced concepts, please refer to the **[Official Igniter.js Wiki](https://igniterjs.com/docs)**.
+For more detailed guides and advanced concepts, please refer to the **[Official Flame.js Wiki](https://Flamejs.com/docs)**.
 
 ## Contributing
 
@@ -148,3 +148,8 @@ Contributions are welcome! Please see the main [CONTRIBUTING.md](/CONTRIBUTING.m
 ## License
 
 This package is licensed under the [MIT License](/LICENSE).
+
+
+
+
+

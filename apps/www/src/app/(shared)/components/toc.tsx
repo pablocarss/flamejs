@@ -66,7 +66,7 @@ export function TableOfContents() {
   }, []);
 
   const shareOnSocial = (platform: string) => {
-    const text = "Check out this Igniter.js documentation!";
+    const text = "Check out this Flame.js documentation!";
     const urls = {
       twitter: `https://twitter.com/intent/tweet?text=${encodeURIComponent(
         text,
@@ -193,10 +193,10 @@ export function TableOfContents() {
           animate={{ opacity: 1 }}
           transition={{ delay: 1 }}
         >
-          Try Igniter.js
+          Try Flame.js
         </motion.h3>
         <p className="text-sm text-muted-foreground mb-4">
-          Get started with Igniter.js by installing it using your preferred
+          Get started with Flame.js by installing it using your preferred
           package manager
         </p>
         <InstallCommandCTA />
@@ -624,3 +624,8 @@ export function ShareSection() {
     </motion.section>
   );
 }
+
+
+
+
+

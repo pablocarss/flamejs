@@ -1,15 +1,15 @@
-import type { IgniterControllerConfig } from "@igniter-js/core";
-import type { IgniterAction } from "@igniter-js/core";
-import type { IgniterRouter } from "@igniter-js/core";
+import type { FlameControllerConfig } from "@flame-js/core";
+import type { FlameAction } from "@flame-js/core";
+import type { FlameRouter } from "@flame-js/core";
 import type { ArgsRawShape, McpAdapterOptions, McpToolInfo } from "src/types";
 import { sanitizeMcpName } from "src/utils/sanitize-mcp-name";
 import type { ZodObject } from "zod";
 
 /**
- * Extract tools from Igniter router.
+ * Extract tools from Flame router.
  */
 export function extractToolsFromRouter<
-  TRouter extends IgniterRouter<any, any, any, any, any>,
+  TRouter extends FlameRouter<any, any, any, any, any>,
 >(
   router: TRouter,
   options: McpAdapterOptions<TRouter>
@@ -22,9 +22,9 @@ export function extractToolsFromRouter<
 
   // Iterate through controllers and actions
   for (const [controllerName, controller] of Object.entries(router.controllers)) {
-    const typedController = controller as IgniterControllerConfig<any>;
+    const typedController = controller as FlameControllerConfig<any>;
     for (const [actionName, action] of Object.entries(typedController.actions)) {
-      const actionConfig = action as IgniterAction<any, any, any, any, any, any, any, any, any, any>;
+      const actionConfig = action as FlameAction<any, any, any, any, any, any, any, any, any, any>;
 
       // Apply filter if provided
       if (options.tools?.filter && !options.tools.filter(controllerName, actionName, actionConfig)) {
@@ -81,3 +81,8 @@ export function extractToolsFromRouter<
 
   return tools;
 }
+
+
+
+
+

@@ -23,7 +23,7 @@ export function registerAgentDelegationTools({ server, memoryManager }: ToolsetC
   // --- Core Agent Delegation Tool ---
   server.registerTool("delegate_to_agent", {
     title: "Delegate Task to Agent (Full YOLO Mode)",
-    description: "Delegates a development task to a specialized coding agent using secure background execution. Use when: task complexity requires focused agent attention, parallel execution is needed, specialized expertise is required (code review, research, implementation), or when Lia needs to focus on strategic work. Supports multiple agent types, sandbox isolation, background execution, and comprehensive progress monitoring. Tasks run in background - use check_delegation_status to monitor progress. Each agent uses its default model (no model selection available).",
+    description: "Delegates a development task to a specialized coding agent using secure background execution. Use when: task complexity requires focused agent attention, parallel execution is needed, specialized expertise is required (code review, research, implementation), or when Liz needs to focus on strategic work. Supports multiple agent types, sandbox isolation, background execution, and comprehensive progress monitoring. Tasks run in background - use check_delegation_status to monitor progress. Each agent uses its default model (no model selection available).",
     inputSchema: {
       task_id: z.string().describe("ID of task to delegate"),
       agent_type: z.enum(getAvailableAgents() as [string, ...string[]]).describe("Type of agent to use for delegation"),
@@ -98,7 +98,7 @@ export function registerAgentDelegationTools({ server, memoryManager }: ToolsetC
         // Background execution
         // Generate job log file path
         const jobId = `job-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
-        const jobPath = path.join(memoryManager.getProjectRoot(), '.github', 'lia', 'jobs');
+        const jobPath = path.join(memoryManager.getProjectRoot(), '.github', 'Liz', 'jobs');
         const outputFile = path.join(jobPath, `${jobId}.log`);
 
         const result = await memoryManager.startBackgroundDelegation(task_id, agent_type as AgentProvider, agentConfig, outputFile);
@@ -1057,3 +1057,8 @@ ${result.error}
     return { content: [{ type: "text", text: instructions.join('\n') }] };
   });
 }
+
+
+
+
+

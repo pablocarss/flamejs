@@ -37,9 +37,9 @@ export class FileSystemService {
     return path.join(this.getMemoryTypeDir(projectRoot, typeDirName), `${id}.mdx`);
   }
 
-  /** Returns the base memory directory path under .github/lia/memories. */
+  /** Returns the base memory directory path under .github/Liz/memories. */
   getMemoryBaseDir(projectRoot: string): string {
-    return path.resolve(projectRoot, '.github', 'lia', 'memories');
+    return path.resolve(projectRoot, '.github', 'Liz', 'memories');
   }
 
   /** Returns the path to a specific memory type directory. */
@@ -181,3 +181,8 @@ export class FileSystemService {
 export function createFileSystemService(projectRoot?: string): FileSystemService {
   return new FileSystemService(projectRoot);
 }
+
+
+
+
+

@@ -22,7 +22,7 @@ const memoryManager = createDefaultMemoryManager();
 
 // Create MCP server
 const server = new McpServer({
-  name: "igniter-mcp-server",
+  name: "Flame-mcp-server",
   version: "0.0.1",
 });
 
@@ -60,3 +60,8 @@ main().catch((error) => {
   console.error("Server error:", error);
   process.exit(1);
 });
+
+
+
+
+

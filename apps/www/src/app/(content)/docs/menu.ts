@@ -9,7 +9,7 @@ export const menu: ContentSection[] = [
         type: "docs",
         category: "introduction",
         date: new Date().toISOString(),
-        description: "Introduction to Igniter.js",
+        description: "Introduction to Flame.js",
         slug: "/docs/",
       },
       {
@@ -17,7 +17,7 @@ export const menu: ContentSection[] = [
         type: "docs",
         category: "quick-start",
         date: new Date().toISOString(),
-        description: "Quick start guide for Igniter.js",
+        description: "Quick start guide for Flame.js",
         slug: "/docs/getting-started/quick-start-guide",
       },
       {
@@ -25,7 +25,7 @@ export const menu: ContentSection[] = [
         type: "docs",
         category: "installation",
         date: new Date().toISOString(),
-        description: "How to install Igniter.js",
+        description: "How to install Flame.js",
         slug: "/docs/getting-started/installation",
       },
       {
@@ -33,7 +33,7 @@ export const menu: ContentSection[] = [
         type: "docs",
         category: "project-structure",
         date: new Date().toISOString(),
-        description: "Understanding Igniter.js project structure",
+        description: "Understanding Flame.js project structure",
         slug: "/docs/getting-started/project-structure",
       },
     ],
@@ -46,23 +46,23 @@ export const menu: ContentSection[] = [
         type: "docs",
         category: "core-concepts",
         date: new Date().toISOString(),
-        description: "Core concepts of Igniter.js",
+        description: "Core concepts of Flame.js",
         slug: "/docs/core-concepts",
       },
       {
-        title: "Igniter Builder",
+        title: "Flame Builder",
         type: "docs",
-        category: "igniter-builder",
+        category: "Flame-builder",
         date: new Date().toISOString(),
-        description: "Understanding the Igniter builder",
-        slug: "/docs/core-concepts/igniter-builder",
+        description: "Understanding the Flame builder",
+        slug: "/docs/core-concepts/Flame-builder",
       },
       {
         title: "Context",
         type: "docs",
         category: "context",
         date: new Date().toISOString(),
-        description: "Understanding context in Igniter.js",
+        description: "Understanding context in Flame.js",
         slug: "/docs/core-concepts/context",
       },
       {
@@ -78,7 +78,7 @@ export const menu: ContentSection[] = [
         type: "docs",
         category: "procedures",
         date: new Date().toISOString(),
-        description: "Understanding procedures in Igniter.js",
+        description: "Understanding procedures in Flame.js",
         slug: "/docs/core-concepts/procedures",
       },
       {
@@ -86,7 +86,7 @@ export const menu: ContentSection[] = [
         type: "docs",
         category: "routing",
         date: new Date().toISOString(),
-        description: "Routing in Igniter.js",
+        description: "Routing in Flame.js",
         slug: "/docs/core-concepts/routing",
       },
       {
@@ -107,7 +107,7 @@ export const menu: ContentSection[] = [
         type: "docs",
         category: "client-side",
         date: new Date().toISOString(),
-        description: "Client-side integration with Igniter.js",
+        description: "Client-side integration with Flame.js",
         slug: "/docs/client-side",
       },
       {
@@ -119,12 +119,12 @@ export const menu: ContentSection[] = [
         slug: "/docs/client-side/api-client",
       },
       {
-        title: "IgniterProvider",
+        title: "FlameProvider",
         type: "docs",
-        category: "igniter-provider",
+        category: "Flame-provider",
         date: new Date().toISOString(),
         description: "React context provider setup",
-        slug: "/docs/client-side/igniter-provider",
+        slug: "/docs/client-side/Flame-provider",
       },
       {
         title: "useQuery",
@@ -160,7 +160,7 @@ export const menu: ContentSection[] = [
         type: "docs",
         category: "advanced-features",
         date: new Date().toISOString(),
-        description: "Advanced features of Igniter.js",
+        description: "Advanced features of Flame.js",
         slug: "/docs/advanced-features",
       },
       {
@@ -196,12 +196,12 @@ export const menu: ContentSection[] = [
         slug: "/docs/advanced-features/openapi-documentation",
       },
       {
-        title: "Igniter Studio",
+        title: "Flame Studio",
         type: "docs",
-        category: "igniter-studio",
+        category: "Flame-studio",
         date: new Date().toISOString(),
-        description: "Igniter Studio is a API playground",
-        slug: "/docs/advanced-features/igniter-studio",
+        description: "Flame Studio is a API playground",
+        slug: "/docs/advanced-features/Flame-studio",
       }
     ],
   },
@@ -217,28 +217,28 @@ export const menu: ContentSection[] = [
         slug: "/docs/cli-and-tooling",
       },
       {
-        title: "igniter init",
+        title: "Flame init",
         type: "docs",
-        category: "igniter-init",
+        category: "Flame-init",
         date: new Date().toISOString(),
-        description: "Initialize new Igniter.js projects",
-        slug: "/docs/cli-and-tooling/igniter-init",
+        description: "Initialize new Flame.js projects",
+        slug: "/docs/cli-and-tooling/Flame-init",
       },
       {
-        title: "igniter dev",
+        title: "Flame dev",
         type: "docs",
-        category: "igniter-dev",
+        category: "Flame-dev",
         date: new Date().toISOString(),
         description: "Development server and hot reload",
-        slug: "/docs/cli-and-tooling/igniter-dev",
+        slug: "/docs/cli-and-tooling/Flame-dev",
       },
       {
-        title: "igniter generate",
+        title: "Flame generate",
         type: "docs",
-        category: "igniter-generate",
+        category: "Flame-generate",
         date: new Date().toISOString(),
         description: "Code generation utilities",
-        slug: "/docs/cli-and-tooling/igniter-generate",
+        slug: "/docs/cli-and-tooling/Flame-generate",
       },
       
     ],
@@ -251,7 +251,7 @@ export const menu: ContentSection[] = [
         type: "docs",
         category: "code-agents-introduction",
         date: new Date().toISOString(),
-        description: "Introduction to using AI Code Agents with Igniter.js",
+        description: "Introduction to using AI Code Agents with Flame.js",
         slug: "/docs/code-agents/introduction",
       },
       {
@@ -321,3 +321,8 @@ export const menu: ContentSection[] = [
     ],
   },
 ];
+
+
+
+
+

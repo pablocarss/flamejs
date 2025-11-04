@@ -1,5 +1,5 @@
 /**
- * @fileoverview Ensure - Type-safe validation and assertion utility for Igniter.js
+ * @fileoverview Ensure - Type-safe validation and assertion utility for Flame.js
  * 
  * The Ensure service provides a comprehensive set of validation methods that throw
  * consistent, well-formatted errors when conditions are not met. Perfect for:
@@ -10,7 +10,7 @@
  * 
  * @example Basic Usage
  * ```typescript
- * import { Ensure } from '@igniter-js/core/services'
+ * import { Ensure } from '@flame-js/core/services'
  * 
  * // In an action handler
  * handler: async ({ request, context }) => {
@@ -22,7 +22,7 @@
  * 
  * @example As Plugin (Recommended)
  * ```typescript
- * const ensurePlugin = createIgniterPlugin({
+ * const ensurePlugin = createFlamePlugin({
  *   name: 'ensure',
  *   build: () => Ensure.initialize('MyApp')
  * })
@@ -34,7 +34,7 @@
  * ```
  */
 
-import { createIgniterPlugin, createIgniterPluginAction, type IgniterPlugin } from "../types/plugin.interface"
+import { createFlamePlugin, createFlamePluginAction, type FlamePlugin } from "../types/plugin.interface"
 import { z } from "zod"
 
 /**
@@ -61,7 +61,7 @@ import { z } from "zod"
  */
 
 export class Ensure {
-  static prefix: string = 'Igniter'
+  static prefix: string = 'Flame'
 
   /**
    * Custom error class for validation failures with enhanced formatting
@@ -1122,7 +1122,7 @@ export class Ensure {
   }
 } 
 
-export const ensure = createIgniterPlugin({
+export const ensure = createFlamePlugin({
   name: 'ensure',
   $meta: {
     name: 'ensure',
@@ -1151,12 +1151,12 @@ export const ensure = createIgniterPlugin({
     version: '1.0.0',
     requiresFramework: '1.0.0',
     category: ['core'],
-    author: 'Igniter',
-    repository: 'https://github.com/igniter-framework/igniter',
-    documentation: 'https://github.com/igniter-framework/igniter',
+    author: 'Flame',
+    repository: 'https://github.com/Flame-framework/Flame',
+    documentation: 'https://github.com/Flame-framework/Flame',
   },
   $actions: {
-    ensure: createIgniterPluginAction({
+    ensure: createFlamePluginAction({
       name: 'ensure',
       description: 'Ensure service',
       input: z.object({
@@ -1168,3 +1168,8 @@ export const ensure = createIgniterPlugin({
     })
   }
 })
+
+
+
+
+

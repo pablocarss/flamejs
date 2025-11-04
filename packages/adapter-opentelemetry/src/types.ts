@@ -1,7 +1,7 @@
 import type {
-  IgniterTelemetryProvider,
-  IgniterTelemetryConfig,
-} from '@igniter-js/core';
+  FlameTelemetryProvider,
+  FlameTelemetryConfig,
+} from '@flame-js/core';
 
 /**
  * OpenTelemetry exporter types
@@ -11,7 +11,7 @@ export type OpenTelemetryExporter = 'console' | 'jaeger' | 'otlp' | 'prometheus'
 /**
  * OpenTelemetry specific configuration
  */
-export interface OpenTelemetryConfig extends IgniterTelemetryConfig {
+export interface OpenTelemetryConfig extends FlameTelemetryConfig {
   /** OpenTelemetry exporters to use */
   exporters?: OpenTelemetryExporter[];
   
@@ -61,7 +61,7 @@ export interface CreateOpenTelemetryAdapterOptions {
 /**
  * OpenTelemetry adapter interface extending base telemetry provider
  */
-export interface OpenTelemetryAdapter extends IgniterTelemetryProvider {
+export interface OpenTelemetryAdapter extends FlameTelemetryProvider {
   /** OpenTelemetry specific configuration */
   readonly config: OpenTelemetryConfig;
   
@@ -74,3 +74,8 @@ export interface OpenTelemetryAdapter extends IgniterTelemetryProvider {
   /** Force flush all pending telemetry data */
   forceFlush(): Promise<void>;
 } 
+
+
+
+
+

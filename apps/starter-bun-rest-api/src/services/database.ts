@@ -9,3 +9,8 @@ import { PrismaClient } from '@prisma/client'
  * @see https://www.prisma.io/docs/concepts/components/prisma-client
  */
 export const database = new PrismaClient()
+
+
+
+
+

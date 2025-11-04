@@ -2,11 +2,11 @@ import { Metadata } from 'next';
 import React from 'react';
 
 export const metadata: Metadata = {
-  title: 'Next.js Starter Guide | Igniter.js',
+  title: 'Next.js Starter Guide | Flame.js',
   description:
-    'A comprehensive guide to building a full-stack, type-safe application with the Igniter.js Next.js Starter. Leverage Server Components, Actions, and end-to-end type safety.',
+    'A comprehensive guide to building a full-stack, type-safe application with the Flame.js Next.js Starter. Leverage Server Components, Actions, and end-to-end type safety.',
   keywords: [
-    'Igniter.js',
+    'Flame.js',
     'Next.js',
     'full-stack starter',
     'type-safe API',
@@ -18,26 +18,26 @@ export const metadata: Metadata = {
     'Backend-for-Frontend',
   ],
   openGraph: {
-    title: 'Full-Stack Guide: Building with the Igniter.js Next.js Starter',
+    title: 'Full-Stack Guide: Building with the Flame.js Next.js Starter',
     description:
-      'Learn to build modern, full-stack applications with Igniter.js and Next.js, leveraging the best of both frameworks for unparalleled type safety and developer experience.',
+      'Learn to build modern, full-stack applications with Flame.js and Next.js, leveraging the best of both frameworks for unparalleled type safety and developer experience.',
     type: 'article',
-    url: 'https://igniterjs.com/docs/starter-guides/nextjs-starter-guide',
+    url: 'https://Flamejs.com/docs/starter-guides/nextjs-starter-guide',
     images: [
       {
-        url: 'https://igniterjs.com/og/docs-nextjs-starter.png', // Assuming an OG image exists
+        url: 'https://Flamejs.com/og/docs-nextjs-starter.png', // Assuming an OG image exists
         width: 1200,
         height: 630,
-        alt: 'Building a Full-Stack App with Next.js and Igniter.js',
+        alt: 'Building a Full-Stack App with Next.js and Flame.js',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Full-Stack Guide: Building with the Igniter.js Next.js Starter',
+    title: 'Full-Stack Guide: Building with the Flame.js Next.js Starter',
     description:
-      'Learn to build modern, full-stack applications with Igniter.js and Next.js, leveraging the best of both frameworks for unparalleled type safety and developer experience.',
-    images: ['https://igniterjs.com/og/docs-nextjs-starter.png'],
+      'Learn to build modern, full-stack applications with Flame.js and Next.js, leveraging the best of both frameworks for unparalleled type safety and developer experience.',
+    images: ['https://Flamejs.com/og/docs-nextjs-starter.png'],
   },
 };
 
@@ -48,3 +48,8 @@ export default function DocsLayout({
 }) {
   return <>{children}</>;
 }
+
+
+
+
+

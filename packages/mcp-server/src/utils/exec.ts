@@ -317,3 +317,8 @@ export function generateEnvSetupCommands(shell: 'bash' | 'zsh' = 'zsh'): string[
     'OPENAI_API_KEY=your-openai-api-key-here'
   ];
 }
+
+
+
+
+

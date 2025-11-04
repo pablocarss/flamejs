@@ -1,8 +1,8 @@
 {
-  "name": "@igniter-js/eslint",
+  "name": "@flame-js/eslint",
   "version": "0.2.1",
   "private": false,
-  "description": "ESLint configuration for Igniter.js projects.",
+  "description": "ESLint configuration for Flame.js projects.",
   "main": "index.js",
   "license": "MIT",
   "author": {
@@ -12,13 +12,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/felipebarcelospro/igniter-router.git",
+    "url": "git+https://github.com/felipebarcelospro/Flame-router.git",
     "directory": "packages/eslint-config"
   },
   "bugs": {
-    "url": "https://github.com/felipebarcelospro/igniter-router/issues"
+    "url": "https://github.com/felipebarcelospro/Flame-router/issues"
   },
-  "homepage": "https://github.com/felipebarcelospro/igniter-router/tree/main/packages/eslint-config#readme",
+  "homepage": "https://github.com/felipebarcelospro/Flame-router/tree/main/packages/eslint-config#readme",
   "keywords": [
     "eslint",
     "eslintconfig",
@@ -27,7 +27,7 @@
     "javascript",
     "react",
     "styleguide",
-    "igniter"
+    "Flame"
   ],
   "scripts": {
     "lint": "eslint .",
@@ -65,3 +65,8 @@
     "access": "public"
   }
 }
+
+
+
+
+

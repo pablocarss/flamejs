@@ -3,7 +3,7 @@ import { FileSystemContentManager } from '@/lib/docs';
 import { templates } from '@/app/(main)/templates/data/templates';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://igniterjs.com';
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://Flamejs.com';
 
   // Static pages
   const staticPages = [
@@ -85,3 +85,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   return [...staticPages, ...contentPages, ...templatePages];
 }
+
+
+
+
+

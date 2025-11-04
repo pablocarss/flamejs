@@ -1,6 +1,6 @@
-import { createIgniterPlugin, createIgniterPluginAction } from "../types/plugin.interface";
+import { createFlamePlugin, createFlamePluginAction } from "../types/plugin.interface";
 import { z } from "zod";
-import { IgniterConsoleLogger } from '../services/logger.service';
+import { FlameConsoleLogger } from '../services/logger.service';
 import { resolveLogLevel, createLoggerContext } from '../utils/logger';
 
 /**
@@ -22,7 +22,7 @@ type AuditContext = {
   requestId?: string;
 }
 
-export const audit = createIgniterPlugin<AuditContext>({
+export const audit = createFlamePlugin<AuditContext>({
   name: "audit",
   $meta: {
     version: "1.0.0",
@@ -32,7 +32,7 @@ export const audit = createIgniterPlugin<AuditContext>({
 
   // Type-safe plugin actions using factories
   $actions: {
-    create: createIgniterPluginAction({
+    create: createFlamePluginAction({
       name: "create",
       description: "Log an audit event",
       input: z.object({
@@ -49,7 +49,7 @@ export const audit = createIgniterPlugin<AuditContext>({
         };
 
         try {
-          const logger = new IgniterConsoleLogger({ 
+          const logger = new FlameConsoleLogger({ 
             level: resolveLogLevel(), 
             context: createLoggerContext('AuditPlugin') 
           });
@@ -66,7 +66,7 @@ export const audit = createIgniterPlugin<AuditContext>({
       },
     }),
 
-    store: createIgniterPluginAction({
+    store: createFlamePluginAction({
       name: "store",
       description: "Store audit event internally",
       input: z.object({
@@ -79,7 +79,7 @@ export const audit = createIgniterPlugin<AuditContext>({
       }),
       handler: async ({ context, input }) => {
         try {
-          const logger = new IgniterConsoleLogger({ 
+          const logger = new FlameConsoleLogger({ 
             level: resolveLogLevel(), 
             context: createLoggerContext('AuditPlugin') 
           });
@@ -95,7 +95,7 @@ export const audit = createIgniterPlugin<AuditContext>({
       },
     }),
 
-    getUserLogs: createIgniterPluginAction({
+    getUserLogs: createFlamePluginAction({
       name: "getUserLogs", 
       description: "Get user audit logs",
       input: z.object({
@@ -219,9 +219,9 @@ export const audit = createIgniterPlugin<AuditContext>({
     version: "1.0.0",
     requiresFramework: "0.1.0",
     category: ["logging", "audit"],
-    author: "Igniter Team",
-    repository: "https://github.com/igniter-js/igniter",
-    documentation: "https://docs.igniter-js.dev/plugins/audit",
+    author: "Flame Team",
+    repository: "https://github.com/Flame-js/Flame",
+    documentation: "https://docs.Flame-js.dev/plugins/audit",
   },
 
   // Plugin dependencies
@@ -241,7 +241,7 @@ export const audit = createIgniterPlugin<AuditContext>({
      */
     init: async (context, self) => {
       try {
-        const logger = new IgniterConsoleLogger({ 
+        const logger = new FlameConsoleLogger({ 
           level: resolveLogLevel(), 
           context: createLoggerContext('AuditPlugin') 
         });
@@ -326,7 +326,7 @@ export const audit = createIgniterPlugin<AuditContext>({
     resources: [],
     cleanup: async (context) => {
       try {
-        const logger = new IgniterConsoleLogger({ 
+        const logger = new FlameConsoleLogger({ 
           level: resolveLogLevel(), 
           context: createLoggerContext('AuditPlugin') 
         });
@@ -337,3 +337,8 @@ export const audit = createIgniterPlugin<AuditContext>({
     },
   },
 });
+
+
+
+
+

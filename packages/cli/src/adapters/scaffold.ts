@@ -140,10 +140,10 @@ function generateCrudProcedureTemplate(model: ModelSchema, featureName?: string)
     const idField = model.fields.find(f => f.isId);
     if (!idField) throw new Error(`Model ${model.name} has no ID field.`);
 
-    return `import { igniter } from '@/igniter';
+    return `import { Flame } from '@/Flame';
 import type { Create${modelNamePascal}Input, Update${modelNamePascal}Input } from '../${featureName}.interfaces';
 
-export const ${modelNameCamel}Procedure = igniter.procedure({
+export const ${modelNameCamel}Procedure = Flame.procedure({
   name: '${modelNameCamel}',
   handler: async (_, { context }) => {
     // This procedure acts as a repository, centralizing database access logic.
@@ -171,17 +171,17 @@ function generateCrudControllerTemplate(model: ModelSchema, featureName?: string
     let idZodType = 'z.string()';
     if(idField.type === 'number') idZodType = 'z.coerce.number()';
 
-    return `import { igniter } from '@/igniter';
+    return `import { Flame } from '@/Flame';
 import { z } from 'zod';
 import { ${modelNameCamel}Procedure } from '../procedures/${featureName}.procedure'
 import { Create${modelNamePascal}InputSchema, Update${modelNamePascal}InputSchema } from '../${featureName}.interfaces'
 
-export const ${modelNameCamel}Controller = igniter.controller({
+export const ${modelNameCamel}Controller = Flame.controller({
   name: '${modelNamePascal}',
   description: 'Endpoints for ${modelNamePascal}s',
   path: '/${modelNameCamel}s', // e.g., /users
   actions: {
-    list: igniter.query({
+    list: Flame.query({
       name: 'list',
       description: 'List all ${modelNamePascal}s',
       path: '/',
@@ -192,7 +192,7 @@ export const ${modelNameCamel}Controller = igniter.controller({
       },
     }),
 
-    getById: igniter.query({
+    getById: Flame.query({
       name: 'getById',
       description: 'Get a ${modelNamePascal} by ID',
       path: '/:id' as const,
@@ -206,7 +206,7 @@ export const ${modelNameCamel}Controller = igniter.controller({
       },
     }),
 
-    create: igniter.mutation({
+    create: Flame.mutation({
       name: 'create',
       description: 'Create a new ${modelNamePascal}',
       path: '/',
@@ -219,7 +219,7 @@ export const ${modelNameCamel}Controller = igniter.controller({
       },
     }),
 
-    update: igniter.mutation({
+    update: Flame.mutation({
       name: 'update',
       description: 'Update a ${modelNamePascal} by ID',
       path: '/:id' as const,
@@ -232,7 +232,7 @@ export const ${modelNameCamel}Controller = igniter.controller({
       },
     }),
 
-    delete: igniter.mutation({
+    delete: Flame.mutation({
       name: 'delete',
       description: 'Delete a ${modelNamePascal} by ID',
       path: '/:id' as const,
@@ -264,14 +264,14 @@ export * from './${interfacesFileName}'
 
 function generateEmptyControllerTemplate(featureName: string): string {
   const controllerName = `${featureName.toLowerCase()}Controller`
-  return `import { igniter } from '@/igniter'
+  return `import { Flame } from '@/Flame'
 import { z } from 'zod'
 
-export const ${controllerName} = igniter.controller({
+export const ${controllerName} = Flame.controller({
   name: '${featureName}',
   path: '/${featureName}',
   actions: {
-    hello: igniter.query({
+    hello: Flame.query({
       path: '/hello',
       handler: async ({ response }) => {
         return response.success({ message: 'Hello from ${featureName}!' })
@@ -360,7 +360,7 @@ async function scaffoldFeatureFromSchema(featureName: string, schemaString: stri
         )
 
         logger.success(`Successfully scaffolded feature '${featureName}' from '${modelName}' model.`)
-        console.log(chalk.cyan(`\n✅ Next step: Register the '${toCamelCase(featureName)}Controller' in 'src/igniter.router.ts'`))
+        console.log(chalk.cyan(`\n✅ Next step: Register the '${toCamelCase(featureName)}Controller' in 'src/Flame.router.ts'`))
 
     } catch (error) {
         logger.error(`Failed to scaffold feature from schema`)
@@ -465,3 +465,8 @@ export async function handleGenerateController(name: string, feature: string): P
 export async function handleGenerateProcedure(name: string, feature: string): Promise<void> {
     logger.warn(`'generate procedure' is not yet fully implemented. Use 'generate feature --schema' instead.`)
 }
+
+
+
+
+

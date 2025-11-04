@@ -1,4 +1,4 @@
-import { createRedisStoreAdapter } from '@igniter-js/adapter-redis'
+import { createRedisStoreAdapter } from '@flame-js/adapter-redis'
 import { redis } from '@/services/redis'
 
 /**
@@ -7,6 +7,11 @@ import { redis } from '@/services/redis'
  * @remarks
  * Provides a unified interface for data storage operations using Redis.
  *
- * @see https://github.com/felipebarcelospro/igniter-js/tree/main/packages/adapter-redis
+ * @see https://github.com/felipebarcelospro/Flame-js/tree/main/packages/adapter-redis
  */
 export const store = createRedisStoreAdapter(redis)
+
+
+
+
+

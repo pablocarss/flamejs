@@ -10,11 +10,11 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^5.1.1",
-    "@igniter-js/adapter-bullmq": "latest",
-    "@igniter-js/adapter-mcp-server": "latest",
-    "@igniter-js/adapter-redis": "latest",
-    "@igniter-js/core": "^0.2.65",
-    "@igniter-js/eslint-config": "^0.1.0",
+    "@flame-js/adapter-bullmq": "latest",
+    "@flame-js/adapter-mcp-server": "latest",
+    "@flame-js/adapter-redis": "latest",
+    "@flame-js/core": "^0.2.65",
+    "@flame-js/eslint-config": "^0.1.0",
     "@prisma/client": "^6.11.1",
     "@radix-ui/react-accordion": "^1.2.11",
     "@radix-ui/react-alert-dialog": "^1.1.14",
@@ -83,3 +83,8 @@
   },
   "legacyPeerDeps": true
 }
+
+
+
+
+

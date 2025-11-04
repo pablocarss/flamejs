@@ -1,17 +1,17 @@
 import { describe, it, expect, vi, beforeEach, type Mock } from 'vitest';
 import { z } from 'zod';
 import {
-  createIgniterProcedure,
+  createFlameProcedure,
   createEnhancedProcedureBuilder,
   createEnhancedProcedureFactories,
 } from '../procedure.service';
 import type { 
-  IgniterProcedure, 
-  IgniterProcedureContext,
+  FlameProcedure, 
+  FlameProcedureContext,
   EnhancedProcedureContext,
   EnhancedProcedureHandler
 } from '../../types/procedure.interface';
-import { IgniterResponseProcessor } from '../../processors/response.processor';
+import { FlameResponseProcessor } from '../../processors/response.processor';
 
 // ============================================================================
 // MOCKS AND TEST HELPERS
@@ -81,10 +81,10 @@ const createMockRequest = (overrides: any = {}) => {
 const createMockProcedureContext = (
   contextOverrides: Partial<TestContext> = {},
   requestOverrides: any = {}
-): IgniterProcedureContext<TestContext> => ({
+): FlameProcedureContext<TestContext> => ({
   request: createMockRequest(requestOverrides),
   context: { ...createMockContext(), ...contextOverrides },
-  response: new IgniterResponseProcessor<any, any>(),
+  response: new FlameResponseProcessor<any, any>(),
   next: vi.fn()
 });
 
@@ -93,16 +93,16 @@ const createMockProcedureContext = (
 // ============================================================================
 
 describe('Procedure Service - Legacy API', () => {
-  describe('createIgniterProcedure', () => {
+  describe('createFlameProcedure', () => {
     it('should create a basic procedure with legacy API', () => {
       const mockHandler = vi.fn().mockResolvedValue({ success: true });
       
-      const procedureConfig: IgniterProcedure<TestContext, undefined, { success: boolean }> = {
+      const procedureConfig: FlameProcedure<TestContext, undefined, { success: boolean }> = {
         name: 'test-procedure',
         handler: mockHandler
       };
 
-      const procedureFactory = createIgniterProcedure(procedureConfig);
+      const procedureFactory = createFlameProcedure(procedureConfig);
       const procedure = procedureFactory();
 
       expect(procedure).toHaveProperty('name', 'test-procedure');
@@ -118,12 +118,12 @@ describe('Procedure Service - Legacy API', () => {
 
       const mockHandler = vi.fn().mockResolvedValue({ configured: true });
       
-      const procedureConfig: IgniterProcedure<TestContext, TestOptions, { configured: boolean }> = {
+      const procedureConfig: FlameProcedure<TestContext, TestOptions, { configured: boolean }> = {
         name: 'configurable-procedure',
         handler: mockHandler
       };
 
-      const procedureFactory = createIgniterProcedure(procedureConfig);
+      const procedureFactory = createFlameProcedure(procedureConfig);
       const procedure = procedureFactory({ required: true, timeout: 5000 });
 
       expect(procedure.name).toBe('configurable-procedure');
@@ -133,12 +133,12 @@ describe('Procedure Service - Legacy API', () => {
     it('should execute procedure handler with correct context', async () => {
       const mockHandler = vi.fn().mockResolvedValue({ executed: true });
       
-      const procedureConfig: IgniterProcedure<TestContext, { flag: boolean }, { executed: boolean }> = {
+      const procedureConfig: FlameProcedure<TestContext, { flag: boolean }, { executed: boolean }> = {
         name: 'executable-procedure',
         handler: mockHandler
       };
 
-      const procedureFactory = createIgniterProcedure(procedureConfig);
+      const procedureFactory = createFlameProcedure(procedureConfig);
       const procedure = procedureFactory({ flag: true });
       
       const mockContext = createMockProcedureContext();
@@ -151,12 +151,12 @@ describe('Procedure Service - Legacy API', () => {
     it('should handle procedure without options', async () => {
       const mockHandler = vi.fn().mockResolvedValue({ simple: true });
       
-      const procedureConfig: IgniterProcedure<TestContext, undefined, { simple: boolean }> = {
+      const procedureConfig: FlameProcedure<TestContext, undefined, { simple: boolean }> = {
         name: 'simple-procedure',
         handler: mockHandler
       };
 
-      const procedureFactory = createIgniterProcedure(procedureConfig);
+      const procedureFactory = createFlameProcedure(procedureConfig);
       const procedure = procedureFactory();
       
       const mockContext = createMockProcedureContext();
@@ -169,12 +169,12 @@ describe('Procedure Service - Legacy API', () => {
     it('should handle synchronous procedure handlers', () => {
       const mockHandler = vi.fn().mockReturnValue({ sync: true });
       
-      const procedureConfig: IgniterProcedure<TestContext, undefined, { sync: boolean }> = {
+      const procedureConfig: FlameProcedure<TestContext, undefined, { sync: boolean }> = {
         name: 'sync-procedure',
         handler: mockHandler
       };
 
-      const procedureFactory = createIgniterProcedure(procedureConfig);
+      const procedureFactory = createFlameProcedure(procedureConfig);
       const procedure = procedureFactory();
       
       const mockContext = createMockProcedureContext();
@@ -582,3 +582,8 @@ describe('Procedure Service - Enhanced Factory Functions', () => {
     });
   });
 });
+
+
+
+
+

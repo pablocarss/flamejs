@@ -80,7 +80,7 @@ export function CTASection() {
                 Build faster with a modern tech stack for <b>Developers</b> and <br /><b>Code Agents</b>
               </h2>
               <p className="text-base text-muted-foreground">
-                Igniter.js provides everything you need to create production-ready applications. Start building your next project in minutes.
+                Flame.js provides everything you need to create production-ready applications. Start building your next project in minutes.
               </p>
 
               <div className="flex gap-7 flex-wrap mt-3 justify-center items-center max-w-4xl">
@@ -169,3 +169,8 @@ export function CTASection() {
     </section>
   );
 }
+
+
+
+
+

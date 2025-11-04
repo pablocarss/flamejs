@@ -1,16 +1,16 @@
-import type { IgniterTimer } from '@igniter-js/core';
-import { IgniterConsoleLogger, resolveLogLevel } from '@igniter-js/core';
+import type { FlameTimer } from '@flame-js/core';
+import { FlameConsoleLogger, resolveLogLevel } from '@flame-js/core';
 
 // Centralized logger for timer module
-const logger = IgniterConsoleLogger.create({
+const logger = FlameConsoleLogger.create({
   level: resolveLogLevel(),
   context: { component: 'OpenTelemetryTimer' },
 });
 
 /**
- * OpenTelemetry Timer wrapper that implements IgniterTimer interface
+ * OpenTelemetry Timer wrapper that implements FlameTimer interface
  */
-export class OpenTelemetryTimer implements IgniterTimer {
+export class OpenTelemetryTimer implements FlameTimer {
   private _startTime: number;
   private _metricName: string;
   private _meter: any;
@@ -82,7 +82,7 @@ export class OpenTelemetryTimer implements IgniterTimer {
 /**
  * No-op timer implementation for graceful fallbacks
  */
-export class NoOpTimer implements IgniterTimer {
+export class NoOpTimer implements FlameTimer {
   private _startTime = Date.now();
 
   constructor(private _metricName: string) {}
@@ -111,3 +111,8 @@ export class NoOpTimer implements IgniterTimer {
     return 0;
   }
 }
+
+
+
+
+

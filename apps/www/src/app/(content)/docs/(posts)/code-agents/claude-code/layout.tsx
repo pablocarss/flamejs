@@ -2,11 +2,11 @@ import { Metadata } from 'next';
 import React from 'react';
 
 export const metadata: Metadata = {
-  title: 'Using Claude as a Code Agent | Igniter.js',
+  title: 'Using Claude as a Code Agent | Flame.js',
   description:
-    'Learn how to use Anthropic\'s Claude as a powerful code agent for your Igniter.js projects. Guide on training Claude with framework context and using official templates.',
+    'Learn how to use Anthropic\'s Claude as a powerful code agent for your Flame.js projects. Guide on training Claude with framework context and using official templates.',
   keywords: [
-    'Igniter.js',
+    'Flame.js',
     'Claude',
     'Anthropic',
     'claude-code',
@@ -18,26 +18,26 @@ export const metadata: Metadata = {
     'AI-Friendly',
   ],
   openGraph: {
-    title: 'Using Claude as a Code Agent with Igniter.js',
+    title: 'Using Claude as a Code Agent with Flame.js',
     description:
-      'A step-by-step guide to integrating Claude as an expert code agent for Igniter.js development, enhancing your workflow with AI-powered assistance.',
+      'A step-by-step guide to integrating Claude as an expert code agent for Flame.js development, enhancing your workflow with AI-powered assistance.',
     type: 'article',
-    url: 'https://igniterjs.com/docs/code-agents/claude-code',
+    url: 'https://Flamejs.com/docs/code-agents/claude-code',
     images: [
       {
-        url: 'https://igniterjs.com/og/docs-claude-code.png', // Assuming an OG image exists
+        url: 'https://Flamejs.com/og/docs-claude-code.png', // Assuming an OG image exists
         width: 1200,
         height: 630,
-        alt: 'Using Claude with Igniter.js',
+        alt: 'Using Claude with Flame.js',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Using Claude as a Code Agent with Igniter.js',
+    title: 'Using Claude as a Code Agent with Flame.js',
     description:
-      'A step-by-step guide to integrating Claude as an expert code agent for Igniter.js development, enhancing your workflow with AI-powered assistance.',
-    images: ['https://igniterjs.com/og/docs-claude-code.png'],
+      'A step-by-step guide to integrating Claude as an expert code agent for Flame.js development, enhancing your workflow with AI-powered assistance.',
+    images: ['https://Flamejs.com/og/docs-claude-code.png'],
   },
 };
 
@@ -48,3 +48,8 @@ export default function DocsLayout({
 }) {
   return <>{children}</>;
 }
+
+
+
+
+

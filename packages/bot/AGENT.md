@@ -2,13 +2,13 @@
 applyTo: "**"
 ---
 
-# @igniter-js/bot – Agent Manual (Alpha)
+# @flame-js/bot – Agent Manual (Alpha)
 
 > Status: `alpha` – Public API may still evolve. Maintain backward compatibility where reasonable, but correctness and DX improvements are prioritized during alpha.
 
 ## 1. Purpose
 
-`@igniter-js/bot` fornece uma fundação moderna, extensível e totalmente tipada para criação de bots multi‑plataforma dentro do ecossistema Igniter.js.  
+`@flame-js/bot` fornece uma fundação moderna, extensível e totalmente tipada para criação de bots multi‑plataforma dentro do ecossistema Flame.js.  
 Focado em:
 - Adaptadores pluggables (Telegram, WhatsApp, futuros: Discord, Slack, Matrix)
 - Middleware chain express‑like
@@ -22,7 +22,7 @@ Focado em:
 
 1. **Pureza dos Adaptadores**: Nenhum side effect em top‑level; inicialização apenas via `init()`.
 2. **Contratos Explícitos**: `IBotAdapter.handle` retorna contexto ou `null` (ignorado). Nada de retornos híbridos (`Response`) dentro do adapter.
-3. **Ergonomia DX**: Imports centrais (`import { Bot, telegram } from '@igniter-js/bot'`).
+3. **Ergonomia DX**: Imports centrais (`import { Bot, telegram } from '@flame-js/bot'`).
 4. **Extensibilidade Horizontal**: Registro dinâmico de adapters, middlewares e comandos.
 5. **Falhas Observáveis**: Erros encapsulados em `BotError` com `code` semântico.
 6. **Tree-Shaking Friendly**: Exports planos, sem side effects; adapters isolados.
@@ -30,7 +30,7 @@ Focado em:
 
 ## 3. Superfície Pública (Exports)
 
-Via `@igniter-js/bot`:
+Via `@flame-js/bot`:
 - `Bot` (classe principal + `Bot.create`)
 - `BotError`, `BotErrorCodes`
 - Tipos: `BotContext`, `BotCommand`, `Middleware`, `IBotAdapter`, `BotEvent`, `BotContent` etc.
@@ -38,10 +38,10 @@ Via `@igniter-js/bot`:
 - Namespace `adapters` (atalho): `adapters.telegram`, `adapters.whatsapp`
 - `VERSION`
 
-Via `@igniter-js/bot/adapters`:
+Via `@flame-js/bot/adapters`:
 - `telegram`, `whatsapp`, `builtinAdapters`, `BuiltinAdapterName`
 
-Via `@igniter-js/bot/types`:
+Via `@flame-js/bot/types`:
 - Todos os tipos reexportados (`bot.types.ts`)
 
 ## 4. Estrutura Interna
@@ -318,7 +318,7 @@ if (error) { /* ... */ }
 ### 14.1 Bot Básico
 
 ```ts
-import { Bot, telegram } from '@igniter-js/bot'
+import { Bot, telegram } from '@flame-js/bot'
 
 const bot = Bot.create({
   id: 'demo',
@@ -426,17 +426,17 @@ Não forçamos dependência externa.
 2. Atualizar `bot.provider.ts` ou adapter alvo.
 3. Revisar impactos nos exports / README.
 4. Gerar build local e inspecionar `dist/`.
-5. (Quando testes existirem) rodar `npm test --filter @igniter-js/bot`.
+5. (Quando testes existirem) rodar `npm test --filter @flame-js/bot`.
 
 ## 20. Referência Rápida de Import Paths
 
 | Objetivo | Import |
 |----------|--------|
-| Tudo principal | `@igniter-js/bot` |
-| Apenas tipos | `@igniter-js/bot/types` |
-| Todos adapters | `@igniter-js/bot/adapters` |
-| Adapter Telegram direto | `@igniter-js/bot/adapters/telegram` |
-| Adapter WhatsApp direto | `@igniter-js/bot/adapters/whatsapp` |
+| Tudo principal | `@flame-js/bot` |
+| Apenas tipos | `@flame-js/bot/types` |
+| Todos adapters | `@flame-js/bot/adapters` |
+| Adapter Telegram direto | `@flame-js/bot/adapters/telegram` |
+| Adapter WhatsApp direto | `@flame-js/bot/adapters/whatsapp` |
 
 ## 21. Perguntas Frequentes (FAQ)
 
@@ -456,7 +456,7 @@ Não forçamos dependência externa.
 
 ## 22. Contato / Suporte
 
-- Website: https://igniterjs.com
+- Website: https://Flamejs.com
 - Issues: GitHub (monorepo principal)
 - Canal futuro: Discord / Telegram comunidade
 
@@ -465,3 +465,8 @@ Não forçamos dependência externa.
 Mantenha este arquivo sincronizado com mudanças públicas para facilitar colaboração de agentes e humanos.
 
 > Fim do documento.
+
+
+
+
+

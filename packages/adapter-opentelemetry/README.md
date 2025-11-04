@@ -1,6 +1,6 @@
-# @igniter-js/adapter-opentelemetry
+# @flame-js/adapter-opentelemetry
 
-OpenTelemetry adapter for Igniter.js telemetry system. Provides production-ready observability with distributed tracing, metrics, and events.
+OpenTelemetry adapter for Flame.js telemetry system. Provides production-ready observability with distributed tracing, metrics, and events.
 
 ## 🚀 Features
 
@@ -15,7 +15,7 @@ OpenTelemetry adapter for Igniter.js telemetry system. Provides production-ready
 ## 📦 Installation
 
 ```bash
-npm install @igniter-js/adapter-opentelemetry
+npm install @flame-js/adapter-opentelemetry
 
 # Peer dependencies (install the exporters you need)
 npm install @opentelemetry/api @opentelemetry/sdk-node
@@ -31,19 +31,19 @@ npm install @opentelemetry/exporter-otlp-http      # For OTLP
 ### Development Setup
 
 ```typescript
-import { Igniter } from '@igniter-js/core';
-import { createSimpleOpenTelemetryAdapter } from '@igniter-js/adapter-opentelemetry';
+import { Flame } from '@flame-js/core';
+import { createSimpleOpenTelemetryAdapter } from '@flame-js/adapter-opentelemetry';
 
 // Simple setup for development
 const telemetry = await createSimpleOpenTelemetryAdapter('my-api');
 
-const igniter = Igniter
+const Flame = Flame
   .context<{ db: Database }>()
   .telemetry(telemetry)
   .create();
 
-export const router = igniter.router({
-  getUser: igniter.query({
+export const router = Flame.router({
+  getUser: Flame.query({
     handler: async ({ context, input }) => {
       // Telemetry is automatically injected
       const span = context.span; // Current HTTP span
@@ -64,7 +64,7 @@ export const router = igniter.router({
 ### Production Setup with Jaeger
 
 ```typescript
-import { createProductionOpenTelemetryAdapter } from '@igniter-js/adapter-opentelemetry';
+import { createProductionOpenTelemetryAdapter } from '@flame-js/adapter-opentelemetry';
 
 const telemetry = await createProductionOpenTelemetryAdapter({
   serviceName: 'my-api',
@@ -77,7 +77,7 @@ const telemetry = await createProductionOpenTelemetryAdapter({
   }
 });
 
-const igniter = Igniter
+const Flame = Flame
   .context<MyContext>()
   .telemetry(telemetry)
   .create();
@@ -86,7 +86,7 @@ const igniter = Igniter
 ### Advanced Configuration
 
 ```typescript
-import { createOpenTelemetryAdapter } from '@igniter-js/adapter-opentelemetry';
+import { createOpenTelemetryAdapter } from '@flame-js/adapter-opentelemetry';
 
 const telemetry = await createOpenTelemetryAdapter({
   config: {
@@ -148,7 +148,7 @@ const telemetry = await createOpenTelemetryAdapter({
 ### Manual Tracing
 
 ```typescript
-export const complexOperation = igniter.query({
+export const complexOperation = Flame.query({
   handler: async ({ context }) => {
     const span = context.telemetry.startSpan('complex.operation');
     span.setTag('operation.type', 'data-processing');
@@ -180,7 +180,7 @@ export const complexOperation = igniter.query({
 ### Metrics Collection
 
 ```typescript
-export const trackingHandler = igniter.query({
+export const trackingHandler = Flame.query({
   handler: async ({ context }) => {
     // Counters
     context.telemetry.increment('api.requests.total', 1, {
@@ -214,7 +214,7 @@ export const trackingHandler = igniter.query({
 ### Events and Logging
 
 ```typescript
-export const auditHandler = igniter.mutation({
+export const auditHandler = Flame.mutation({
   handler: async ({ context, input }) => {
     // Record structured events
     context.telemetry.event('user.action', {
@@ -402,7 +402,7 @@ const telemetry = await createOpenTelemetryAdapter({
 
 - [OpenTelemetry JavaScript Documentation](https://opentelemetry.io/docs/instrumentation/js/)
 - [Jaeger Documentation](https://www.jaegertracing.io/docs/)
-- [Igniter.js Core Documentation](../core/README.md)
+- [Flame.js Core Documentation](../core/README.md)
 
 ## 🤝 Contributing
 
@@ -411,3 +411,8 @@ Contributions are welcome! Please read our [Contributing Guide](../../CONTRIBUTI
 ## 📄 License
 
 MIT License - see [LICENSE](../../LICENSE) for details. 
+
+
+
+
+

@@ -1,44 +1,44 @@
-import { IgniterLogLevel } from '../types';
+import { FlameLogLevel } from '../types';
 
 /**
  * Resolves the log level from environment variables with proper validation and fallback.
  * 
- * This utility centralizes log level resolution across the Igniter.js framework.
+ * This utility centralizes log level resolution across the Flame.js framework.
  * It provides a consistent fallback strategy with WARN as the silent default.
  * 
- * @returns {IgniterLogLevel} The resolved log level
+ * @returns {FlameLogLevel} The resolved log level
  * 
  * @example
  * ```typescript
  * // Environment-based log level resolution
- * const level = resolveLogLevel(); // Uses IGNITER_LOG_LEVEL or falls back to WARN
+ * const level = resolveLogLevel(); // Uses Flame_LOG_LEVEL or falls back to WARN
  * 
  * // Create logger with resolved level
- * const logger = IgniterConsoleLogger.create({ 
+ * const logger = FlameConsoleLogger.create({ 
  *   level: resolveLogLevel(),
  *   context: { component: 'MyProcessor' }
  * });
  * ```
  */
-export function resolveLogLevel(): IgniterLogLevel {
-  const envLevel = process.env.IGNITER_LOG_LEVEL?.toUpperCase();
+export function resolveLogLevel(): FlameLogLevel {
+  const envLevel = process.env.Flame_LOG_LEVEL?.toUpperCase();
   
   // Valid log levels mapping
-  const validLevels: Record<string, IgniterLogLevel> = {
-    'FATAL': IgniterLogLevel.FATAL,
-    'ERROR': IgniterLogLevel.ERROR,
-    'WARN': IgniterLogLevel.WARN,
-    'INFO': IgniterLogLevel.INFO,
-    'DEBUG': IgniterLogLevel.DEBUG,  
-    'TRACE': IgniterLogLevel.TRACE,
+  const validLevels: Record<string, FlameLogLevel> = {
+    'FATAL': FlameLogLevel.FATAL,
+    'ERROR': FlameLogLevel.ERROR,
+    'WARN': FlameLogLevel.WARN,
+    'INFO': FlameLogLevel.INFO,
+    'DEBUG': FlameLogLevel.DEBUG,  
+    'TRACE': FlameLogLevel.TRACE,
     
     // Aliases for better DX
-    'WARNING': IgniterLogLevel.WARN,
-    'VERBOSE': IgniterLogLevel.DEBUG,
+    'WARNING': FlameLogLevel.WARN,
+    'VERBOSE': FlameLogLevel.DEBUG,
   };
   
   // Return validated level or silent fallback to WARN
-  return envLevel && validLevels[envLevel] ? validLevels[envLevel] : IgniterLogLevel.WARN;
+  return envLevel && validLevels[envLevel] ? validLevels[envLevel] : FlameLogLevel.WARN;
 }
 
 /**
@@ -70,3 +70,8 @@ export function createLoggerContext(
     ...additionalContext,
   };
 }
+
+
+
+
+

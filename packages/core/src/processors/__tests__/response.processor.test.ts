@@ -1,6 +1,6 @@
 import { describe, expect, it, vi, beforeEach } from 'vitest';
-import { IgniterResponseProcessor } from '../response.processor';
-import type { IgniterStoreAdapter } from '../../types/store.interface';
+import { FlameResponseProcessor } from '../response.processor';
+import type { FlameStoreAdapter } from '../../types/store.interface';
 import type { CookieOptions } from '../../types/cookie.interface';
 
 // Mock the SSEProcessor
@@ -15,7 +15,7 @@ vi.mock('../sse.processor', () => ({
 
 // Mock the logger service
 vi.mock('../../services/logger.service', () => ({
-  IgniterConsoleLogger: {
+  FlameConsoleLogger: {
     create: vi.fn().mockReturnValue({
       info: vi.fn(),
       warn: vi.fn(),
@@ -35,7 +35,7 @@ interface TestContext {
 }
 
 describe('Response Processor', () => {
-  let mockStore: IgniterStoreAdapter;
+  let mockStore: FlameStoreAdapter;
   let testContext: TestContext;
 
   beforeEach(() => {
@@ -74,36 +74,36 @@ describe('Response Processor', () => {
 
   describe('Processor Creation and Configuration', () => {
     it('should create processor with static init method', () => {
-      const processor = IgniterResponseProcessor.init();
+      const processor = FlameResponseProcessor.init();
 
-      expect(processor).toBeInstanceOf(IgniterResponseProcessor);
+      expect(processor).toBeInstanceOf(FlameResponseProcessor);
     });
 
     it('should create processor with store adapter', () => {
-      const processor = IgniterResponseProcessor.init(mockStore);
+      const processor = FlameResponseProcessor.init(mockStore);
 
-      expect(processor).toBeInstanceOf(IgniterResponseProcessor);
+      expect(processor).toBeInstanceOf(FlameResponseProcessor);
     });
 
     it('should create processor with context and store', () => {
-      const processor = IgniterResponseProcessor.init<TestContext>(mockStore, testContext);
+      const processor = FlameResponseProcessor.init<TestContext>(mockStore, testContext);
 
-      expect(processor).toBeInstanceOf(IgniterResponseProcessor);
+      expect(processor).toBeInstanceOf(FlameResponseProcessor);
     });
 
     it('should set HTTP status code', () => {
-      const processor = IgniterResponseProcessor.init()
+      const processor = FlameResponseProcessor.init()
         .status(201);
 
-      expect(processor).toBeInstanceOf(IgniterResponseProcessor);
+      expect(processor).toBeInstanceOf(FlameResponseProcessor);
     });
 
     it('should allow chaining with status', () => {
-      const processor = IgniterResponseProcessor.init()
+      const processor = FlameResponseProcessor.init()
         .status(400)
         .status(500);
 
-      expect(processor).toBeInstanceOf(IgniterResponseProcessor);
+      expect(processor).toBeInstanceOf(FlameResponseProcessor);
     });
   });
 
@@ -111,7 +111,7 @@ describe('Response Processor', () => {
     it('should create success response with data', async () => {
       const testData = { id: 1, name: 'Test User', active: true };
       
-      const response = await IgniterResponseProcessor.init()
+      const response = await FlameResponseProcessor.init()
         .success(testData)
         .toResponse();
 
@@ -127,7 +127,7 @@ describe('Response Processor', () => {
     });
 
     it('should create success response without data', async () => {
-      const response = await IgniterResponseProcessor.init()
+      const response = await FlameResponseProcessor.init()
         .success()
         .toResponse();
 
@@ -143,7 +143,7 @@ describe('Response Processor', () => {
     it('should create created response with data', async () => {
       const createdData = { id: 2, status: 'created', timestamp: '2024-01-01' };
       
-      const response = await IgniterResponseProcessor.init()
+      const response = await FlameResponseProcessor.init()
         .created(createdData)
         .toResponse();
 
@@ -157,7 +157,7 @@ describe('Response Processor', () => {
     });
 
     it('should create no content response', async () => {
-      const response = await IgniterResponseProcessor.init()
+      const response = await FlameResponseProcessor.init()
         .noContent()
         .toResponse();
 
@@ -175,7 +175,7 @@ describe('Response Processor', () => {
         meta: { total: 100 }
       };
       
-      const response = await IgniterResponseProcessor.init()
+      const response = await FlameResponseProcessor.init()
         .json(jsonData)
         .toResponse();
 
@@ -204,7 +204,7 @@ describe('Response Processor', () => {
         }
       };
       
-      const response = await IgniterResponseProcessor.init()
+      const response = await FlameResponseProcessor.init()
         .success(complexData)
         .toResponse();
 
@@ -230,7 +230,7 @@ describe('Response Processor', () => {
 
   describe('Error Responses', () => {
     it('should create bad request response', async () => {
-      const response = await IgniterResponseProcessor.init()
+      const response = await FlameResponseProcessor.init()
         .badRequest('Invalid input data')
         .toResponse();
 
@@ -250,7 +250,7 @@ describe('Response Processor', () => {
     it('should create bad request response with custom data', async () => {
       const errorData = { field: 'email', reason: 'invalid format' };
       
-      const response = await IgniterResponseProcessor.init()
+      const response = await FlameResponseProcessor.init()
         .badRequest('Validation failed', errorData)
         .toResponse();
 
@@ -261,7 +261,7 @@ describe('Response Processor', () => {
     });
 
     it('should create unauthorized response', async () => {
-      const response = await IgniterResponseProcessor.init()
+      const response = await FlameResponseProcessor.init()
         .unauthorized('Token expired')
         .toResponse();
 
@@ -279,7 +279,7 @@ describe('Response Processor', () => {
     });
 
     it('should create unauthorized response with default message', async () => {
-      const response = await IgniterResponseProcessor.init()
+      const response = await FlameResponseProcessor.init()
         .unauthorized()
         .toResponse();
 
@@ -288,7 +288,7 @@ describe('Response Processor', () => {
     });
 
     it('should create forbidden response', async () => {
-      const response = await IgniterResponseProcessor.init()
+      const response = await FlameResponseProcessor.init()
         .forbidden('Insufficient permissions')
         .toResponse();
 
@@ -306,7 +306,7 @@ describe('Response Processor', () => {
     });
 
     it('should create not found response', async () => {
-      const response = await IgniterResponseProcessor.init()
+      const response = await FlameResponseProcessor.init()
         .notFound('User not found')
         .toResponse();
 
@@ -326,7 +326,7 @@ describe('Response Processor', () => {
     it('should create error responses with custom data', async () => {
       const errorData = { resourceId: '123', resource: 'user' };
       
-      const response = await IgniterResponseProcessor.init()
+      const response = await FlameResponseProcessor.init()
         .notFound('Resource not found', errorData)
         .toResponse();
 
@@ -337,7 +337,7 @@ describe('Response Processor', () => {
 
   describe('Redirect Responses', () => {
     it('should create redirect response with replace type', async () => {
-      const response = await IgniterResponseProcessor.init()
+      const response = await FlameResponseProcessor.init()
         .redirect('/dashboard')
         .toResponse();
 
@@ -358,7 +358,7 @@ describe('Response Processor', () => {
     });
 
     it('should create redirect response with push type', async () => {
-      const response = await IgniterResponseProcessor.init()
+      const response = await FlameResponseProcessor.init()
         .redirect('/login', 'push')
         .toResponse();
 
@@ -372,7 +372,7 @@ describe('Response Processor', () => {
     it('should handle external redirects', async () => {
       const externalUrl = 'https://external-service.com/auth';
       
-      const response = await IgniterResponseProcessor.init()
+      const response = await FlameResponseProcessor.init()
         .redirect(externalUrl, 'replace')
         .toResponse();
 
@@ -383,7 +383,7 @@ describe('Response Processor', () => {
 
   describe('Headers and Cookies', () => {
     it('should set custom headers', async () => {
-      const response = await IgniterResponseProcessor.init()
+      const response = await FlameResponseProcessor.init()
         .setHeader('X-Custom-Header', 'custom-value')
         .setHeader('Cache-Control', 'no-cache')
         .success({ test: true })
@@ -395,7 +395,7 @@ describe('Response Processor', () => {
     });
 
     it('should set basic cookies', async () => {
-      const response = await IgniterResponseProcessor.init()
+      const response = await FlameResponseProcessor.init()
         .setCookie('session', 'abc123')
         .success({ logged: true })
         .toResponse();
@@ -413,7 +413,7 @@ describe('Response Processor', () => {
         sameSite: 'strict'
       };
       
-      const response = await IgniterResponseProcessor.init()
+      const response = await FlameResponseProcessor.init()
         .setCookie('admin-session', 'xyz789', cookieOptions)
         .success({ admin: true })
         .toResponse();
@@ -428,7 +428,7 @@ describe('Response Processor', () => {
     });
 
     it('should set multiple cookies', async () => {
-      const response = await IgniterResponseProcessor.init()
+      const response = await FlameResponseProcessor.init()
         .setCookie('session', 'session-token')
         .setCookie('preference', 'dark-theme')
         .setCookie('lang', 'en-US')
@@ -441,7 +441,7 @@ describe('Response Processor', () => {
     });
 
     it('should handle cookie prefixes', async () => {
-      const response = await IgniterResponseProcessor.init()
+      const response = await FlameResponseProcessor.init()
         .setCookie('secure-token', 'token123', { prefix: 'secure' })
         .success({ secure: true })
         .toResponse();
@@ -452,7 +452,7 @@ describe('Response Processor', () => {
     });
 
     it('should handle host prefix cookies', async () => {
-      const response = await IgniterResponseProcessor.init()
+      const response = await FlameResponseProcessor.init()
         .setCookie('host-token', 'token456', { prefix: 'host' })
         .success({ host: true })
         .toResponse();
@@ -466,7 +466,7 @@ describe('Response Processor', () => {
     it('should handle cookie expiration dates', async () => {
       const expires = new Date('2024-12-31T23:59:59Z');
       
-      const response = await IgniterResponseProcessor.init()
+      const response = await FlameResponseProcessor.init()
         .setCookie('expiring-cookie', 'value', { expires })
         .success({ expires: true })
         .toResponse();
@@ -476,7 +476,7 @@ describe('Response Processor', () => {
     });
 
     it('should handle partitioned cookies', async () => {
-      const response = await IgniterResponseProcessor.init()
+      const response = await FlameResponseProcessor.init()
         .setCookie('partitioned-cookie', 'value', { partitioned: true })
         .success({ partitioned: true })
         .toResponse();
@@ -491,7 +491,7 @@ describe('Response Processor', () => {
     it('should create stream response with basic options', async () => {
       vi.mocked(SSEProcessor.channelExists).mockReturnValue(false);
       
-      const response = await IgniterResponseProcessor.init()
+      const response = await FlameResponseProcessor.init()
         .stream({
           channelId: 'test-stream',
           initialData: { status: 'connected' }
@@ -504,7 +504,7 @@ describe('Response Processor', () => {
       // Should register channel if it doesn't exist  
       expect(SSEProcessor.registerChannel).toHaveBeenCalledWith({
         id: 'test-stream',
-        description: 'Dynamic channel created by IgniterResponseProcessor'
+        description: 'Dynamic channel created by FlameResponseProcessor'
       });
 
       // Should publish initial data
@@ -529,7 +529,7 @@ describe('Response Processor', () => {
     });
 
     it('should create stream with controller and action keys', async () => {
-      const response = await IgniterResponseProcessor.init()
+      const response = await FlameResponseProcessor.init()
         .stream({
           controllerKey: 'users',
           actionKey: 'notifications'
@@ -543,7 +543,7 @@ describe('Response Processor', () => {
     it('should handle existing channels', async () => {
       vi.mocked(SSEProcessor.channelExists).mockReturnValue(true);
       
-      await IgniterResponseProcessor.init()
+      await FlameResponseProcessor.init()
         .stream({
           channelId: 'existing-channel'
         })
@@ -555,7 +555,7 @@ describe('Response Processor', () => {
 
     it('should throw error for stream without channel ID', async () => {
       await expect(
-        IgniterResponseProcessor.init()
+        FlameResponseProcessor.init()
           .stream({})
             .toResponse()
       ).rejects.toThrow('Channel ID is required for streaming responses');
@@ -565,7 +565,7 @@ describe('Response Processor', () => {
       const filterFn = (msg: any) => msg.type === 'important';
       const transformFn = (msg: any) => ({ ...msg, processed: true });
       
-      const response = await IgniterResponseProcessor.init()
+      const response = await FlameResponseProcessor.init()
         .stream({
           channelId: 'filtered-stream',
           filter: filterFn,
@@ -579,7 +579,7 @@ describe('Response Processor', () => {
 
   describe('Cache Revalidation', () => {
     it('should set revalidation with query keys array', async () => {
-      const response = await IgniterResponseProcessor.init<TestContext>(mockStore, testContext)
+      const response = await FlameResponseProcessor.init<TestContext>(mockStore, testContext)
         .revalidate(['users', 'posts', 'comments'])
         .success({ updated: true })
         .toResponse();
@@ -599,7 +599,7 @@ describe('Response Processor', () => {
     });
 
     it('should set revalidation with single query key', async () => {
-      await IgniterResponseProcessor.init<TestContext>(mockStore, testContext)
+      await FlameResponseProcessor.init<TestContext>(mockStore, testContext)
         .revalidate(['single-key'])
         .success({ updated: true })
         .toResponse();
@@ -616,7 +616,7 @@ describe('Response Processor', () => {
     it('should set revalidation with options object', async () => {
       const revalidationData = { reason: 'user updated' };
       
-      await IgniterResponseProcessor.init<TestContext>(mockStore, testContext)
+      await FlameResponseProcessor.init<TestContext>(mockStore, testContext)
         .revalidate({
           queryKeys: ['user-profile'],
           data: revalidationData,
@@ -638,7 +638,7 @@ describe('Response Processor', () => {
     it('should handle scopes in revalidation', async () => {
       const scopeResolver = vi.fn().mockResolvedValue(['admin', 'tenant:123']);
       
-      await IgniterResponseProcessor.init<TestContext>(mockStore, testContext)
+      await FlameResponseProcessor.init<TestContext>(mockStore, testContext)
         .revalidate(['scoped-data'], scopeResolver)
         .success({ scoped: true })
         .toResponse();
@@ -657,7 +657,7 @@ describe('Response Processor', () => {
     it('should handle async scope resolver', async () => {
       const asyncScopeResolver = vi.fn().mockResolvedValue(['async-scope']);
       
-      await IgniterResponseProcessor.init<TestContext>(mockStore, testContext)
+      await FlameResponseProcessor.init<TestContext>(mockStore, testContext)
         .revalidate({
           queryKeys: ['async-data'],
           scopes: asyncScopeResolver
@@ -671,7 +671,7 @@ describe('Response Processor', () => {
     it('should handle scope resolver errors gracefully', async () => {
       const failingScopeResolver = vi.fn().mockRejectedValue(new Error('Scope error'));
       
-      const response = await IgniterResponseProcessor.init<TestContext>(mockStore, testContext)
+      const response = await FlameResponseProcessor.init<TestContext>(mockStore, testContext)
         .revalidate({
           queryKeys: ['error-data'],
           scopes: failingScopeResolver
@@ -691,7 +691,7 @@ describe('Response Processor', () => {
 
   describe('Method Chaining and Builder Pattern', () => {
     it('should allow complex method chaining', async () => {
-      const response = await IgniterResponseProcessor.init<TestContext>(mockStore, testContext)
+      const response = await FlameResponseProcessor.init<TestContext>(mockStore, testContext)
         .status(201)
         .setHeader('X-Custom', 'value')
         .setCookie('session', 'token123', { httpOnly: true })
@@ -707,7 +707,7 @@ describe('Response Processor', () => {
     });
 
     it('should preserve configuration through method chaining', async () => {
-      const processor = IgniterResponseProcessor.init()
+      const processor = FlameResponseProcessor.init()
         .status(418)
         .setHeader('X-Tea', 'Earl Grey')
         .setCookie('preference', 'tea');
@@ -721,7 +721,7 @@ describe('Response Processor', () => {
     });
 
     it('should handle status override in error methods', async () => {
-      const response = await IgniterResponseProcessor.init()
+      const response = await FlameResponseProcessor.init()
         .status(200) // This should be overridden
         .badRequest('Validation error')
         .toResponse();
@@ -730,7 +730,7 @@ describe('Response Processor', () => {
     });
 
     it('should handle headers and cookies in error responses', async () => {
-      const response = await IgniterResponseProcessor.init()
+      const response = await FlameResponseProcessor.init()
         .setHeader('X-Error-ID', 'error-123')
         .setCookie('error-logged', 'true')
         .unauthorized('Invalid token')
@@ -744,13 +744,13 @@ describe('Response Processor', () => {
   describe('Data Serialization and Types', () => {
     it('should handle primitive data types', async () => {
       const responses = await Promise.all([
-        IgniterResponseProcessor.init().success('string')
+        FlameResponseProcessor.init().success('string')
             .toResponse(),
-        IgniterResponseProcessor.init().success(42)
+        FlameResponseProcessor.init().success(42)
             .toResponse(),
-        IgniterResponseProcessor.init().success(true)
+        FlameResponseProcessor.init().success(true)
             .toResponse(),
-        IgniterResponseProcessor.init().success(null)
+        FlameResponseProcessor.init().success(null)
             .toResponse(),
       ]);
 
@@ -765,7 +765,7 @@ describe('Response Processor', () => {
     it('should handle arrays', async () => {
       const arrayData = [1, 'two', { three: 3 }, [4, 5]];
       
-      const response = await IgniterResponseProcessor.init()
+      const response = await FlameResponseProcessor.init()
         .success(arrayData)
         .toResponse();
 
@@ -783,7 +783,7 @@ describe('Response Processor', () => {
         }
       };
       
-      const response = await IgniterResponseProcessor.init()
+      const response = await FlameResponseProcessor.init()
         .success(nestedData)
         .toResponse();
 
@@ -797,7 +797,7 @@ describe('Response Processor', () => {
         updated: new Date('2024-12-31T23:59:59Z')
       };
       
-      const response = await IgniterResponseProcessor.init()
+      const response = await FlameResponseProcessor.init()
         .success(dateData)
         .toResponse();
 
@@ -811,7 +811,7 @@ describe('Response Processor', () => {
     });
 
     it('should handle undefined values', async () => {
-      const response = await IgniterResponseProcessor.init()
+      const response = await FlameResponseProcessor.init()
         .success(undefined)
         .toResponse();
 
@@ -822,7 +822,7 @@ describe('Response Processor', () => {
 
   describe('Error Handling and Edge Cases', () => {
     it('should handle responses without context or store', async () => {
-      const response = await IgniterResponseProcessor.init()
+      const response = await FlameResponseProcessor.init()
         .success({ test: true })
         .toResponse();
 
@@ -831,7 +831,7 @@ describe('Response Processor', () => {
     });
 
     it('should handle empty data objects', async () => {
-      const response = await IgniterResponseProcessor.init()
+      const response = await FlameResponseProcessor.init()
         .success({})
         .toResponse();
 
@@ -845,7 +845,7 @@ describe('Response Processor', () => {
         text: 'a'.repeat(10000)
       };
       
-      const response = await IgniterResponseProcessor.init()
+      const response = await FlameResponseProcessor.init()
         .success(largeData)
         .toResponse();
 
@@ -864,7 +864,7 @@ describe('Response Processor', () => {
         json: '{"nested": "json"}'
       };
       
-      const response = await IgniterResponseProcessor.init()
+      const response = await FlameResponseProcessor.init()
         .success(specialData)
         .toResponse();
 
@@ -877,7 +877,7 @@ describe('Response Processor', () => {
       circularData.self = circularData;
 
       // This should not throw, even if JSON.stringify might have issues
-      const response = await IgniterResponseProcessor.init()
+      const response = await FlameResponseProcessor.init()
         .success(circularData)
         .toResponse();
 
@@ -892,7 +892,7 @@ describe('Response Processor', () => {
 
       for (let i = 0; i < 100; i++) {
         promises.push(
-          IgniterResponseProcessor.init()
+          FlameResponseProcessor.init()
             .success({ iteration: i })
                 .toResponse()
         );
@@ -911,7 +911,7 @@ describe('Response Processor', () => {
     it('should not create memory leaks with method chaining', async () => {
       // Test multiple processor instances with extensive chaining
       for (let i = 0; i < 100; i++) {
-        await IgniterResponseProcessor.init()
+        await FlameResponseProcessor.init()
           .status(200)
           .setHeader(`X-Iteration-${i}`, `value-${i}`)
           .setCookie(`cookie-${i}`, `value-${i}`)
@@ -925,7 +925,7 @@ describe('Response Processor', () => {
 
     it('should handle concurrent processor usage', async () => {
       const concurrentProcessors = Array.from({ length: 50 }, (_, i) =>
-        IgniterResponseProcessor.init()
+        FlameResponseProcessor.init()
           .setHeader('X-Concurrent', `processor-${i}`)
           .success({ processor: i })
             .toResponse()
@@ -944,11 +944,11 @@ describe('Response Processor', () => {
   describe('Response Structure Consistency', () => {
     it('should always return consistent response structure for success', async () => {
       const responses = await Promise.all([
-        IgniterResponseProcessor.init().success({ test: 1 })
+        FlameResponseProcessor.init().success({ test: 1 })
             .toResponse(),
-        IgniterResponseProcessor.init().created({ test: 2 })
+        FlameResponseProcessor.init().created({ test: 2 })
             .toResponse(),
-        IgniterResponseProcessor.init().json({ test: 3 })
+        FlameResponseProcessor.init().json({ test: 3 })
             .toResponse(),
       ]);
 
@@ -961,7 +961,7 @@ describe('Response Processor', () => {
     });
 
     it('should handle noContent response with empty body', async () => {
-      const response = await IgniterResponseProcessor.init()
+      const response = await FlameResponseProcessor.init()
         .noContent()
         .toResponse();
       
@@ -973,7 +973,7 @@ describe('Response Processor', () => {
     });
 
     it('should handle 204 with cookies and custom headers', async () => {
-      const response = await IgniterResponseProcessor.init()
+      const response = await FlameResponseProcessor.init()
         .setHeader('X-Custom-Header', 'test-value')
         .setCookie('session', 'token123')
         .noContent()
@@ -989,7 +989,7 @@ describe('Response Processor', () => {
     });
 
     it('should handle 204 with revalidation', async () => {
-      const response = await IgniterResponseProcessor.init()
+      const response = await FlameResponseProcessor.init()
         .revalidate(['users', 'posts'])
         .noContent()
         .toResponse();
@@ -1003,13 +1003,13 @@ describe('Response Processor', () => {
 
     it('should always return consistent response structure for errors', async () => {
       const responses = await Promise.all([
-        IgniterResponseProcessor.init().badRequest('Bad')
+        FlameResponseProcessor.init().badRequest('Bad')
             .toResponse(),
-        IgniterResponseProcessor.init().unauthorized('Unauth')
+        FlameResponseProcessor.init().unauthorized('Unauth')
             .toResponse(),
-        IgniterResponseProcessor.init().forbidden('Forbidden')
+        FlameResponseProcessor.init().forbidden('Forbidden')
             .toResponse(),
-        IgniterResponseProcessor.init().notFound('NotFound')
+        FlameResponseProcessor.init().notFound('NotFound')
             .toResponse(),
       ]);
 
@@ -1025,9 +1025,9 @@ describe('Response Processor', () => {
 
     it('should maintain consistent headers', async () => {
       const responses = await Promise.all([
-          IgniterResponseProcessor.init().success({})
+          FlameResponseProcessor.init().success({})
             .toResponse(),
-        IgniterResponseProcessor.init().badRequest()
+        FlameResponseProcessor.init().badRequest()
             .toResponse(),
       ]);
 
@@ -1037,3 +1037,8 @@ describe('Response Processor', () => {
     });
   });
 }); 
+
+
+
+
+

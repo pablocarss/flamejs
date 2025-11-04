@@ -1,19 +1,19 @@
 {
-  "name": "@igniter-js/bot",
+  "name": "@flame-js/bot",
   "version": "0.1.0-alpha.3",
-  "description": "A modern, type-safe multi-platform bot framework for the Igniter.js ecosystem (adapters, middleware, commands, rich content).",
+  "description": "A modern, type-safe multi-platform bot framework for the Flame.js ecosystem (adapters, middleware, commands, rich content).",
   "author": "Felipe Barcelos <felipebarcelospro@gmail.com>",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/felipebarcelospro/igniter-js.git"
+    "url": "git+https://github.com/felipebarcelospro/Flame-js.git"
   },
   "bugs": {
-    "url": "https://github.com/felipebarcelospro/igniter-js/issues"
+    "url": "https://github.com/felipebarcelospro/Flame-js/issues"
   },
-  "homepage": "https://igniterjs.com",
+  "homepage": "https://Flamejs.com",
   "keywords": [
-    "igniter-js",
+    "Flame-js",
     "bot",
     "chatbot",
     "telegram",
@@ -77,7 +77,7 @@
     "typescript": ">=5.0.0"
   },
   "devDependencies": {
-    "@igniter-js/eslint-config": "*",
+    "@flame-js/eslint-config": "*",
     "@types/node": "^22.9.0",
     "eslint": "^8.57.0",
     "tsup": "^8.3.5",
@@ -109,3 +109,8 @@
     "tag": "alpha"
   }
 }
+
+
+
+
+

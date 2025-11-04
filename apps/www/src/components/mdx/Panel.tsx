@@ -50,3 +50,8 @@ export const Panel: React.FC<PanelProps> = ({ children, type = 'info', title }) 
     </div>
   );
 };
+
+
+
+
+

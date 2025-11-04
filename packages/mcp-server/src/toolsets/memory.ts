@@ -27,7 +27,7 @@ export function registerMemoryTools({ server, memoryManager }: ToolsetContext) {
   // --- Memory Tools ---
   server.registerTool("store_memory", {
     title: "Create Memory",
-    description: "ALWAYS use this tool to store something that you want to remember (Except Tasks, for tasks you need to use create_task tool). You can check your memories in the .github/lia/memories/",
+    description: "ALWAYS use this tool to store something that you want to remember (Except Tasks, for tasks you need to use create_task tool). You can check your memories in the .github/Liz/memories/",
     inputSchema: {
       type: z.enum(getMemoryTypes()).optional(),
       title: z.string(),
@@ -197,3 +197,8 @@ export function registerMemoryTools({ server, memoryManager }: ToolsetContext) {
     };
   });
 }
+
+
+
+
+

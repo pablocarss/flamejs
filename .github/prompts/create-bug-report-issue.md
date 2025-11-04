@@ -27,7 +27,7 @@ Guide the creation of a complete, high-quality bug report aligned with this repo
      - OS and version (e.g., macOS 14.x)
      - Node.js/Bun/Deno versions where applicable
      - Package manager and version (npm/pnpm/bun)
-     - Igniter.js package versions (if applicable)
+     - Flame.js package versions (if applicable)
      - Any relevant env vars, feature flags, or configuration toggles
 
 4. Logs and Evidence
@@ -67,3 +67,8 @@ Guide the creation of a complete, high-quality bug report aligned with this repo
 - The issue is complete, reproducible, and aligned with the template.
 - Severity, scope, and labels are suggested to support triage.
 - The user approves the final content before creation.
+
+
+
+
+

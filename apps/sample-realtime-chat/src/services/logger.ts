@@ -1,4 +1,4 @@
-import { createConsoleLogger, IgniterLogLevel } from '@igniter-js/core'
+import { createConsoleLogger, FlameLogLevel } from '@flame-js/core'
 
 /**
  * Logger instance for application logging.
@@ -6,9 +6,14 @@ import { createConsoleLogger, IgniterLogLevel } from '@igniter-js/core'
  * @remarks
  * Provides structured logging with configurable log levels.
  *
- * @see https://github.com/felipebarcelospro/igniter-js/tree/main/packages/core
+ * @see https://github.com/felipebarcelospro/Flame-js/tree/main/packages/core
  */
 export const logger = createConsoleLogger({
-  level: IgniterLogLevel.INFO,
+  level: FlameLogLevel.INFO,
   showTimestamp: true,
 })
+
+
+
+
+

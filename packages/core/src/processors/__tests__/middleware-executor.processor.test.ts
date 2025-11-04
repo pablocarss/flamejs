@@ -1,9 +1,9 @@
 import { describe, test, expect, vi, beforeEach } from 'vitest';
 import { MiddlewareExecutorProcessor } from '../middleware-executor.processor';
-import { IgniterResponseProcessor } from '../response.processor';
-import { IgniterCookie } from '../../services/cookie.service';
+import { FlameResponseProcessor } from '../response.processor';
+import { FlameCookie } from '../../services/cookie.service';
 import type { ProcessedContext, ProcessedRequest } from '../context-builder.processor';
-import type { IgniterProcedure } from '../../types/procedure.interface';
+import type { FlameProcedure } from '../../types/procedure.interface';
 
 // Mock logger for testing
 const mockLogger = {
@@ -13,10 +13,10 @@ const mockLogger = {
   debug: vi.fn(),
 };
 
-// Mock IgniterCookie
-const createMockCookie = (): IgniterCookie => {
+// Mock FlameCookie
+const createMockCookie = (): FlameCookie => {
   const mockHeaders = new Headers();
-  const cookie = new IgniterCookie(mockHeaders);
+  const cookie = new FlameCookie(mockHeaders);
   vi.spyOn(cookie, 'get').mockReturnValue('test-value');
   return cookie;
 };
@@ -60,7 +60,7 @@ const createMockProcessedRequest = (overrides: Partial<ProcessedRequest> = {}): 
 // Mock ProcessedContext factory
 const createMockContext = (overrides: Partial<ProcessedContext> = {}): ProcessedContext => ({
   request: createMockProcessedRequest(),
-  response: new IgniterResponseProcessor(),
+  response: new FlameResponseProcessor(),
   $context: {
     db: { user: { findUnique: vi.fn() } },
     logger: mockLogger,
@@ -75,9 +75,9 @@ const createMockContext = (overrides: Partial<ProcessedContext> = {}): Processed
 // Mock procedures for testing
 const createMockProcedure = (
   name: string,
-  handler: IgniterProcedure<unknown, unknown, unknown>['handler'],
-  options: Partial<IgniterProcedure<unknown, unknown, unknown>> = {}
-): IgniterProcedure<unknown, unknown, unknown> => ({
+  handler: FlameProcedure<unknown, unknown, unknown>['handler'],
+  options: Partial<FlameProcedure<unknown, unknown, unknown>> = {}
+): FlameProcedure<unknown, unknown, unknown> => ({
   name,
   handler,
   ...options,
@@ -107,10 +107,10 @@ describe('MiddlewareExecutorProcessor', () => {
           query: { filter: 'active' },
           method: 'POST',
           headers: expect.any(Headers),
-          cookies: expect.any(IgniterCookie),
+          cookies: expect.any(FlameCookie),
         },
         context: context.$context,
-        response: expect.any(IgniterResponseProcessor),
+        response: expect.any(FlameResponseProcessor),
       });
     });
 
@@ -123,7 +123,7 @@ describe('MiddlewareExecutorProcessor', () => {
       const procedureContext = buildProcedureContext(context);
 
       expect(procedureContext.request.cookies).toBeDefined();
-      expect(procedureContext.request.cookies).toBeInstanceOf(IgniterCookie);
+      expect(procedureContext.request.cookies).toBeInstanceOf(FlameCookie);
     });
 
     test('should handle missing request gracefully', () => {
@@ -186,10 +186,10 @@ describe('MiddlewareExecutorProcessor', () => {
         request: expect.objectContaining({
           path: '/api/test',
           method: 'POST',
-          cookies: expect.any(IgniterCookie),
+          cookies: expect.any(FlameCookie),
         }),
         context: context.$context,
-        response: expect.any(IgniterResponseProcessor),
+        response: expect.any(FlameResponseProcessor),
       }));
     });
 
@@ -223,7 +223,7 @@ describe('MiddlewareExecutorProcessor', () => {
 
     test('should handle early return with ResponseProcessor', async () => {
       const context = createMockContext();
-      const responseProcessor = new IgniterResponseProcessor().unauthorized('Access denied');
+      const responseProcessor = new FlameResponseProcessor().unauthorized('Access denied');
       const procedureHandler = vi.fn().mockResolvedValue(responseProcessor);
       
       const middleware = createMockProcedure('auth', procedureHandler);
@@ -348,10 +348,10 @@ describe('MiddlewareExecutorProcessor', () => {
         request: expect.objectContaining({
           path: '/api/test',
           method: 'POST',
-          cookies: expect.any(IgniterCookie),
+          cookies: expect.any(FlameCookie),
         }),
         context: context.$context,
-        response: expect.any(IgniterResponseProcessor),
+        response: expect.any(FlameResponseProcessor),
       }));
     });
 
@@ -391,11 +391,11 @@ describe('MiddlewareExecutorProcessor', () => {
       expect(result.success).toBe(true);
       expect(enhancedHandler).toHaveBeenCalledWith(expect.objectContaining({
         request: expect.objectContaining({
-          cookies: expect.any(IgniterCookie),
+          cookies: expect.any(FlameCookie),
           path: '/api/test'
         }),
         context: context.$context,
-        response: expect.any(IgniterResponseProcessor),
+        response: expect.any(FlameResponseProcessor),
       }));
       
       expect(result.updatedContext.$context).toEqual(expect.objectContaining({
@@ -427,10 +427,10 @@ describe('MiddlewareExecutorProcessor', () => {
       expect(result.success).toBe(true);
       expect(legacyHandler).toHaveBeenCalledWith(expect.objectContaining({
         request: expect.objectContaining({
-          cookies: expect.any(IgniterCookie),
+          cookies: expect.any(FlameCookie),
         }),
         context: context.$context,
-        response: expect.any(IgniterResponseProcessor),
+        response: expect.any(FlameResponseProcessor),
       }));
     });
   });
@@ -509,3 +509,8 @@ describe('MiddlewareExecutorProcessor', () => {
     });
   });
 }); 
+
+
+
+
+

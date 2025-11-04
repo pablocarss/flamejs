@@ -1,8 +1,12 @@
 blank_issues_enabled: false
 contact_links:
   - name: Premium support request
-    url: mailto:felipe@igniterjs.com?subject=Premium%20Support%20Request
+    url: mailto:felipe@Flamejs.com?subject=Premium%20Support%20Request
     about: For licensed customers who need implementation help or have billing questions.
   - name: Security report
-    url: mailto:felipe@igniterjs.com?subject=Security%20Vulnerability
+    url: mailto:felipe@Flamejs.com?subject=Security%20Vulnerability
     about: Please report security vulnerabilities privately following SECURITY.md.
+
+
+
+

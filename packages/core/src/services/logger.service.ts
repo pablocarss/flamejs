@@ -1,10 +1,10 @@
-import { IgniterLogLevel, type IgniterLogEntry, type IgniterLogger, type IgniterLoggerOptions } from '../types';
+import { FlameLogLevel, type FlameLogEntry, type FlameLogger, type FlameLoggerOptions } from '../types';
 import chalk from 'chalk'
 
 /**
- * IgniterLogger with Igniter.js exact design
+ * FlameLogger with Flame.js exact design
  * 
- * Features identical Igniter.js visual design:
+ * Features identical Flame.js visual design:
  * - Timeline connectors (│)
  * - Precise symbols (◇ ◆ ○)
  * - Exact color scheme
@@ -12,44 +12,44 @@ import chalk from 'chalk'
  * - Clean visual hierarchy
  * 
  */
-export class IgniterConsoleLogger implements IgniterLogger {
+export class FlameConsoleLogger implements FlameLogger {
   private readonly context: Record<string, unknown>;
-  private logLevel: IgniterLogLevel;
+  private logLevel: FlameLogLevel;
   private readonly colorize: boolean;
-  private readonly formatter?: (entry: IgniterLogEntry) => string;
+  private readonly formatter?: (entry: FlameLogEntry) => string;
   private readonly showTimestamp: boolean;
   private indentLevel: number = 0;
 
-  constructor(options: IgniterLoggerOptions & { 
+  constructor(options: FlameLoggerOptions & { 
     context?: Record<string, unknown>;
     showTimestamp?: boolean;
   } = {}) {
     this.context = options.context ?? {};
-    this.logLevel = options.level ?? IgniterLogLevel.INFO;
+    this.logLevel = options.level ?? FlameLogLevel.INFO;
     this.colorize = options.colorize ?? true;
     this.formatter = options.formatter;
     this.showTimestamp = options.showTimestamp ?? false;
   }
   
-  static create(options: IgniterLoggerOptions & { 
+  static create(options: FlameLoggerOptions & { 
     context?: Record<string, unknown>;
     showTimestamp?: boolean;
-  } = {}): IgniterLogger {
-    return new IgniterConsoleLogger(options);
+  } = {}): FlameLogger {
+    return new FlameConsoleLogger(options);
   }
 
   /**
    * Log a message at the specified level.
    */
   log(
-    level: IgniterLogLevel,
+    level: FlameLogLevel,
     message: string,
     context?: Record<string, unknown>,
     error?: Error | unknown
   ): void {
     if (!this.shouldLog(level)) return;
     
-    const entry: IgniterLogEntry = {
+    const entry: FlameLogEntry = {
       level,
       message,
       timestamp: new Date().toISOString(),
@@ -68,49 +68,49 @@ export class IgniterConsoleLogger implements IgniterLogger {
    * Log a fatal error (system crash, unrecoverable).
    */
   fatal(message: string, context?: Record<string, unknown>, error?: Error | unknown): void {
-    this.log(IgniterLogLevel.FATAL, message, context, error);
+    this.log(FlameLogLevel.FATAL, message, context, error);
   }
 
   /**
    * Log an error message.
    */
   error(message: string, context?: Record<string, unknown>, error?: Error | unknown): void {
-    this.log(IgniterLogLevel.ERROR, message, context, error);
+    this.log(FlameLogLevel.ERROR, message, context, error);
   }
 
   /**
    * Log a warning message.
    */
   warn(message: string, context?: Record<string, unknown>): void {
-    this.log(IgniterLogLevel.WARN, message, context);
+    this.log(FlameLogLevel.WARN, message, context);
   }
 
   /**
    * Log an informational message.
    */
   info(message: string, context?: Record<string, unknown>): void {
-    this.log(IgniterLogLevel.INFO, message, context);
+    this.log(FlameLogLevel.INFO, message, context);
   }
 
   /**
    * Log a debug message (for development).
    */
   debug(message: string, context?: Record<string, unknown>): void {
-    this.log(IgniterLogLevel.DEBUG, message, context);
+    this.log(FlameLogLevel.DEBUG, message, context);
   }
 
   /**
    * Log a trace message (very verbose, for tracing execution).
    */
   trace(message: string, context?: Record<string, unknown>): void {
-    this.log(IgniterLogLevel.TRACE, message, context);
+    this.log(FlameLogLevel.TRACE, message, context);
   }
 
   /**
-   * Log a success message (Igniter.js style)
+   * Log a success message (Flame.js style)
    */
   success(message: string, context?: Record<string, unknown>): void {
-    this.log(IgniterLogLevel.INFO, message, { ...context, _type: 'success' });
+    this.log(FlameLogLevel.INFO, message, { ...context, _type: 'success' });
   }
 
   /**
@@ -143,7 +143,7 @@ export class IgniterConsoleLogger implements IgniterLogger {
   }
 
   /**
-   * Add a visual separator (Igniter.js style)
+   * Add a visual separator (Flame.js style)
    */
   separator(): void {
     const connector = this.indentLevel > 0 ? '│ ' : '';
@@ -153,8 +153,8 @@ export class IgniterConsoleLogger implements IgniterLogger {
   /**
    * Create a child logger with additional context.
    */
-  child(context: Record<string, unknown>): IgniterLogger {
-    return new IgniterConsoleLogger({
+  child(context: Record<string, unknown>): FlameLogger {
+    return new FlameConsoleLogger({
       level: this.logLevel,
       colorize: this.colorize,
       formatter: this.formatter,
@@ -166,7 +166,7 @@ export class IgniterConsoleLogger implements IgniterLogger {
   /**
    * Set the minimum log level at runtime.
    */
-  setLevel(level: IgniterLogLevel): void {
+  setLevel(level: FlameLogLevel): void {
     this.logLevel = level;
   }
 
@@ -180,14 +180,14 @@ export class IgniterConsoleLogger implements IgniterLogger {
   /**
    * Determines if a message at the given level should be logged.
    */
-  private shouldLog(level: IgniterLogLevel): boolean {
-    const levels: IgniterLogLevel[] = [
-      IgniterLogLevel.FATAL,
-      IgniterLogLevel.ERROR,
-      IgniterLogLevel.WARN,
-      IgniterLogLevel.INFO,
-      IgniterLogLevel.DEBUG,
-      IgniterLogLevel.TRACE,
+  private shouldLog(level: FlameLogLevel): boolean {
+    const levels: FlameLogLevel[] = [
+      FlameLogLevel.FATAL,
+      FlameLogLevel.ERROR,
+      FlameLogLevel.WARN,
+      FlameLogLevel.INFO,
+      FlameLogLevel.DEBUG,
+      FlameLogLevel.TRACE,
     ];
     const minIndex = levels.indexOf(this.logLevel);
     const levelIndex = levels.indexOf(level);
@@ -195,15 +195,15 @@ export class IgniterConsoleLogger implements IgniterLogger {
   }
 
   /**
-   * Formats a log entry with Igniter.js exact styling.
+   * Formats a log entry with Flame.js exact styling.
    */
-  private formatLogEntry(entry: IgniterLogEntry): string {
+  private formatLogEntry(entry: FlameLogEntry): string {
     const { level, message, context, timestamp } = entry;
     
-    // Igniter.js timeline connector
+    // Flame.js timeline connector
     const connector = this.indentLevel > 0 ? '│ ' : '';
     
-    // Get symbol and format exactly like Igniter.js
+    // Get symbol and format exactly like Flame.js
     const symbol = this.getStatusSymbol(level, context);
 
     const timestampStr = this.showTimestamp && timestamp ? chalk.gray(`[${new Date(timestamp as string | Date).toLocaleTimeString()}]`) : '';
@@ -214,11 +214,11 @@ export class IgniterConsoleLogger implements IgniterLogger {
     if (this.colorize) {
       if (context?._type === 'success') {
         line = `${connector}${timestampStr} ${chalk.green('◆')} ${chalk.green(message)}`;
-      } else if (level === IgniterLogLevel.ERROR || level === IgniterLogLevel.FATAL) {
+      } else if (level === FlameLogLevel.ERROR || level === FlameLogLevel.FATAL) {
         line = `${connector}${timestampStr} ${chalk.red('◇')} ${chalk.white(message)}`;
-      } else if (level === IgniterLogLevel.WARN) {
+      } else if (level === FlameLogLevel.WARN) {
         line = `${connector}${timestampStr} ${chalk.yellow('◇')} ${chalk.white(message)}`;
-      } else if (level === IgniterLogLevel.DEBUG) {
+      } else if (level === FlameLogLevel.DEBUG) {
         line = `${connector}${timestampStr} ${chalk.gray('○')} ${chalk.gray(message)}`;
       } else {
         line = `${connector}${timestampStr} ${chalk.cyan('◇')} ${chalk.white(message)}`;
@@ -264,12 +264,12 @@ export class IgniterConsoleLogger implements IgniterLogger {
     return entries.join(', ');
   }
 
-  private writeToConsole(level: IgniterLogLevel, output: string, error?: Error | unknown): void {
+  private writeToConsole(level: FlameLogLevel, output: string, error?: Error | unknown): void {
     switch (level) {
-      case IgniterLogLevel.FATAL:
-      case IgniterLogLevel.ERROR:
+      case FlameLogLevel.FATAL:
+      case FlameLogLevel.ERROR:
         console.error(output);
-        // Igniter.js style error details with timeline
+        // Flame.js style error details with timeline
         if (error && error instanceof Error) {
           const connector = this.indentLevel > 0 ? '│ ' : '';
           const errorLine = this.colorize 
@@ -278,11 +278,11 @@ export class IgniterConsoleLogger implements IgniterLogger {
           console.error(errorLine);
         }
         break;
-      case IgniterLogLevel.WARN:
+      case FlameLogLevel.WARN:
         console.warn(output);
         break;
-      case IgniterLogLevel.DEBUG:
-      case IgniterLogLevel.TRACE:
+      case FlameLogLevel.DEBUG:
+      case FlameLogLevel.TRACE:
         console.debug(output);
         break;
       default:
@@ -290,26 +290,26 @@ export class IgniterConsoleLogger implements IgniterLogger {
     }
   }
 
-  private getStatusSymbol(level: IgniterLogLevel, context?: Record<string, unknown>): string {
-    // Igniter.js exact symbols
+  private getStatusSymbol(level: FlameLogLevel, context?: Record<string, unknown>): string {
+    // Flame.js exact symbols
     if (context?._type === 'success') {
       return '◆'; // Filled diamond for success
     }
 
     switch (level) {
-      case IgniterLogLevel.FATAL:
-      case IgniterLogLevel.ERROR:
+      case FlameLogLevel.FATAL:
+      case FlameLogLevel.ERROR:
         return '◇'; // Outline diamond for errors
-      case IgniterLogLevel.WARN:
+      case FlameLogLevel.WARN:
         return '◇'; // Outline diamond for warnings
-      case IgniterLogLevel.INFO:
-        return '◇'; // Outline diamond for info (Igniter.js default)
-      case IgniterLogLevel.DEBUG:
+      case FlameLogLevel.INFO:
+        return '◇'; // Outline diamond for info (Flame.js default)
+      case FlameLogLevel.DEBUG:
         return '○'; // Circle for debug
-      case IgniterLogLevel.TRACE:
+      case FlameLogLevel.TRACE:
         return '·'; // Dot for trace
       default:
-        return '◇'; // Default to Igniter.js style outline diamond
+        return '◇'; // Default to Flame.js style outline diamond
     }
   }
 }
@@ -318,9 +318,14 @@ export class IgniterConsoleLogger implements IgniterLogger {
  * Factory function to create a ConsoleLogger instance.
  */
 export function createConsoleLogger(
-  options: IgniterLoggerOptions & { 
+  options: FlameLoggerOptions & { 
     context?: Record<string, unknown>;
   } = {}
-): IgniterLogger {
-  return new IgniterConsoleLogger(options);
+): FlameLogger {
+  return new FlameConsoleLogger(options);
 }
+
+
+
+
+

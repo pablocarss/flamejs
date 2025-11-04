@@ -1,6 +1,6 @@
 /**
  * CLI Tools - Development server management, project building, and code scaffolding.
- * This toolset provides programmatic access to the Igniter.js CLI, enabling agents to manage the development lifecycle,
+ * This toolset provides programmatic access to the Flame.js CLI, enabling agents to manage the development lifecycle,
  * generate boilerplate code, and maintain project structure.
  */
 
@@ -12,9 +12,9 @@ export function registerCliTools({ server, execAsync }: ToolsetContext) {
 
   server.registerTool("start_dev_server", {
     title: "Start Dev Server",
-    description: `**What it does:** Starts the Igniter.js development server, enabling live reloading, client generation, and interactive debugging.
+    description: `**What it does:** Starts the Flame.js development server, enabling live reloading, client generation, and interactive debugging.
 **When to use:** At the beginning of a development session to run the project locally. This is the primary way to test changes in real-time.
-**How it works:** It programmatically runs 'npm run dev', which often starts both the web framework (like Next.js) and the Igniter.js client generator.
+**How it works:** It programmatically runs 'npm run dev', which often starts both the web framework (like Next.js) and the Flame.js client generator.
 **Result:** A running development server, with output logs streamed to the response.`,
     inputSchema: {
       port: z.number().optional().describe("Port to run the server on. Defaults to the project's standard port (e.g., 3000)."),
@@ -26,7 +26,7 @@ export function registerCliTools({ server, execAsync }: ToolsetContext) {
       if (port) args.push(`--port ${port}`);
       // Note: The CLI's dev command implies watching, so we don't need a specific flag unless we want to disable it.
 
-      const command = `npx @igniter-js/cli@latest dev ${args.join(" ")}`.trim();
+      const command = `npx @flame-js/cli@latest dev ${args.join(" ")}`.trim();
       const result = await execAsync(command, { timeout: 15000 }); // Increased timeout for dev server startup
 
       return {
@@ -41,7 +41,7 @@ export function registerCliTools({ server, execAsync }: ToolsetContext) {
 
   server.registerTool("build_project", {
     title: "Build Project",
-    description: `**What it does:** Compiles the project for production. This includes building the web framework and generating the final Igniter.js client.
+    description: `**What it does:** Compiles the project for production. This includes building the web framework and generating the final Flame.js client.
 **When to use:** Before deploying the application or when you need to test the production build locally.
 **How it works:** Executes 'npm run build', which typically runs TypeScript compilation and framework-specific build commands.
 **Result:** A production-ready build in the project's output directory (e.g., '.next' or 'dist').`,
@@ -71,7 +71,7 @@ export function registerCliTools({ server, execAsync }: ToolsetContext) {
 **How it works:** Runs 'npm test'. The '--filter' option can be used to run tests for a specific package in a monorepo.
 **Result:** A test report summarizing passed and failed tests.`,
     inputSchema: {
-      filter: z.string().optional().describe("Filter tests by a specific pattern or package name (e.g., '@igniter-js/core')."),
+      filter: z.string().optional().describe("Filter tests by a specific pattern or package name (e.g., '@flame-js/core')."),
       watch: z.boolean().optional().describe("Run tests in watch mode to automatically re-run on file changes."),
     },
   }, async ({ filter, watch }: { filter?: string; watch?: boolean }) => {
@@ -97,9 +97,9 @@ export function registerCliTools({ server, execAsync }: ToolsetContext) {
 
   server.registerTool("generate_feature", {
     title: "Generate Feature",
-    description: `**What it does:** Scaffolds a complete, new feature module according to Igniter.js conventions.
+    description: `**What it does:** Scaffolds a complete, new feature module according to Flame.js conventions.
 **When to use:** When starting a new, distinct area of functionality in the application (e.g., 'users', 'products', 'billing').
-**How it works:** Runs 'igniter generate feature <name>'. It creates a directory with subfolders for controllers, procedures, and types.
+**How it works:** Runs 'Flame generate feature <name>'. It creates a directory with subfolders for controllers, procedures, and types.
 **Result:** A new feature directory and files, ready for business logic implementation.`,
     inputSchema: {
       name: z.string().describe("The name of the feature in kebab-case (e.g., 'user-management')."),
@@ -110,7 +110,7 @@ export function registerCliTools({ server, execAsync }: ToolsetContext) {
       const args = [name];
       if (schema) args.push(`--schema "${schema}"`);
 
-      const command = `npx @igniter-js/cli@latest generate feature ${args.join(" ")}`.trim();
+      const command = `npx @flame-js/cli@latest generate feature ${args.join(" ")}`.trim();
       const result = await execAsync(command, { timeout: 30000 });
 
       return {
@@ -129,7 +129,7 @@ export function registerCliTools({ server, execAsync }: ToolsetContext) {
     title: "Generate Schema",
     description: `**What it does:** Manually triggers the generation of the type-safe client schema from your API router.
 **When to use:** Primarily in CI/CD environments or when you need to force a regeneration without running the dev server. The 'dev' command typically handles this automatically.
-**How it works:** Runs 'igniter generate schema'. It introspects your main router file and outputs the client files.
+**How it works:** Runs 'Flame generate schema'. It introspects your main router file and outputs the client files.
 **Result:** Updated client schema files in the specified output directory.`,
   }, async (options: { output?: string; watch?: boolean; docs?: boolean; docsOutput?: string }) => {
     try {
@@ -140,8 +140,8 @@ export function registerCliTools({ server, execAsync }: ToolsetContext) {
       if (options.docsOutput) args.push(`--docs-output ${options.docsOutput}`);
 
       const command = [
-        `npx @igniter-js/cli@latest generate schema`.trim(),
-        `npx @igniter-js/cli@latest generate docs`.trim()
+        `npx @flame-js/cli@latest generate schema`.trim(),
+        `npx @flame-js/cli@latest generate docs`.trim()
       ];
 
       for (const cmd of command) {
@@ -229,3 +229,8 @@ export function registerCliTools({ server, execAsync }: ToolsetContext) {
     }
   });
 }
+
+
+
+
+

@@ -46,7 +46,7 @@ interface CommandIndexEntry {
 }
 
 /**
- * Main Bot class for @igniter-js/bot
+ * Main Bot class for @flame-js/bot
  *
  * Features:
  *  - Multi-adapter routing
@@ -448,3 +448,8 @@ export class Bot<
     }
   }
 }
+
+
+
+
+

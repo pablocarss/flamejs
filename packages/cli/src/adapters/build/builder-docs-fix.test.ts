@@ -1,10 +1,10 @@
 import { describe, it, expect } from 'vitest';
-import { Igniter } from '@igniter-js/core';
+import { Flame } from '@flame-js/core';
 
-describe('IgniterBuilder - docs configuration fix', () => {
+describe('FlameBuilder - docs configuration fix', () => {
   it('should include docs configuration in router config object', () => {
     // Criar um router usando o builder com configuração docs
-    const router = Igniter
+    const router = Flame
       .context(() => ({ user: 'test' }))
       .config({
         baseURL: 'http://localhost:3000',
@@ -69,7 +69,7 @@ describe('IgniterBuilder - docs configuration fix', () => {
 
   it('should work without docs configuration', () => {
     // Criar um router sem configuração docs
-    const router = Igniter
+    const router = Flame
       .context(() => ({ user: 'test' }))
       .config({
         baseURL: 'http://localhost:3000',
@@ -100,3 +100,8 @@ describe('IgniterBuilder - docs configuration fix', () => {
     expect(router.config.basePATH).toBe('/api/v1');
   });
 });
+
+
+
+
+

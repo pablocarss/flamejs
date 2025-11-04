@@ -1,8 +1,8 @@
-# Igniter.js Website (`@igniter-js/www`)
+# Flame.js Website (`@flame-js/www`)
 
-This repository contains the source code for the official Igniter.js website and documentation platform, available at [https://igniterjs.com](https://igniterjs.com).
+This repository contains the source code for the official Flame.js website and documentation platform, available at [https://Flamejs.com](https://Flamejs.com).
 
-Built with Next.js and Tailwind CSS, this project serves as the central hub for our community, providing marketing information, comprehensive documentation, and guides to help developers get the most out of Igniter.js.
+Built with Next.js and Tailwind CSS, this project serves as the central hub for our community, providing marketing information, comprehensive documentation, and guides to help developers get the most out of Flame.js.
 
 ## ✨ Features
 
@@ -24,10 +24,10 @@ Follow these instructions to set up the project for local development.
 ### Installation and Setup
 
 1.  **Clone the Monorepo:**
-    If you haven't already, clone the entire Igniter.js monorepo to your local machine.
+    If you haven't already, clone the entire Flame.js monorepo to your local machine.
     ```bash
-    git clone https://github.com/your-org/igniter-js.git
-    cd igniter-js
+    git clone https://github.com/your-org/Flame-js.git
+    cd Flame-js
     ```
 
 2.  **Install Dependencies:**
@@ -38,9 +38,9 @@ Follow these instructions to set up the project for local development.
     This command leverages npm workspaces to link all local packages correctly.
 
 3.  **Run the Development Server:**
-    Use the npm `--filter` flag to run the development server specifically for the `@igniter-js/www` package.
+    Use the npm `--filter` flag to run the development server specifically for the `@flame-js/www` package.
     ```bash
-    npm run dev --filter @igniter-js/www
+    npm run dev --filter @flame-js/www
     ```
 
 4.  **Open in Browser:**
@@ -61,8 +61,13 @@ Our documentation is written in MDX (`.mdx`).
 
 ### Reporting Issues
 
-If you encounter a bug or have a feature request, please [open an issue](https://github.com/felipebarcelospro/igniter-js/issues) on our GitHub repository. Provide as much detail as possible, including steps to reproduce the issue.
+If you encounter a bug or have a feature request, please [open an issue](https://github.com/felipebarcelospro/Flame-js/issues) on our GitHub repository. Provide as much detail as possible, including steps to reproduce the issue.
 
 ## 📜 License
 
 This project is licensed under the MIT License. See the [LICENSE](../../LICENSE) file in the root of the monorepo for more details.
+
+
+
+
+

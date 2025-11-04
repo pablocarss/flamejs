@@ -1,10 +1,10 @@
-import type { IgniterRouter } from "@igniter-js/core";
+import type { FlameRouter } from "@flame-js/core";
 import type { ServerCapabilities } from "@modelcontextprotocol/sdk/types.js";
 import { createMcpAdapter } from "src/core/adapter";
 import type { ArgsRawShape, McpAdapterOptions, McpAdapterSpecificOptions, McpCustomTool, McpEventsOptions, McpOAuthConfig, McpPrompt, McpResource, McpResponseOptions, McpServerInfo, McpToolTransform } from "src/types";
 
-export class IgniterMcpServer<
-  TRouter extends IgniterRouter<any, any, any, any, any>,
+export class FlameMcpServer<
+  TRouter extends FlameRouter<any, any, any, any, any>,
   TCustomTools extends readonly McpCustomTool<any, any>[],
   TCustomPrompts extends readonly McpPrompt<any, any>[],
   TCustomResources extends readonly McpResource<any>[]
@@ -30,14 +30,14 @@ export class IgniterMcpServer<
   }
 
   static create() {
-    return new IgniterMcpServer();
+    return new FlameMcpServer();
   }
 
   router<
-    TNewRouter extends IgniterRouter<any, any, any, any, any>,
-  >(router: TNewRouter): IgniterMcpServer<TNewRouter, [], [], []> {
+    TNewRouter extends FlameRouter<any, any, any, any, any>,
+  >(router: TNewRouter): FlameMcpServer<TNewRouter, [], [], []> {
     const { router: _, ...rest } = this._options;
-    return new IgniterMcpServer<TNewRouter, [], [], []>({
+    return new FlameMcpServer<TNewRouter, [], [], []>({
       ...rest,
       router,
     });
@@ -48,47 +48,47 @@ export class IgniterMcpServer<
     error: (message: string) => void;
     warn: (message: string) => void;
     debug: (message: string) => void;
-  }): IgniterMcpServer<TRouter, TCustomTools, TCustomPrompts, TCustomResources> {
+  }): FlameMcpServer<TRouter, TCustomTools, TCustomPrompts, TCustomResources> {
     this._options.logger = logger;
-    return new IgniterMcpServer<TRouter, TCustomTools, TCustomPrompts, TCustomResources>({
+    return new FlameMcpServer<TRouter, TCustomTools, TCustomPrompts, TCustomResources>({
       ...this._options,
     });
   }
 
-  withToolTransform(transform: McpToolTransform): IgniterMcpServer<TRouter, TCustomTools, TCustomPrompts, TCustomResources> {
+  withToolTransform(transform: McpToolTransform): FlameMcpServer<TRouter, TCustomTools, TCustomPrompts, TCustomResources> {
     if (!this._options.tools) {
       this._options.tools = { autoMap: true, custom: [] };
     }
     this._options.tools.transform = transform;
-    return new IgniterMcpServer<TRouter, TCustomTools, TCustomPrompts, TCustomResources>({
+    return new FlameMcpServer<TRouter, TCustomTools, TCustomPrompts, TCustomResources>({
       ...this._options,
     });
   }
 
-  withInstructions(instructions: string): IgniterMcpServer<TRouter, TCustomTools, TCustomPrompts, TCustomResources> {
+  withInstructions(instructions: string): FlameMcpServer<TRouter, TCustomTools, TCustomPrompts, TCustomResources> {
     this._options.instructions = instructions;
-    return new IgniterMcpServer<TRouter, TCustomTools, TCustomPrompts, TCustomResources>({
+    return new FlameMcpServer<TRouter, TCustomTools, TCustomPrompts, TCustomResources>({
       ...this._options,
     });
   }
   
-  withCapabilities(capatibilities: ServerCapabilities): IgniterMcpServer<TRouter, TCustomTools, TCustomPrompts, TCustomResources> {
+  withCapabilities(capatibilities: ServerCapabilities): FlameMcpServer<TRouter, TCustomTools, TCustomPrompts, TCustomResources> {
     this._options.capatibilities = capatibilities;
-    return new IgniterMcpServer<TRouter, TCustomTools, TCustomPrompts, TCustomResources>({
+    return new FlameMcpServer<TRouter, TCustomTools, TCustomPrompts, TCustomResources>({
       ...this._options,
     });
   }
 
-  withServerInfo(serverInfo: McpServerInfo): IgniterMcpServer<TRouter, TCustomTools, TCustomPrompts, TCustomResources> {
+  withServerInfo(serverInfo: McpServerInfo): FlameMcpServer<TRouter, TCustomTools, TCustomPrompts, TCustomResources> {
     this._options.serverInfo = serverInfo;
-    return new IgniterMcpServer<TRouter, TCustomTools, TCustomPrompts, TCustomResources>({
+    return new FlameMcpServer<TRouter, TCustomTools, TCustomPrompts, TCustomResources>({
       ...this._options,
     });
   }
 
-  withOAuth(oauth: McpOAuthConfig): IgniterMcpServer<TRouter, TCustomTools, TCustomPrompts, TCustomResources> {
+  withOAuth(oauth: McpOAuthConfig): FlameMcpServer<TRouter, TCustomTools, TCustomPrompts, TCustomResources> {
     this._options.oauth = oauth;
-    return new IgniterMcpServer<TRouter, TCustomTools, TCustomPrompts, TCustomResources>({
+    return new FlameMcpServer<TRouter, TCustomTools, TCustomPrompts, TCustomResources>({
       ...this._options,
     });
   }
@@ -96,7 +96,7 @@ export class IgniterMcpServer<
   addPrompt<
     TArgs extends ArgsRawShape,
     TPrompt extends McpPrompt<TArgs, TRouter['$Infer']['$context']>
-  >(prompt: TPrompt): IgniterMcpServer<TRouter, TCustomTools, [...TCustomPrompts, TPrompt], TCustomResources> {
+  >(prompt: TPrompt): FlameMcpServer<TRouter, TCustomTools, [...TCustomPrompts, TPrompt], TCustomResources> {
     if (!this._options.prompts) {
       this._options.prompts = { custom: [] };
     }
@@ -104,7 +104,7 @@ export class IgniterMcpServer<
       this._options.prompts.custom = [];
     }
     this._options.prompts.custom.push(prompt);
-    return new IgniterMcpServer<TRouter, TCustomTools, [...TCustomPrompts, TPrompt], TCustomResources>({
+    return new FlameMcpServer<TRouter, TCustomTools, [...TCustomPrompts, TPrompt], TCustomResources>({
       ...this._options,
     });
   }
@@ -112,7 +112,7 @@ export class IgniterMcpServer<
   addTool<
     TArgs extends ArgsRawShape,
     TTool extends McpCustomTool<TArgs, TRouter['$Infer']['$context']>
-  >(tool: McpCustomTool<TArgs, TRouter['$Infer']['$context']>): IgniterMcpServer<TRouter, [...TCustomTools, TTool], TCustomPrompts, TCustomResources> {
+  >(tool: McpCustomTool<TArgs, TRouter['$Infer']['$context']>): FlameMcpServer<TRouter, [...TCustomTools, TTool], TCustomPrompts, TCustomResources> {
     if (!this._options.tools) {
       this._options.tools = { autoMap: true, custom: [] };
     }
@@ -120,12 +120,12 @@ export class IgniterMcpServer<
       this._options.tools.custom = [];
     }
     this._options.tools.custom.push(tool);
-    return new IgniterMcpServer<TRouter, [...TCustomTools, TTool], TCustomPrompts, TCustomResources>({
+    return new FlameMcpServer<TRouter, [...TCustomTools, TTool], TCustomPrompts, TCustomResources>({
       ...this._options,
     });
   }
 
-  addResource<TResource extends McpResource<TRouter['$Infer']['$context']>>(resource: TResource): IgniterMcpServer<TRouter, TCustomTools, TCustomPrompts, [...TCustomResources, TResource]> {
+  addResource<TResource extends McpResource<TRouter['$Infer']['$context']>>(resource: TResource): FlameMcpServer<TRouter, TCustomTools, TCustomPrompts, [...TCustomResources, TResource]> {
     if (!this._options.resources) {
       this._options.resources = { custom: [] };
     }
@@ -133,28 +133,28 @@ export class IgniterMcpServer<
       this._options.resources.custom = [];
     }
     this._options.resources.custom.push(resource);
-    return new IgniterMcpServer<TRouter, TCustomTools, TCustomPrompts, [...TCustomResources, TResource]>({
+    return new FlameMcpServer<TRouter, TCustomTools, TCustomPrompts, [...TCustomResources, TResource]>({
       ...this._options,
     });
   }
 
-  withEvents(events: McpEventsOptions<TRouter['$Infer']['$context']>): IgniterMcpServer<TRouter, TCustomTools, TCustomPrompts, TCustomResources> {
+  withEvents(events: McpEventsOptions<TRouter['$Infer']['$context']>): FlameMcpServer<TRouter, TCustomTools, TCustomPrompts, TCustomResources> {
     this._options.events = events;
-    return new IgniterMcpServer<TRouter, TCustomTools, TCustomPrompts, TCustomResources>({
+    return new FlameMcpServer<TRouter, TCustomTools, TCustomPrompts, TCustomResources>({
       ...this._options,
     });
   }
 
-  withResponse(response: McpResponseOptions<TRouter['$Infer']['$context']>): IgniterMcpServer<TRouter, TCustomTools, TCustomPrompts, TCustomResources> {
+  withResponse(response: McpResponseOptions<TRouter['$Infer']['$context']>): FlameMcpServer<TRouter, TCustomTools, TCustomPrompts, TCustomResources> {
     this._options.response = response;
-    return new IgniterMcpServer<TRouter, TCustomTools, TCustomPrompts, TCustomResources>({
+    return new FlameMcpServer<TRouter, TCustomTools, TCustomPrompts, TCustomResources>({
       ...this._options,
     });
   }
 
-  withAdapter(adapter: McpAdapterSpecificOptions): IgniterMcpServer<TRouter, TCustomTools, TCustomPrompts, TCustomResources> {
+  withAdapter(adapter: McpAdapterSpecificOptions): FlameMcpServer<TRouter, TCustomTools, TCustomPrompts, TCustomResources> {
     this._options.adapter = adapter;
-    return new IgniterMcpServer<TRouter, TCustomTools, TCustomPrompts, TCustomResources>({
+    return new FlameMcpServer<TRouter, TCustomTools, TCustomPrompts, TCustomResources>({
       ...this._options,
     });
   }
@@ -178,3 +178,8 @@ export class IgniterMcpServer<
     };
   }
 }
+
+
+
+
+

@@ -1,8 +1,8 @@
 import type { JobsNamespaceProxy } from "./jobs.interface";
-import type { IgniterLogger } from "./logger.interface";
-import type { IgniterPlugin, PluginActionsCollection, PluginSelfContext } from "./plugin.interface";
-import type { IgniterStoreAdapter } from "./store.interface";
-import type { IgniterTelemetryProvider } from "./telemetry.interface";
+import type { FlameLogger } from "./logger.interface";
+import type { FlamePlugin, PluginActionsCollection, PluginSelfContext } from "./plugin.interface";
+import type { FlameStoreAdapter } from "./store.interface";
+import type { FlameTelemetryProvider } from "./telemetry.interface";
 import type { Prettify } from "./utils.interface";
 
 /**
@@ -12,20 +12,20 @@ import type { Prettify } from "./utils.interface";
  * @template TCustomPlugins - Additional custom plugins
  */
 export type PluginsConfig<TCustomPlugins extends Record<string, unknown> = {
-  store?: IgniterStoreAdapter;
-  logger?: IgniterLogger;
+  store?: FlameStoreAdapter;
+  logger?: FlameLogger;
   jobs?: JobsNamespaceProxy<any>;
-  telemetry?: IgniterTelemetryProvider;
+  telemetry?: FlameTelemetryProvider;
 }> = TCustomPlugins;
 
 /**
- * The IgniterBaseContext type composes the user-defined context (TContext)
+ * The FlameBaseContext type composes the user-defined context (TContext)
  * with a $plugins property containing the provided plugins.
  *
  * @template TContext - The user-defined context object
  * @template TPlugins - The plugins object, keys and types are inferred from what is actually passed
  */
-export type IgniterBaseContext<
+export type FlameBaseContext<
   TContext extends object = {},
   TPlugins extends Record<string, unknown> = {}
 > = Prettify<TContext & { $plugins: TPlugins }>;
@@ -42,9 +42,14 @@ export type Unwrap<T> = T extends (...args: any[]) => infer R
 /**
  * Infers the final context type from either the context object directly or from a function.
  */
-export type InferIgniterContext<T> = Unwrap<T>;
+export type InferFlameContext<T> = Unwrap<T>;
 
 /**
  * Context callback function type - receives the incoming request and returns context
  */
 export type ContextCallback = (request?: Request) => object | Promise<object>;
+
+
+
+
+

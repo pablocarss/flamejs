@@ -6,7 +6,7 @@ import type { CookieOptions } from "../types";
  * 
  * @example
  * // Create a new cookie manager
- * const cookies = new IgniterCookie(headers);
+ * const cookies = new FlameCookie(headers);
  * 
  * // Basic cookie operations
  * cookies.set('user', 'john');
@@ -28,13 +28,13 @@ import type { CookieOptions } from "../types";
  * cookies.set('id', '12345', { prefix: 'secure' }); // Sets __Secure-id
  * cookies.set('session', 'xyz789', { prefix: 'host' }); // Sets __Host-session
  */
-export class IgniterCookie {
+export class FlameCookie {
   private headers: Headers;
   private cookies: Map<string, string> = new Map();
   private readonly HMAC_ALGORITHM = { name: "HMAC", hash: "SHA-256" };
 
   /**
-   * Creates a new IgniterCookie instance.
+   * Creates a new FlameCookie instance.
    * 
    * @param headers - The Headers object containing the cookie information
    */
@@ -344,3 +344,8 @@ export class IgniterCookie {
       .join("; ");
   }
 }
+
+
+
+
+

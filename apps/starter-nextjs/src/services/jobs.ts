@@ -1,5 +1,5 @@
 import { store } from '@/services/store'
-import { createBullMQAdapter } from '@igniter-js/adapter-bullmq'
+import { createBullMQAdapter } from '@flame-js/adapter-bullmq'
 import { z } from 'zod'
 
 /**
@@ -8,7 +8,7 @@ import { z } from 'zod'
  * @remarks
  * Handles asynchronous job processing with BullMQ.
  *
- * @see https://github.com/felipebarcelospro/igniter-js/tree/main/packages/adapter-bullmq
+ * @see https://github.com/felipebarcelospro/Flame-js/tree/main/packages/adapter-bullmq
  */
 export const jobs = createBullMQAdapter({
   store,
@@ -33,3 +33,8 @@ export const REGISTERED_JOBS = jobs.merge({
     }
   })
 })
+
+
+
+
+

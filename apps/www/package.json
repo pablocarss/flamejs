@@ -1,5 +1,5 @@
 {
-  "name": "@igniter-js/www",
+  "name": "@flame-js/www",
   "version": "1.0.0",
   "private": true,
   "scripts": {
@@ -79,3 +79,8 @@
     "typescript": "^5.0.0"
   }
 }
+
+
+
+
+

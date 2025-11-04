@@ -4,7 +4,7 @@ import type { BullMQAdapterOptions } from '../types'
 import { z } from 'zod'
 
 // Mock isServer to be true by default for most tests
-vi.mock('@igniter-js/core', async (importOriginal) => {
+vi.mock('@flame-js/core', async (importOriginal) => {
   const actual = await importOriginal() as any
   return {
     ...actual,
@@ -751,3 +751,8 @@ describe('BullMQ Adapter', () => {
     })
   })
 }) 
+
+
+
+
+

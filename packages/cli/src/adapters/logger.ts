@@ -1,20 +1,20 @@
-import { IgniterLogLevel, createConsoleLogger } from '@igniter-js/core';
+import { FlameLogLevel, createConsoleLogger } from '@flame-js/core';
 
 /**
  * Get the log level from environment variables
  * Supports DEBUG=true for debug level and LOG_LEVEL for explicit level
  */
-function getLogLevel(): IgniterLogLevel {
+function getLogLevel(): FlameLogLevel {
   if (process.env.DEBUG === 'true') {
-    return IgniterLogLevel.DEBUG;
+    return FlameLogLevel.DEBUG;
   }
 
   const envLevel = process.env.LOG_LEVEL?.toUpperCase();
-  if (envLevel && envLevel in IgniterLogLevel) {
-    return IgniterLogLevel[envLevel as keyof typeof IgniterLogLevel];
+  if (envLevel && envLevel in FlameLogLevel) {
+    return FlameLogLevel[envLevel as keyof typeof FlameLogLevel];
   }
 
-  return IgniterLogLevel.INFO;
+  return FlameLogLevel.INFO;
 }
 
 /**
@@ -37,7 +37,7 @@ function isConcurrentMode(): boolean {
 function isInteractiveMode(): boolean {
   return !!(
     process.argv.includes('--interactive') ||
-    process.env.IGNITER_INTERACTIVE_MODE === 'true'
+    process.env.Flame_INTERACTIVE_MODE === 'true'
   );
 }
 
@@ -75,7 +75,7 @@ const cliSpinnerManager = new SpinnerManager({
  */
 export function createChildLogger(
   context: Record<string, unknown>,
-  options: { level?: IgniterLogLevel; colorize?: boolean } = {}
+  options: { level?: FlameLogLevel; colorize?: boolean } = {}
 ) {
   const childLogger = logger.child(context);
 
@@ -95,7 +95,7 @@ export function createChildLogger(
  */
 export function setupCliLogger(options: { debug?: boolean }) {
   if (options.debug) {
-    logger.setLevel(IgniterLogLevel.DEBUG);
+    logger.setLevel(FlameLogLevel.DEBUG);
     logger.debug('Debug mode enabled.');
   }
 }
@@ -123,3 +123,8 @@ export function formatError(error: unknown): Record<string, unknown> {
 
   return { error };
 }
+
+
+
+
+

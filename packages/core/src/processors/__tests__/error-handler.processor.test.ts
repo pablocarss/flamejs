@@ -1,8 +1,8 @@
 import { describe, test, expect, vi, beforeEach, afterEach } from 'vitest';
 import { ErrorHandlerProcessor } from '../error-handler.processor';
-import { IgniterError } from '../../error';
-import { IgniterResponseProcessor } from '../response.processor';
-import { IgniterCookie } from '../../services/cookie.service';
+import { FlameError } from '../../error';
+import { FlameResponseProcessor } from '../response.processor';
+import { FlameCookie } from '../../services/cookie.service';
 import type { ProcessedContext, ProcessedRequest } from '../context-builder.processor';
 
 // Mock logger for testing
@@ -20,10 +20,10 @@ const mockTelemetrySpan = {
   setAttribute: vi.fn(),
 };
 
-// Mock IgniterCookie
-const createMockCookie = (): IgniterCookie => {
+// Mock FlameCookie
+const createMockCookie = (): FlameCookie => {
   const mockHeaders = new Headers();
-  const cookie = new IgniterCookie(mockHeaders);
+  const cookie = new FlameCookie(mockHeaders);
   vi.spyOn(cookie, 'get').mockReturnValue('test-value');
   return cookie;
 };
@@ -66,7 +66,7 @@ const createMockProcessedRequest = (overrides: Partial<ProcessedRequest> = {}): 
 // Mock ProcessedContext factory
 const createMockContext = (overrides: Partial<ProcessedContext> = {}): ProcessedContext => ({
   request: createMockProcessedRequest(),
-  response: new IgniterResponseProcessor(),
+  response: new FlameResponseProcessor(),
   $context: {
     logger: mockLogger,
   },
@@ -198,15 +198,15 @@ describe('ErrorHandlerProcessor', () => {
       });
     });
 
-    test('should handle IgniterError', async () => {
-      const igniterError = new IgniterError({
+    test('should handle FlameError', async () => {
+      const FlameError = new FlameError({
         message: 'Not found',
         code: 'NOT_FOUND',
       });
 
       const context = createMockContext();
       const result = await ErrorHandlerProcessor.handleError(
-        igniterError,
+        FlameError,
         context,
         mockTelemetrySpan as any,
         Date.now()
@@ -286,16 +286,16 @@ describe('ErrorHandlerProcessor', () => {
     });
   });
 
-  describe('handleIgniterError', () => {
-    test('should format IgniterError response', async () => {
-      const error = new IgniterError({
+  describe('handleFlameError', () => {
+    test('should format FlameError response', async () => {
+      const error = new FlameError({
         message: 'Resource not found',
         code: 'RESOURCE_NOT_FOUND',
         details: { resourceId: '123' },
       });
 
       const context = createMockContext();
-      const result = await ErrorHandlerProcessor['handleIgniterError'](
+      const result = await ErrorHandlerProcessor['handleFlameError'](
         error,
         context,
         mockTelemetrySpan as any,
@@ -432,3 +432,8 @@ describe('ErrorHandlerProcessor', () => {
     });
   });
 });
+
+
+
+
+

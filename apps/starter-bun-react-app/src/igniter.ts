@@ -1,5 +1,5 @@
-import { Igniter } from '@igniter-js/core'
-import { createIgniterAppContext } from "./igniter.context"
+import { Flame } from '@flame-js/core'
+import { createFlameAppContext } from "./Flame.context"
 import { store } from "@/services/store"
 import { REGISTERED_JOBS } from "@/services/jobs"
 import { logger } from "@/services/logger"
@@ -8,21 +8,26 @@ import { telemetry } from "@/services/telemetry"
 import openapi from './docs/openapi.json'
 
 /**
- * @description Initialize the Igniter.js
- * @see https://github.com/felipebarcelospro/igniter-js
+ * @description Initialize the Flame.js
+ * @see https://github.com/felipebarcelospro/Flame-js
  */
-export const igniter = Igniter
-  .context(createIgniterAppContext())
+export const Flame = Flame
+  .context(createFlameAppContext())
   .config({
-    baseURL: Bun.env.BUN_PUBLIC_IGNITER_API_URL || 'http://localhost:3000',
-    basePATH: Bun.env.BUN_PUBLIC_IGNITER_API_BASE_PATH || '/api/v1',
+    baseURL: Bun.env.BUN_PUBLIC_Flame_API_URL || 'http://localhost:3000',
+    basePATH: Bun.env.BUN_PUBLIC_Flame_API_BASE_PATH || '/api/v1',
   })
   .docs({
     openapi,
     info: {
-      title: 'Igniter.js Starter (Bun REST API)',
+      title: 'Flame.js Starter (Bun REST API)',
       version: '1.0.0',
-      description: 'A sample Bun REST API built with Igniter.js',
+      description: 'A sample Bun REST API built with Flame.js',
     }
   })
   .create()
+
+
+
+
+

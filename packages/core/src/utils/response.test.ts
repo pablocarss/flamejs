@@ -195,8 +195,8 @@ describe('normalizeResponseData', () => {
   });
 
   describe('real-world scenarios', () => {
-    it('should handle typical Igniter.js success response from server', () => {
-      // This is what IgniterResponseProcessor.success() typically returns
+    it('should handle typical Flame.js success response from server', () => {
+      // This is what FlameResponseProcessor.success() typically returns
       const serverResponse = {
         data: {
           boards: [
@@ -439,3 +439,8 @@ describe('Integration Test - Bug Fix Verification', () => {
     expect(normalizedResult.data?.boards[0].name).toBe('Board');
   });
 });
+
+
+
+
+

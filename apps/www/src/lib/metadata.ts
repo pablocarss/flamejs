@@ -31,7 +31,7 @@ export function generateMetadata({
   section
 }: PageMetadata): Metadata {
   const fullTitle = title === config.projectName ? title : `${title} | ${config.projectName}`;
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://igniterjs.dev';
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://Flamejs.dev';
   const canonicalUrl = canonical ? `${baseUrl}${canonical}` : undefined;
   const defaultOgImage = `${baseUrl}/og-image.png`;
   
@@ -113,7 +113,7 @@ export function generateBlogMetadata({
   slug,
   publishedTime,
   modifiedTime,
-  author = 'Igniter.js Team',
+  author = 'Flame.js Team',
   keywords = []
 }: {
   title: string;
@@ -133,7 +133,7 @@ export function generateBlogMetadata({
     modifiedTime,
     author,
     section: 'Technology',
-    keywords: [...keywords, 'Igniter.js', 'TypeScript', 'Full-stack', 'Framework']
+    keywords: [...keywords, 'Flame.js', 'TypeScript', 'Full-stack', 'Framework']
   });
 }
 
@@ -155,7 +155,7 @@ export function generateDocsMetadata({
     title,
     description,
     canonical: `/docs/${slug}`,
-    keywords: [...keywords, 'Igniter.js', 'Documentation', 'TypeScript', 'API', 'Tutorial']
+    keywords: [...keywords, 'Flame.js', 'Documentation', 'TypeScript', 'API', 'Tutorial']
   });
 }
 
@@ -168,7 +168,7 @@ export function generateArticleStructuredData({
   slug,
   publishedTime,
   modifiedTime,
-  author = 'Igniter.js Team',
+  author = 'Flame.js Team',
 }: {
   title: string;
   description: string;
@@ -177,7 +177,7 @@ export function generateArticleStructuredData({
   modifiedTime?: string;
   author?: string;
 }) {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://igniter-js.vercel.app';
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://Flame-js.vercel.app';
   
   return {
     '@context': 'https://schema.org',
@@ -203,3 +203,8 @@ export function generateArticleStructuredData({
     }
   };
 }
+
+
+
+
+

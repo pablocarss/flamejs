@@ -36,7 +36,7 @@ export const TemplateShowcase: React.FC = () => {
     <div className="my-8">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {featuredTemplates.map((template) => {
-          const logoUrl = frameworkLogos[template.framework] || 'https://svgl.app/library/igniterjs.svg';
+          const logoUrl = frameworkLogos[template.framework] || 'https://svgl.app/library/Flamejs.svg';
 
           return (
             <div
@@ -64,3 +64,8 @@ export const TemplateShowcase: React.FC = () => {
     </div>
   );
 };
+
+
+
+
+

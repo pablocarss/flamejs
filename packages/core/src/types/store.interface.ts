@@ -15,11 +15,11 @@ export interface KeyValueOptions {
 export type EventCallback = (message: any) => void | Promise<void>;
 
 /**
- * Defines the contract for a Store Adapter in Igniter.
+ * Defines the contract for a Store Adapter in Flame.
  * A Store Adapter provides a unified interface for various storage backends (e.g., Redis, Memcached, in-memory)
  * to handle key-value caching, atomic operations, and Pub/Sub messaging.
  */
-export interface IgniterStoreAdapter<TClient extends unknown = unknown> {
+export interface FlameStoreAdapter<TClient extends unknown = unknown> {
   /**
    * The underlying client instance (e.g., Redis client).
    * Can be used for advanced operations not covered by the adapter.
@@ -99,3 +99,8 @@ export interface IgniterStoreAdapter<TClient extends unknown = unknown> {
    */
   unsubscribe(channel: string, callback?: EventCallback): Promise<void>;
 } 
+
+
+
+
+

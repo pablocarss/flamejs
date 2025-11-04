@@ -3,20 +3,20 @@ import { type Config } from "./types";
 
 export const config: Config = {
   // General
-  projectName: "Igniter.js",
+  projectName: "Flame.js",
   projectDescription:
-    "Igniter is a modern, type-safe HTTP framework designed to streamline the development of scalable TypeScript applications.",
+    "Flame is a modern, type-safe HTTP framework designed to streamline the development of scalable TypeScript applications.",
   projectTagline:
     'Build powerful TypeScript applications with end-to-end type safety and developer-first experience',
 
   // Links
-  githubUrl: "https://github.com/felipebarcelospro/igniter-js",
+  githubUrl: "https://github.com/felipebarcelospro/Flame-js",
   twitterUrl: "https://x.com/feldbarcelospro",
   discordUrl: "https://discord.com/invite/JKGEQpjvJ6",
   purchaseUrl: "",
 
   // Developer Info
-  developerName: "Igniter.js Team",
+  developerName: "Flame.js Team",
   developerEmail: "team@nubler.com.br",
   developerImage: "https://pbs.twimg.com/profile_images/1950303869390770178/skjEZTye_400x400.jpg",
   developerBio:
@@ -57,7 +57,7 @@ export const config: Config = {
     {
       title: "CLI & Developer Tools",
       description:
-        "Interactive CLI with project scaffolding, live dashboard, and development tools. Get started instantly with 'igniter init'.",
+        "Interactive CLI with project scaffolding, live dashboard, and development tools. Get started instantly with 'Flame init'.",
       icon: <Terminal className="size-4" />,
     },
     {
@@ -77,34 +77,34 @@ export const config: Config = {
   // FAQ
   faq: [
     {
-      question: "What makes Igniter.js different from other frameworks?",
+      question: "What makes Flame.js different from other frameworks?",
       answer:
-        "Igniter.js is designed specifically for modern TypeScript applications with a focus on end-to-end type safety, AI friendliness, and developer experience. Unlike traditional frameworks, it provides fully-typed RPC communication, works seamlessly across different runtimes, and offers built-in real-time capabilities and background jobs without complex setup.",
+        "Flame.js is designed specifically for modern TypeScript applications with a focus on end-to-end type safety, AI friendliness, and developer experience. Unlike traditional frameworks, it provides fully-typed RPC communication, works seamlessly across different runtimes, and offers built-in real-time capabilities and background jobs without complex setup.",
     },
     {
-      question: "Can I use Igniter.js with my existing framework?",
+      question: "Can I use Flame.js with my existing framework?",
       answer:
-        "Yes! Igniter.js is framework-agnostic and works with any modern runtime or framework including Next.js, Express, Hono, Bun, and more. It's built on standard Web Request and Response APIs, so it integrates seamlessly with your existing tech stack without requiring major architectural changes.",
+        "Yes! Flame.js is framework-agnostic and works with any modern runtime or framework including Next.js, Express, Hono, Bun, and more. It's built on standard Web Request and Response APIs, so it integrates seamlessly with your existing tech stack without requiring major architectural changes.",
     },
     {
       question: "How does the end-to-end type safety work?",
       answer:
-        "Igniter.js leverages TypeScript's type system to provide compile-time guarantees across your entire application. When you define your API on the server, the client automatically gets fully-typed methods with IntelliSense and auto-completion. No schemas to share, no code generation - just pure TypeScript magic.",
+        "Flame.js leverages TypeScript's type system to provide compile-time guarantees across your entire application. When you define your API on the server, the client automatically gets fully-typed methods with IntelliSense and auto-completion. No schemas to share, no code generation - just pure TypeScript magic.",
     },
     {
-      question: "Is Igniter.js suitable for production applications?",
+      question: "Is Flame.js suitable for production applications?",
       answer:
-        "Absolutely! Igniter.js is built with production workloads in mind, offering features like dependency injection, middleware support, real-time capabilities, background job processing, and comprehensive error handling. The framework is designed to scale with your application needs.",
+        "Absolutely! Flame.js is built with production workloads in mind, offering features like dependency injection, middleware support, real-time capabilities, background job processing, and comprehensive error handling. The framework is designed to scale with your application needs.",
     },
     {
       question: "What about Code Agents and developer experience?",
       answer:
-        "Igniter.js is designed for the future of development where humans and AI collaborate. The predictable structure, clear conventions, feature-sliced architecture, and comprehensive type system create a low-entropy environment that both developers and AI agents can easily understand and modify.",
+        "Flame.js is designed for the future of development where humans and AI collaborate. The predictable structure, clear conventions, feature-sliced architecture, and comprehensive type system create a low-entropy environment that both developers and AI agents can easily understand and modify.",
     },
     {
-      question: "How do I get started with Igniter.js?",
+      question: "How do I get started with Flame.js?",
       answer:
-        "Getting started is simple! Use 'npx igniter init' to create a new project, or install manually with npm/yarn. Our comprehensive documentation includes tutorials, examples, and best practices to help you get up and running quickly. You can have a working API in minutes.",
+        "Getting started is simple! Use 'npx Flame init' to create a new project, or install manually with npm/yarn. Our comprehensive documentation includes tutorials, examples, and best practices to help you get up and running quickly. You can have a working API in minutes.",
     },
   ],
 
@@ -112,3 +112,8 @@ export const config: Config = {
   termsOfUseUrl: "/terms-of-use",
   privacyPolicyUrl: "/privacy-policy",
 };
+
+
+
+
+

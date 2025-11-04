@@ -1,5 +1,5 @@
 /**
- * @igniter-js/bot - Adapters Barrel
+ * @flame-js/bot - Adapters Barrel
  *
  * Re-exports first-party adapter factories.
  *
@@ -8,9 +8,9 @@
  *  - Side‑effect free (pure exports) to preserve tree-shaking.
  *  - Predictable import ergonomics:
  *
- *      import { telegram, whatsapp } from '@igniter-js/bot/adapters'
+ *      import { telegram, whatsapp } from '@flame-js/bot/adapters'
  *      // or via root:
- *      import { telegram } from '@igniter-js/bot'
+ *      import { telegram } from '@flame-js/bot'
  *
  *  - Clear location to register future adapters (e.g. discord, slack).
  *
@@ -29,7 +29,7 @@ export * from './whatsapp'
  * Namespace-style export for optional ergonomic access:
  *
  * Example:
- *   import { builtinAdapters } from '@igniter-js/bot/adapters'
+ *   import { builtinAdapters } from '@flame-js/bot/adapters'
  *   const bot = Bot.create({
  *     id: 'demo',
  *     name: 'DemoBot',
@@ -60,3 +60,8 @@ export type BuiltinAdapterName = keyof typeof builtinAdapters
  *  - Future planned adapters: discord, slack, matrix.
  *  - Consider dynamic registration pattern if ecosystem expands significantly.
  */
+
+
+
+
+

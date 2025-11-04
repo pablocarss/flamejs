@@ -13,3 +13,8 @@ export default function BlogPostLayout({
 }) {
   return <BlogLayout>{children}</BlogLayout>;
 }
+
+
+
+
+

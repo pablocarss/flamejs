@@ -1,9 +1,9 @@
-import { type IgniterLogger } from "../types"
+import { type FlameLogger } from "../types"
 import { SSEProcessor } from "./sse.processor"
-import { IgniterConsoleLogger } from "../services/logger.service"
+import { FlameConsoleLogger } from "../services/logger.service"
 import type { CookieOptions } from "../types/cookie.interface"
-import { IgniterCommonErrorCode, IgniterResponseError, IgniterResponse } from "../types/response.interface"
-import type { IgniterStoreAdapter } from "../types/store.interface"
+import { FlameCommonErrorCode, FlameResponseError, FlameResponse } from "../types/response.interface"
+import type { FlameStoreAdapter } from "../types/store.interface"
 import { resolveLogLevel, createLoggerContext } from "../utils/logger";
 
 /**
@@ -87,7 +87,7 @@ export interface RevalidateOptions<TContext = unknown, TData = ResponseData> {
 }
 
 /**
- * A builder class for creating and manipulating HTTP responses in the Igniter Framework.
+ * A builder class for creating and manipulating HTTP responses in the Flame Framework.
  * Provides a fluent interface for constructing responses with various status codes,
  * headers, cookies, body content, streaming, and cache revalidation.
  *
@@ -101,29 +101,29 @@ export interface RevalidateOptions<TContext = unknown, TData = ResponseData> {
  * @example
  * ```typescript
  * // Create a success response with typed data
- * const response = IgniterResponseProcessor.init<MyContext>()
+ * const response = FlameResponseProcessor.init<MyContext>()
  *   .status(200)
  *   .setCookie('session', 'abc123', { httpOnly: true })
- *   .success({ user: { id: 1, name: 'John' } }) // Now typed as IgniterResponseProcessor<MyContext, { user: { id: number, name: string } }>
+ *   .success({ user: { id: 1, name: 'John' } }) // Now typed as FlameResponseProcessor<MyContext, { user: { id: number, name: string } }>
  *   .toResponse();
  * ```
  */
-export class IgniterResponseProcessor<TContext = unknown> {
+export class FlameResponseProcessor<TContext = unknown> {
   private _status: number = 200
   private _statusExplicitlySet: boolean = false
-  private _response = {} as IgniterResponse
+  private _response = {} as FlameResponse
   private _headers = new Headers()
   private _cookies: string[] = []
   private _isStream: boolean = false
   private _streamOptions?: StreamOptions
   private _revalidateOptions?: RevalidateOptions<TContext>
-  private _store?: IgniterStoreAdapter
+  private _store?: FlameStoreAdapter
   private _context?: TContext
-  private _logger?: IgniterLogger
+  private _logger?: FlameLogger
 
-  private get logger(): IgniterLogger {
+  private get logger(): FlameLogger {
     if (!this._logger) {
-      this._logger = IgniterConsoleLogger.create({
+      this._logger = FlameConsoleLogger.create({
         level: resolveLogLevel(),
         context: createLoggerContext('Response'),
         showTimestamp: true,
@@ -132,24 +132,24 @@ export class IgniterResponseProcessor<TContext = unknown> {
     return this._logger;
   }
   /**
-   * Creates a new instance of IgniterResponseProcessor.
+   * Creates a new instance of FlameResponseProcessor.
    * Use this method to start building a new response.
    *
    * @template TContext - The type of the request context
    * @param store - Optional store adapter for streaming and revalidation
    * @param context - Optional context for scoped operations
-   * @returns A new IgniterResponseProcessor instance
+   * @returns A new FlameResponseProcessor instance
    *
    * @example
    * ```typescript
-   * const response = IgniterResponseProcessor.init<MyContext>(store, context);
+   * const response = FlameResponseProcessor.init<MyContext>(store, context);
    * ```
    */
   static init<TContext = unknown>(
-    store?: IgniterStoreAdapter,
+    store?: FlameStoreAdapter,
     context?: TContext
-  ): IgniterResponseProcessor<TContext> {
-    const instance = new IgniterResponseProcessor<TContext>();
+  ): FlameResponseProcessor<TContext> {
+    const instance = new FlameResponseProcessor<TContext>();
     instance._store = store;
     instance._context = context;
 
@@ -168,11 +168,11 @@ export class IgniterResponseProcessor<TContext = unknown> {
    * @returns A new typed instance
    * @private
    */
-  private withData<TNewData>(): IgniterResponseProcessor<TContext> {
-    const newInstance = new IgniterResponseProcessor<TContext>();
+  private withData<TNewData>(): FlameResponseProcessor<TContext> {
+    const newInstance = new FlameResponseProcessor<TContext>();
     newInstance._status = this._status;
     newInstance._statusExplicitlySet = this._statusExplicitlySet;
-    newInstance._response = {} as IgniterResponse<TNewData>;
+    newInstance._response = {} as FlameResponse<TNewData>;
     newInstance._headers = new Headers(this._headers);
     newInstance._cookies = [...this._cookies];
     newInstance._isStream = this._isStream;
@@ -226,7 +226,7 @@ export class IgniterResponseProcessor<TContext = unknown> {
     }
 
     this.logger.debug("SSE stream configured", { channelId: options.channelId });
-    const newInstance = this.withData<IgniterResponse<TStreamData>>();
+    const newInstance = this.withData<FlameResponse<TStreamData>>();
     newInstance._isStream = true;
     // @ts-expect-error - Ignore type mismatch for now
     newInstance._streamOptions = options as StreamOptions<TStreamData>;
@@ -282,16 +282,16 @@ export class IgniterResponseProcessor<TContext = unknown> {
    * @example
    * ```typescript
    * const user = { id: 1, name: 'John' };
-   * response.success(user); // Returns IgniterResponseProcessor<TContext, typeof user>
+   * response.success(user); // Returns FlameResponseProcessor<TContext, typeof user>
    * ```
    */
   success<TSuccessData>(data?: TSuccessData) {
-    const instance = this.withData<IgniterResponse<TSuccessData>>()
-    instance._response = {} as IgniterResponse<TSuccessData>;
+    const instance = this.withData<FlameResponse<TSuccessData>>()
+    instance._response = {} as FlameResponse<TSuccessData>;
     instance._response.data = data as TSuccessData;
     instance._response.error = null;
     if (!this._statusExplicitlySet) instance._status = 200;
-    return instance as unknown as IgniterResponse<TSuccessData>;
+    return instance as unknown as FlameResponse<TSuccessData>;
   }
 
   /**
@@ -305,16 +305,16 @@ export class IgniterResponseProcessor<TContext = unknown> {
    * @example
    * ```typescript
    * const newUser = { id: 1, status: 'active' };
-   * response.created(newUser); // Returns IgniterResponseProcessor<TContext, typeof newUser>
+   * response.created(newUser); // Returns FlameResponseProcessor<TContext, typeof newUser>
    * ```
    */
   created<TCreatedData>(data: TCreatedData) {
-    const instance = this.withData<IgniterResponse<TCreatedData>>()
-    instance._response = {} as IgniterResponse<TCreatedData>;
+    const instance = this.withData<FlameResponse<TCreatedData>>()
+    instance._response = {} as FlameResponse<TCreatedData>;
     instance._response.data = data as TCreatedData;
     instance._response.error = null;
     if (!this._statusExplicitlySet) instance._status = 201;
-    return instance as unknown as IgniterResponse<TCreatedData>;
+    return instance as unknown as FlameResponse<TCreatedData>;
   }
 
   /**
@@ -331,8 +331,8 @@ export class IgniterResponseProcessor<TContext = unknown> {
    * ```
    */
   noContent() {
-    const instance = this.withData<IgniterResponse<null>>()
-    instance._response = {} as IgniterResponse<null>;
+    const instance = this.withData<FlameResponse<null>>()
+    instance._response = {} as FlameResponse<null>;
     instance._response.data = null;
     instance._response.error = null;
     // Set 204 status unless explicitly overridden
@@ -340,7 +340,7 @@ export class IgniterResponseProcessor<TContext = unknown> {
       instance._status = 204;
       this.logger.debug("Status set", { status: 204 });
     }
-    return instance as unknown as IgniterResponse<null>;
+    return instance as unknown as FlameResponse<null>;
   }
 
   /**
@@ -447,9 +447,9 @@ export class IgniterResponseProcessor<TContext = unknown> {
     return cookie;
   }
 
-  error<TErrorCode extends IgniterCommonErrorCode>(error: IgniterResponseError<TErrorCode>) {
+  error<TErrorCode extends FlameCommonErrorCode>(error: FlameResponseError<TErrorCode>) {
     this._status = 400
-    this._response = {} as IgniterResponse<null, IgniterResponseError<TErrorCode>>;
+    this._response = {} as FlameResponse<null, FlameResponseError<TErrorCode>>;
     this._response.error = error;
     this._response.data = null;
 
@@ -458,7 +458,7 @@ export class IgniterResponseProcessor<TContext = unknown> {
       this._status = defaultStatus;
       this.logger.debug(`Setting response status to ${defaultStatus} for error code '${error.getCode()}'.`);
     }
-    return this as unknown as IgniterResponse<null, IgniterResponseError<TErrorCode>>;
+    return this as unknown as FlameResponse<null, FlameResponseError<TErrorCode>>;
   }
 
   /**
@@ -473,15 +473,15 @@ export class IgniterResponseProcessor<TContext = unknown> {
    * ```
    */
   badRequest<TBadRequestData>(message = 'Bad Request', data?: TBadRequestData) {
-    this._response = {} as IgniterResponse<null, IgniterResponseError<'ERR_BAD_REQUEST'>>;
+    this._response = {} as FlameResponse<null, FlameResponseError<'ERR_BAD_REQUEST'>>;
     this._response.data = null;
-    this._response.error = new IgniterResponseError({
+    this._response.error = new FlameResponseError({
       message,
       data,
       code: 'ERR_BAD_REQUEST'
     });
     if (!this._statusExplicitlySet) this._status = 400;
-    return this as unknown as IgniterResponse<null, IgniterResponseError<'ERR_BAD_REQUEST'>>;
+    return this as unknown as FlameResponse<null, FlameResponseError<'ERR_BAD_REQUEST'>>;
   }
 
   /**
@@ -496,15 +496,15 @@ export class IgniterResponseProcessor<TContext = unknown> {
    * ```
    */
   unauthorized<TUnauthorizedData>(message = 'Unauthorized', data?: TUnauthorizedData) {
-    this._response = {} as IgniterResponse<null, IgniterResponseError<'ERR_UNAUTHORIZED'>>;
+    this._response = {} as FlameResponse<null, FlameResponseError<'ERR_UNAUTHORIZED'>>;
     this._response.data = null;
-    this._response.error = new IgniterResponseError({
+    this._response.error = new FlameResponseError({
       message,
       data,
       code: 'ERR_UNAUTHORIZED'
     });
     if (!this._statusExplicitlySet) this._status = 401;
-    return this as unknown as IgniterResponse<null, IgniterResponseError<'ERR_UNAUTHORIZED'>>;
+    return this as unknown as FlameResponse<null, FlameResponseError<'ERR_UNAUTHORIZED'>>;
   }
 
   /**
@@ -519,15 +519,15 @@ export class IgniterResponseProcessor<TContext = unknown> {
    * ```
    */
   forbidden<TForbiddenData>(message = 'Forbidden', data?: TForbiddenData) {
-    this._response = {} as IgniterResponse<null, IgniterResponseError<'ERR_FORBIDDEN'>>;
+    this._response = {} as FlameResponse<null, FlameResponseError<'ERR_FORBIDDEN'>>;
     this._response.data = null;
-    this._response.error = new IgniterResponseError({
+    this._response.error = new FlameResponseError({
       message,
       data,
       code: 'ERR_FORBIDDEN'
     });
     if (!this._statusExplicitlySet) this._status = 403;
-    return this as unknown as IgniterResponse<null, IgniterResponseError<'ERR_FORBIDDEN'>>;
+    return this as unknown as FlameResponse<null, FlameResponseError<'ERR_FORBIDDEN'>>;
   }
 
   /**
@@ -542,15 +542,15 @@ export class IgniterResponseProcessor<TContext = unknown> {
    * ```
    */
   notFound<TNotFoundData>(message = 'Not Found', data?: TNotFoundData) {
-    this._response = {} as IgniterResponse<null, IgniterResponseError<'ERR_NOT_FOUND'>>;
+    this._response = {} as FlameResponse<null, FlameResponseError<'ERR_NOT_FOUND'>>;
     this._response.data = null;
-    this._response.error = new IgniterResponseError({
+    this._response.error = new FlameResponseError({
       message,
       data,
       code: 'ERR_NOT_FOUND'
     });
     if (!this._statusExplicitlySet) this._status = 404;
-    return this as unknown as IgniterResponse<null, IgniterResponseError<'ERR_NOT_FOUND'>>;
+    return this as unknown as FlameResponse<null, FlameResponseError<'ERR_NOT_FOUND'>>;
   }
 
   /**
@@ -566,16 +566,16 @@ export class IgniterResponseProcessor<TContext = unknown> {
    * ```
    */
   redirect(destination: string, type: 'replace' | 'push' = 'replace') {
-    this._response = {} as IgniterResponse<null, IgniterResponseError<'ERR_REDIRECT'>>;
+    this._response = {} as FlameResponse<null, FlameResponseError<'ERR_REDIRECT'>>;
     this._response.data = null;
-    this._response.error = new IgniterResponseError({
+    this._response.error = new FlameResponseError({
       message: 'Redirect',
       data: { destination, type },
       code: 'ERR_REDIRECT'
     });
 
     if (!this._statusExplicitlySet) this._status = 302;
-    return this as unknown as IgniterResponse<null, IgniterResponseError<'ERR_REDIRECT'>>;
+    return this as unknown as FlameResponse<null, FlameResponseError<'ERR_REDIRECT'>>;
   }
 
   /**
@@ -588,16 +588,16 @@ export class IgniterResponseProcessor<TContext = unknown> {
    * @example
    * ```typescript
    * const result = { status: 'success', data: results };
-   * response.json(result); // Returns IgniterResponseProcessor<TContext, typeof result>
+   * response.json(result); // Returns FlameResponseProcessor<TContext, typeof result>
    * ```
    */
   json<TJsonData>(data: TJsonData) {
-    const instance = this.withData<IgniterResponse<TJsonData>>()
-    instance._response = {} as IgniterResponse<TJsonData>;
+    const instance = this.withData<FlameResponse<TJsonData>>()
+    instance._response = {} as FlameResponse<TJsonData>;
     instance._response.data = data as TJsonData;
     instance._response.error = null;
     if (!this._statusExplicitlySet) instance._status = 200;
-    return instance as unknown as IgniterResponse<TJsonData>;
+    return instance as unknown as FlameResponse<TJsonData>;
   }
 
   /**
@@ -676,7 +676,7 @@ export class IgniterResponseProcessor<TContext = unknown> {
       this.logger.warn("Dynamic SSE channel registered", { channelId });
       SSEProcessor.registerChannel({
         id: channelId,
-        description: `Dynamic channel created by IgniterResponseProcessor`
+        description: `Dynamic channel created by FlameResponseProcessor`
       });
     }
 
@@ -833,3 +833,8 @@ export class IgniterResponseProcessor<TContext = unknown> {
     return 500;
   }
 }
+
+
+
+
+

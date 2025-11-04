@@ -2,11 +2,11 @@ import { Metadata } from 'next';
 import React from 'react';
 
 export const metadata: Metadata = {
-  title: 'Routing: Assembling Your API | Igniter.js',
+  title: 'Routing: Assembling Your API | Flame.js',
   description:
-    'Learn how to assemble your API using the Igniter.js Router. Combine controllers, configure base paths, and integrate with frameworks like Next.js for a unified, type-safe API.',
+    'Learn how to assemble your API using the Flame.js Router. Combine controllers, configure base paths, and integrate with frameworks like Next.js for a unified, type-safe API.',
   keywords: [
-    'Igniter.js',
+    'Flame.js',
     'Routing',
     'AppRouter',
     'API router',
@@ -18,26 +18,26 @@ export const metadata: Metadata = {
     'backend development',
   ],
   openGraph: {
-    title: 'Routing: Assembling Your API | Igniter.js',
+    title: 'Routing: Assembling Your API | Flame.js',
     description:
-      'A guide to the final step of building your backend: assembling all your controllers into a single, routable API with the Igniter.js Router.',
+      'A guide to the final step of building your backend: assembling all your controllers into a single, routable API with the Flame.js Router.',
     type: 'article',
-    url: 'https://igniterjs.com/docs/core-concepts/routing',
+    url: 'https://Flamejs.com/docs/core-concepts/routing',
     images: [
       {
-        url: 'https://igniterjs.com/og/docs-routing.png', // Assuming an OG image exists
+        url: 'https://Flamejs.com/og/docs-routing.png', // Assuming an OG image exists
         width: 1200,
         height: 630,
-        alt: 'Assembling an API with the Igniter.js Router',
+        alt: 'Assembling an API with the Flame.js Router',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Routing: Assembling Your API | Igniter.js',
+    title: 'Routing: Assembling Your API | Flame.js',
     description:
-      'A guide to the final step of building your backend: assembling all your controllers into a single, routable API with the Igniter.js Router.',
-    images: ['https://igniterjs.com/og/docs-routing.png'],
+      'A guide to the final step of building your backend: assembling all your controllers into a single, routable API with the Flame.js Router.',
+    images: ['https://Flamejs.com/og/docs-routing.png'],
   },
 };
 
@@ -48,3 +48,8 @@ export default function DocsLayout({
 }) {
   return <>{children}</>;
 }
+
+
+
+
+

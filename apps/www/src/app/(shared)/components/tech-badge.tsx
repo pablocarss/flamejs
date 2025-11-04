@@ -31,3 +31,8 @@ export function TechBadge({ name, animated = false }: TechBadgeProps) {
     </motion.span>
   );
 }
+
+
+
+
+

@@ -1,18 +1,18 @@
-import type { IgniterRouter, ClientConfig, InferRouterCaller } from '../types';
+import type { FlameRouter, ClientConfig, InferRouterCaller } from '../types';
 
 /**
- * Creates a server-side client for Igniter Router
+ * Creates a server-side client for Flame Router
  * This version uses router.caller directly (zero browser dependencies)
  * @param config Client configuration
  * @returns A typed client for calling server actions
  */
-export const createIgniterClient = <TRouter extends IgniterRouter<any, any, any, any, any>>(
+export const createFlameClient = <TRouter extends FlameRouter<any, any, any, any, any>>(
   {
     router,
   }: ClientConfig<TRouter>
 ): InferRouterCaller<TRouter> => {
   if (!router) {
-    throw new Error('Router is required to create an Igniter client');
+    throw new Error('Router is required to create an Flame client');
   }
 
   if (typeof router === 'function') {
@@ -22,3 +22,8 @@ export const createIgniterClient = <TRouter extends IgniterRouter<any, any, any,
   // Server-side: Use direct router.caller (zero browser dependencies)
   return router.caller as unknown as InferRouterCaller<TRouter>;
 }; 
+
+
+
+
+

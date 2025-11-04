@@ -1,10 +1,10 @@
 import { describe, test, expect, vi, beforeEach, afterEach } from 'vitest'
-import { createIgniterJobsService, createJobDefinition, createJobsRouter } from '../jobs.service'
-import type { IgniterJobQueueAdapter, JobDefinition, JobsRouter } from '../../types/jobs.interface'
+import { createFlameJobsService, createJobDefinition, createJobsRouter } from '../jobs.service'
+import type { FlameJobQueueAdapter, JobDefinition, JobsRouter } from '../../types/jobs.interface'
 import { z } from 'zod'
 
 // Mock adapter for testing
-const createMockAdapter = (): IgniterJobQueueAdapter<any> => ({
+const createMockAdapter = (): FlameJobQueueAdapter<any> => ({
   client: {},
   bulkRegister: vi.fn().mockResolvedValue(undefined),
   register: vi.fn().mockImplementation((config) => config),
@@ -52,7 +52,7 @@ interface TestContext {
 }
 
 describe('Jobs Service', () => {
-  let mockAdapter: IgniterJobQueueAdapter<TestContext>
+  let mockAdapter: FlameJobQueueAdapter<TestContext>
   let contextFactory: () => TestContext
 
   beforeEach(() => {
@@ -70,7 +70,7 @@ describe('Jobs Service', () => {
 
   describe('Service Creation', () => {
     test('should create jobs service with adapter and context factory', () => {
-      const service = createIgniterJobsService({
+      const service = createFlameJobsService({
         adapter: mockAdapter,
         contextFactory
       })
@@ -82,7 +82,7 @@ describe('Jobs Service', () => {
 
   describe('Job Registration', () => {
     test('should register a single job with valid definition', () => {
-      const service = createIgniterJobsService({
+      const service = createFlameJobsService({
         adapter: mockAdapter,
         contextFactory
       })
@@ -103,7 +103,7 @@ describe('Jobs Service', () => {
     })
 
     test('should throw error for invalid job definition', () => {
-      const service = createIgniterJobsService({
+      const service = createFlameJobsService({
         adapter: mockAdapter,
         contextFactory
       })
@@ -134,7 +134,7 @@ describe('Jobs Service', () => {
     })
 
     test('should bulk register multiple jobs', async () => {
-      const service = createIgniterJobsService({
+      const service = createFlameJobsService({
         adapter: mockAdapter,
         contextFactory
       })
@@ -166,7 +166,7 @@ describe('Jobs Service', () => {
 
   describe('Job Invocation', () => {
     test('should invoke a registered job with type-safe parameters', async () => {
-      const service = createIgniterJobsService({
+      const service = createFlameJobsService({
         adapter: mockAdapter,
         contextFactory
       })
@@ -194,7 +194,7 @@ describe('Jobs Service', () => {
     })
 
     test('should invoke multiple jobs in batch', async () => {
-      const service = createIgniterJobsService({
+      const service = createFlameJobsService({
         adapter: mockAdapter,
         contextFactory
       })
@@ -221,7 +221,7 @@ describe('Jobs Service', () => {
 
   describe('Job Management', () => {
     test('should search for jobs with filters', async () => {
-      const service = createIgniterJobsService({
+      const service = createFlameJobsService({
         adapter: mockAdapter,
         contextFactory
       })
@@ -251,7 +251,7 @@ describe('Jobs Service', () => {
     })
 
     test('should start worker with configuration', async () => {
-      const service = createIgniterJobsService({
+      const service = createFlameJobsService({
         adapter: mockAdapter,
         contextFactory
       })
@@ -270,7 +270,7 @@ describe('Jobs Service', () => {
     })
 
     test('should shutdown service gracefully', async () => {
-      const service = createIgniterJobsService({
+      const service = createFlameJobsService({
         adapter: mockAdapter,
         contextFactory
       })
@@ -283,7 +283,7 @@ describe('Jobs Service', () => {
 
   describe('Job Information', () => {
     test('should get registered job IDs', async () => {
-      const service = createIgniterJobsService({
+      const service = createFlameJobsService({
         adapter: mockAdapter,
         contextFactory
       })
@@ -308,7 +308,7 @@ describe('Jobs Service', () => {
     })
 
     test('should get job information by ID', async () => {
-      const service = createIgniterJobsService({
+      const service = createFlameJobsService({
         adapter: mockAdapter,
         contextFactory
       })
@@ -329,7 +329,7 @@ describe('Jobs Service', () => {
     })
 
     test('should return undefined for non-existent job', async () => {
-      const service = createIgniterJobsService({
+      const service = createFlameJobsService({
         adapter: mockAdapter,
         contextFactory
       })
@@ -461,3 +461,8 @@ describe('Jobs Router', () => {
     }).toThrow('Job ID conflicts detected')
   })
 })
+
+
+
+
+

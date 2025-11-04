@@ -1,5 +1,5 @@
-import type { ContextCallback } from "@igniter-js/core";
-import type { IgniterRouter } from "@igniter-js/core";
+import type { ContextCallback } from "@flame-js/core";
+import type { FlameRouter } from "@flame-js/core";
 import { metadataCorsOptionsRequestHandler, protectedResourceHandler, createMcpHandler as vercelCreateMcpAdapter, withMcpAuth } from "mcp-handler";
 import { executeTool } from "src/executors/execute-tool";
 import type { InferMcpContextFromRouter, McpAdapterOptions } from "src/types";
@@ -8,7 +8,7 @@ import { extractToolsFromRouter } from "src/utils/extract-tools-from-router";
 import { sanitizeMcpName } from "src/utils/sanitize-mcp-name";
 
 export function createMcpAdapter<
-  TRouter extends IgniterRouter<any, any, any, any, any>,
+  TRouter extends FlameRouter<any, any, any, any, any>,
   TContext extends object | ContextCallback = InferMcpContextFromRouter<TRouter>
 >(
   options: McpAdapterOptions<TRouter>
@@ -127,7 +127,7 @@ export function createMcpAdapter<
       },
       {
         // Tools
-        serverInfo: options.serverInfo || { name: 'Igniter MCP Server', version: '1.0.0' },
+        serverInfo: options.serverInfo || { name: 'Flame MCP Server', version: '1.0.0' },
         capabilities: options.capatibilities,
         instructions: options.instructions,
       },
@@ -176,3 +176,8 @@ export function createMcpAdapter<
     }
   };
 };
+
+
+
+
+

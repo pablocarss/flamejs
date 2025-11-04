@@ -3,7 +3,7 @@ import { FileSystemContentManager } from '@/lib/docs';
 import { config } from '@/configs/application';
 
 export async function GET() {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://igniterjs.dev';
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://Flamejs.dev';
   
   const feed = new RSS({
     title: `${config.projectName} Blog`,
@@ -43,3 +43,8 @@ export async function GET() {
     },
   });
 }
+
+
+
+
+

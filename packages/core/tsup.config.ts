@@ -46,7 +46,7 @@ export default defineConfig([
   // Configuração para hooks React (com banner 'use client')
   {
     entry: {
-      'igniter.hooks': 'src/client/igniter.hooks.ts',
+      'Flame.hooks': 'src/client/Flame.hooks.ts',
     },
     format: ['esm'],
     dts: {
@@ -67,7 +67,7 @@ export default defineConfig([
   // Configuração para context React (com banner 'use client')
   {
     entry: {
-      'igniter.context': 'src/client/igniter.context.tsx',
+      'Flame.context': 'src/client/Flame.context.tsx',
     },
     format: ['esm'],
     dts: {
@@ -105,3 +105,8 @@ export default defineConfig([
     ],
   }
 ])
+
+
+
+
+

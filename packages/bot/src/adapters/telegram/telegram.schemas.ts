@@ -123,3 +123,8 @@ export const TelegramUpdateSchema = z
       .describe('Message data (present for message updates)'),
   })
   .describe('Telegram Update object subset leveraged by the adapter')
+
+
+
+
+

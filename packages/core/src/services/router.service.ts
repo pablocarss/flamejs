@@ -1,15 +1,15 @@
-import type { ContextCallback, DocsConfig, IgniterBaseConfig, IgniterControllerConfig, IgniterRouter } from "../types";
-import type { IgniterPlugin } from "../types/plugin.interface";
+import type { ContextCallback, DocsConfig, FlameBaseConfig, FlameControllerConfig, FlameRouter } from "../types";
+import type { FlamePlugin } from "../types/plugin.interface";
 import { RequestProcessor } from "../processors";
 import { createServerCaller } from "./caller.server.service";
 import { parseURL } from "@/utils";
-import { initializeIgniterPlayground } from "./playground.service";
-import { IgniterConsoleLogger } from "./logger.service";
+import { initializeFlamePlayground } from "./playground.service";
+import { FlameConsoleLogger } from "./logger.service";
 import { resolveLogLevel, createLoggerContext } from "../utils/logger";
 
 
 /**
- * Creates a fully-typed, production-ready router instance for the Igniter Framework.
+ * Creates a fully-typed, production-ready router instance for the Flame Framework.
  *
  * The router is the central entrypoint for all HTTP requests, mapping them to your controllers and actions.
  * It provides a type-safe API for server-side request handling, context injection, plugin integration, and more.
@@ -27,10 +27,10 @@ import { resolveLogLevel, createLoggerContext } from "../utils/logger";
  *
  * ### 1. Minimal Example (No Plugins)
  * ```typescript
- * import { createIgniterRouter } from "@igniter-js/core";
+ * import { createFlameRouter } from "@flame-js/core";
  * import { userController } from "./controllers/user.controller";
  *
- * const router = createIgniterRouter({
+ * const router = createFlameRouter({
  *   context: async (req) => ({
  *     db: await connectToDatabase(),
  *     user: await getCurrentUser(req),
@@ -49,12 +49,12 @@ import { resolveLogLevel, createLoggerContext } from "../utils/logger";
  *
  * ### 2. With Plugins and Multiple Controllers
  * ```typescript
- * import { igniter } from "@/igniter";
+ * import { Flame } from "@/Flame";
  * import { userController } from "./features/user/user.controller";
  * import { postController } from "./features/post/post.controller";
  * import { telemetry } from "./plugins/telemetry";
  *
- * const router = igniter.router({
+ * const router = Flame.router({
  *   context: async (req) => ({
  *     db: await connectToDatabase(),
  *     user: await getCurrentUser(req),
@@ -77,7 +77,7 @@ import { resolveLogLevel, createLoggerContext } from "../utils/logger";
  *
  * ### 4. Customizing Base URL and Path
  * ```typescript
- * const router = igniter.router({
+ * const router = Flame.router({
  *   // ...other config
  *   baseURL: "/api",
  *   basePATH: "/v1",
@@ -89,8 +89,8 @@ import { resolveLogLevel, createLoggerContext } from "../utils/logger";
  * ## Parameters
  * @template TContext - The type of the application context (inferred from your context factory)
  * @template TControllers - Record of controllers configured for this router
- * @template TConfig extends IgniterBaseConfig - The router configuration object
- * @template TPlugins extends Record<string, IgniterPlugin<any, any, any, any, any, any, any, any>> - Record of plugins available in this router
+ * @template TConfig extends FlameBaseConfig - The router configuration object
+ * @template TPlugins extends Record<string, FlamePlugin<any, any, any, any, any, any, any, any>> - Record of plugins available in this router
  *
  * @param config - The router configuration object:
  *   - `context`: The context factory or object (async or sync) available to all actions.
@@ -99,7 +99,7 @@ import { resolveLogLevel, createLoggerContext } from "../utils/logger";
  *   - `baseURL` (optional): The base URL prefix for all routes (e.g., "/api").
  *   - `basePATH` (optional): The base path for all routes (e.g., "/v1").
  *
- * @returns A fully-configured, type-safe IgniterRouter instance:
+ * @returns A fully-configured, type-safe FlameRouter instance:
  *   - `$context`: The inferred context type.
  *   - `$plugins`: The inferred plugins type.
  *   - `caller`: Type-safe server-side action invoker.
@@ -116,16 +116,16 @@ import { resolveLogLevel, createLoggerContext } from "../utils/logger";
  *
  * ---
  * ## See Also
- * - [Controller Documentation](https://igniterjs.dev/docs/controllers)
- * - [Plugin System](https://igniterjs.dev/docs/plugins)
- * - [Context Patterns](https://igniterjs.dev/docs/context)
- * - [Testing Guide](https://igniterjs.dev/docs/testing)
+ * - [Controller Documentation](https://Flamejs.dev/docs/controllers)
+ * - [Plugin System](https://Flamejs.dev/docs/plugins)
+ * - [Context Patterns](https://Flamejs.dev/docs/context)
+ * - [Testing Guide](https://Flamejs.dev/docs/testing)
  */
-export const createIgniterRouter = <
+export const createFlameRouter = <
   TContext extends object | ContextCallback,
-  TControllers extends Record<string, IgniterControllerConfig<any>>,
-  TConfig extends IgniterBaseConfig,
-  TPlugins extends Record<string, IgniterPlugin<any, any, any, any, any, any, any, any>> = {},
+  TControllers extends Record<string, FlameControllerConfig<any>>,
+  TConfig extends FlameBaseConfig,
+  TPlugins extends Record<string, FlamePlugin<any, any, any, any, any, any, any, any>> = {},
   TDocs extends DocsConfig = { openapi: undefined }
 >({
   context,
@@ -139,8 +139,8 @@ export const createIgniterRouter = <
   config: TConfig;
   plugins?: TPlugins;
   docs?: TDocs;
-}): IgniterRouter<TContext, TControllers, TConfig, TPlugins, TDocs> => {
-  type TRouter = IgniterRouter<TContext, TControllers, TConfig, TPlugins, TDocs>;
+}): FlameRouter<TContext, TControllers, TConfig, TPlugins, TDocs> => {
+  type TRouter = FlameRouter<TContext, TControllers, TConfig, TPlugins, TDocs>;
 
   const processor = new RequestProcessor<TRouter>({
     baseURL: config.baseURL,
@@ -190,7 +190,7 @@ export const createIgniterRouter = <
      * }
      */
     handler: async (request: Request) => {
-      const logger = IgniterConsoleLogger.create({
+      const logger = FlameConsoleLogger.create({
         level: resolveLogLevel(),
         context: createLoggerContext('Router')
       });
@@ -216,7 +216,7 @@ export const createIgniterRouter = <
       // Check if is playground
       if (path.startsWith(parseURL(basePath, playgroundPath))) {
         logger.debug('Routing to playground');
-        const playground = initializeIgniterPlayground(docs, basePath);
+        const playground = initializeFlamePlayground(docs, basePath);
         try {
           const response = await playground.process(request);
           logger.debug('Playground response:', {
@@ -252,3 +252,8 @@ export const createIgniterRouter = <
     }
   } as TRouter;
 };
+
+
+
+
+

@@ -1,9 +1,9 @@
 "use client";
 
-import { IgniterConsoleLogger } from "../services";
-import { IgniterLogLevel, type IgniterRouter } from "../types";
+import { FlameConsoleLogger } from "../services";
+import { FlameLogLevel, type FlameRouter } from "../types";
 import type {
-  IgniterContextType,
+  FlameContextType,
   RefetchFn,
   RealtimeSubscriberFn,
 } from "../types/client.interface";
@@ -20,16 +20,16 @@ import {
 } from "react";
 
 /**
- * Igniter context provider type
+ * Flame context provider type
  */
-const IgniterContext = createContext<IgniterContextType<any> | undefined>(
+const FlameContext = createContext<FlameContextType<any> | undefined>(
   undefined,
 );
 
 /**
- * Options for the Igniter Provider
+ * Options for the Flame Provider
  */
-export interface IgniterProviderOptions<TContext extends () => Promise<any> | any> {
+export interface FlameProviderOptions<TContext extends () => Promise<any> | any> {
   /**
    * Enable Realtime(SSE) connection for streams and revalidation
    */
@@ -61,33 +61,33 @@ export interface IgniterProviderOptions<TContext extends () => Promise<any> | an
   debug?: boolean;
 
   /**
-   * Get the context for the IgniterProvider
+   * Get the context for the FlameProvider
    */
   getContext?: TContext;
 
   /**
-   * The context to be passed to the IgniterProvider
+   * The context to be passed to the FlameProvider
    */
   getScopes?: (ctx: Awaited<ReturnType<TContext>>) => Promise<string[]> | string[];
 }
 
 /**
- * Provider component for the Igniter context, managing query invalidation and refetching.
+ * Provider component for the Flame context, managing query invalidation and refetching.
  *
  * @component
  * @param {PropsWithChildren} props - The component props
  * @param {React.ReactNode} props.children - Child components to be wrapped by the provider
- * @param {IgniterProviderOptions} props.options - Configuration options
+ * @param {FlameProviderOptions} props.options - Configuration options
  *
  * @example
  * ```tsx
- * <IgniterProvider options={{ enableRevalidation: true }}>
+ * <FlameProvider options={{ enableRevalidation: true }}>
  *   <App />
- * </IgniterProvider>
+ * </FlameProvider>
  * ```
  *
  * @remarks
- * The IgniterProvider manages a collection of query listeners and provides methods to:
+ * The FlameProvider manages a collection of query listeners and provides methods to:
  * - Register refetch functions for specific query keys
  * - Unregister refetch functions
  * - Invalidate queries by key(s)
@@ -106,9 +106,9 @@ export interface IgniterProviderOptions<TContext extends () => Promise<any> | an
  * - invalidate(keys: string | string[]): void
  *   Triggers refetch for all registered queries matching the provided key(s)
  *
- * @returns {JSX.Element} Provider component wrapping its children with Igniter context
+ * @returns {JSX.Element} Provider component wrapping its children with Flame context
  */
-export function IgniterProvider<TContext extends () => Promise<any> | any>({
+export function FlameProvider<TContext extends () => Promise<any> | any>({
   children,
   getContext,
   getScopes,
@@ -117,7 +117,7 @@ export function IgniterProvider<TContext extends () => Promise<any> | any>({
   autoReconnect = true,
   maxReconnectAttempts = 5,
   reconnectDelay = 1000,
-}: PropsWithChildren & IgniterProviderOptions<TContext>) {
+}: PropsWithChildren & FlameProviderOptions<TContext>) {
   // Maps para armazenar os listeners de queries e streams
   const [listeners] = useState(() => new Map<string, Set<RefetchFn>>());
   const [streamSubscribers] = useState(
@@ -130,10 +130,10 @@ export function IgniterProvider<TContext extends () => Promise<any> | any>({
   const sseEndpoint = '/api/v1/sse/events'
 
   const logger = useMemo(() => {
-    return IgniterConsoleLogger.create({
-      level: debug ? IgniterLogLevel.DEBUG : IgniterLogLevel.INFO,
+    return FlameConsoleLogger.create({
+      level: debug ? FlameLogLevel.DEBUG : FlameLogLevel.INFO,
       context: {
-        provider: 'IgniterProvider',
+        provider: 'FlameProvider',
         package: 'core'
       }
     });
@@ -627,31 +627,36 @@ export function IgniterProvider<TContext extends () => Promise<any> | any>({
   }, [listeners]);
 
   return (
-    <IgniterContext.Provider value={contextValue}>
+    <FlameContext.Provider value={contextValue}>
       {children}
-    </IgniterContext.Provider>
+    </FlameContext.Provider>
   );
 }
 
 /**
- * Hook to access the Igniter context, providing access to query registration and invalidation methods.
+ * Hook to access the Flame context, providing access to query registration and invalidation methods.
  *
- * @returns {IgniterContextType} Igniter context object
+ * @returns {FlameContextType} Flame context object
  *
- * @throws {IgniterError} Throws an error if the hook is used outside of an IgniterProvider
+ * @throws {FlameError} Throws an error if the hook is used outside of an FlameProvider
  */
-export const useIgniterQueryClient = <
-  TRouter extends IgniterRouter<any, any, any, any, any>,
+export const useFlameQueryClient = <
+  TRouter extends FlameRouter<any, any, any, any, any>,
 >() => {
-  const context = useContext(IgniterContext) as
-    | IgniterContextType<TRouter>
+  const context = useContext(FlameContext) as
+    | FlameContextType<TRouter>
     | undefined;
 
   if (!context) {
     throw new Error(
-      "useIgniterQueryClient must be used within an IgniterProvider",
+      "useFlameQueryClient must be used within an FlameProvider",
     );
   }
 
   return context;
 };
+
+
+
+
+

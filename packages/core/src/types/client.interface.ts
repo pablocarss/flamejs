@@ -1,16 +1,16 @@
 import type {
-  IgniterRouter,
-  IgniterAction,
+  FlameRouter,
+  FlameAction,
   Prettify,
   DeepPartial,
 } from ".";
 
 /**
- * Igniter.js Client Interface Definitions
+ * Flame.js Client Interface Definitions
  *
- * This module contains all type definitions for the Igniter.js client-side implementation.
- * The client is a completely custom implementation built from scratch specifically for Igniter.js,
- * providing end-to-end type safety and seamless integration with the Igniter.js backend.
+ * This module contains all type definitions for the Flame.js client-side implementation.
+ * The client is a completely custom implementation built from scratch specifically for Flame.js,
+ * providing end-to-end type safety and seamless integration with the Flame.js backend.
  *
  * Key Features:
  * - Custom query and mutation management (not dependent on external libraries)
@@ -21,14 +21,14 @@ import type {
  * - Custom provider-based state management
  */
 
-export type ClientConfig<TRouter extends IgniterRouter<any, any, any, any, any>> = {
+export type ClientConfig<TRouter extends FlameRouter<any, any, any, any, any>> = {
   router: TRouter | (() => TRouter);
   baseURL: string;
   basePATH: string;
 }
 
 export type QueryActionCallerOptions<
-  TAction extends IgniterAction<
+  TAction extends FlameAction<
     any,
     any,
     any,
@@ -62,7 +62,7 @@ export type QueryActionCallerOptions<
 };
 
 export type QueryActionCallerResult<
-  TAction extends IgniterAction<
+  TAction extends FlameAction<
     any,
     any,
     any,
@@ -139,7 +139,7 @@ export type QueryActionCallerResult<
 >;
 
 export type QueryActionCaller<
-  TAction extends IgniterAction<
+  TAction extends FlameAction<
     any,
     any,
     any,
@@ -160,7 +160,7 @@ export type RefetchFn = (invalidate?: boolean) => void;
 export type RealtimeSubscriberFn = (data: any) => void;
 
 export type MutationActionCallerResult<
-  TAction extends IgniterAction<
+  TAction extends FlameAction<
     any,
     any,
     any,
@@ -225,7 +225,7 @@ export type MutationActionCallerResult<
 >;
 
 export type MutationActionCallerOptions<
-  TAction extends IgniterAction<
+  TAction extends FlameAction<
     any,
     any,
     any,
@@ -255,7 +255,7 @@ export type MutationActionCallerOptions<
 };
 
 export type MutationActionCaller<
-  TAction extends IgniterAction<
+  TAction extends FlameAction<
     any,
     any,
     any,
@@ -272,7 +272,7 @@ export type MutationActionCaller<
 ) => MutationActionCallerResult<TAction>;
 
 export type ClientActionCaller<
-  TAction extends IgniterAction<
+  TAction extends FlameAction<
     any,
     any,
     any,
@@ -296,7 +296,7 @@ export type ClientActionCaller<
     };
 
 // 1. Gera uma união de todas as rotas de action como strings. Ex: "users.getById" | "users.getAll"
-export type InferAllActionPaths<TRouter extends IgniterRouter<any, any, any, any, any>> = {
+export type InferAllActionPaths<TRouter extends FlameRouter<any, any, any, any, any>> = {
   [C in keyof TRouter['controllers']]: C extends string
     ? {
         [A in keyof TRouter['controllers'][C]['actions']]: A extends string
@@ -308,7 +308,7 @@ export type InferAllActionPaths<TRouter extends IgniterRouter<any, any, any, any
 
 // 2. Dado uma rota (ex: "users.getById"), infere o tipo do input esperado.
 export type InferInputFromPath<
-  TRouter extends IgniterRouter<any, any, any, any, any>,
+  TRouter extends FlameRouter<any, any, any, any, any>,
   TPath extends string,
 > = TPath extends `${infer TController}.${infer TAction}`
   ? TController extends keyof TRouter['controllers']
@@ -319,7 +319,7 @@ export type InferInputFromPath<
   : never;
 
 // 3. Define a função `invalidate` sobrecarregada
-export type InvalidateFunction<TRouter extends IgniterRouter<any, any, any, any, any>> = {
+export type InvalidateFunction<TRouter extends FlameRouter<any, any, any, any, any>> = {
   // Sobrecarga 1: `invalidate('path', input)`
   <TPath extends InferAllActionPaths<TRouter>>(
     path: TPath,
@@ -331,9 +331,9 @@ export type InvalidateFunction<TRouter extends IgniterRouter<any, any, any, any,
 };
 
 export type InferRouterCaller<
-  TRouter extends IgniterRouter<any, any, any, any, any>,
+  TRouter extends FlameRouter<any, any, any, any, any>,
 > =
-  TRouter extends IgniterRouter<any, infer TControllers, any, any, any>
+  TRouter extends FlameRouter<any, infer TControllers, any, any, any>
     ? {
         [TControllerName in keyof TControllers]: {
           [TActionName in keyof TControllers[TControllerName]["actions"]]: ClientActionCaller<
@@ -343,8 +343,8 @@ export type InferRouterCaller<
       }
     : never;
 
-export type IgniterContextType<
-  TRouter extends IgniterRouter<any, any, any, any, any>,
+export type FlameContextType<
+  TRouter extends FlameRouter<any, any, any, any, any>,
 > = {
   register: (key: string, refetch: RefetchFn) => void;
   unregister: (key: string, refetch: RefetchFn) => void;
@@ -361,7 +361,7 @@ export type IgniterContextType<
  * Options for realtime hooks
  */
 export interface RealtimeActionCallerOptions<
-  TAction extends IgniterAction<
+  TAction extends FlameAction<
     any,
     any,
     any,
@@ -429,7 +429,7 @@ export interface RealtimeActionCallerOptions<
  * Result type for realtime hooks
  */
 export interface RealtimeActionCallerResult<
-  TAction extends IgniterAction<
+  TAction extends FlameAction<
     any,
     any,
     any,
@@ -477,7 +477,7 @@ export interface RealtimeActionCallerResult<
  * Realtime action caller type
  */
 export type RealtimeActionCaller<
-  TAction extends IgniterAction<
+  TAction extends FlameAction<
     any,
     any,
     any,
@@ -492,3 +492,8 @@ export type RealtimeActionCaller<
 > = (
   options?: RealtimeActionCallerOptions<TAction>,
 ) => RealtimeActionCallerResult<TAction>;
+
+
+
+
+

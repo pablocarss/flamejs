@@ -18,28 +18,28 @@ export const INSTALL_COMMANDS = [
     id: "npm",
     name: "NPM",
     icon: NPMIcon,
-    code: "npx @igniter-js/cli init my-project",
+    code: "npx @flame-js/cli init my-project",
     language: "bash",
   },
   {
     id: "pnpm",
     name: "PNPM",
     icon: PNPMIcon,
-    code: "npx @igniter-js/cli init my-project",
+    code: "npx @flame-js/cli init my-project",
     language: "bash",
   },
   {
     id: "yarn",
     name: "Yarn",
     icon: YarnIcon,
-    code: "npx @igniter-js/cli init my-project",
+    code: "npx @flame-js/cli init my-project",
     language: "bash",
   },
   {
     id: "bun",
     name: "Bun",
     icon: BunIcon,
-    code: "bunx @igniter-js/cli init my-project",
+    code: "bunx @flame-js/cli init my-project",
     language: "bash",
   },
 ] as const;
@@ -127,3 +127,8 @@ export function InstallCommand() {
     </motion.div>
   );
 }
+
+
+
+
+

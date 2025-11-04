@@ -1,9 +1,9 @@
 import type { Redis } from "ioredis";
-import { type EventCallback, type KeyValueOptions, type IgniterStoreAdapter, isServer } from "@igniter-js/core";
+import { type EventCallback, type KeyValueOptions, type FlameStoreAdapter, isServer } from "@flame-js/core";
 
 /**
  * Creates a Store Adapter for Redis.
- * This adapter provides a unified interface for Igniter to interact with a Redis instance,
+ * This adapter provides a unified interface for Flame to interact with a Redis instance,
  * handling key-value storage, atomic operations, and Pub/Sub messaging.
  *
  * It uses separate clients for commands and subscriptions as required by Redis.
@@ -11,9 +11,9 @@ import { type EventCallback, type KeyValueOptions, type IgniterStoreAdapter, isS
  * @param redisClient - An initialized `ioredis` client instance.
  * @returns A `StoreAdapter` object for Redis.
  */
-export function createRedisStoreAdapter(redisClient: Redis): IgniterStoreAdapter<Redis> {
+export function createRedisStoreAdapter(redisClient: Redis): FlameStoreAdapter<Redis> {
   if (!isServer) {
-    return {} as IgniterStoreAdapter<Redis>;
+    return {} as FlameStoreAdapter<Redis>;
   }
     
   // A dedicated client for subscriptions is required by Redis design.
@@ -108,3 +108,8 @@ export function createRedisStoreAdapter(redisClient: Redis): IgniterStoreAdapter
     },
   };
 } 
+
+
+
+
+

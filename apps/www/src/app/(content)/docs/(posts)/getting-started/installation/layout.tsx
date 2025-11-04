@@ -2,14 +2,14 @@ import { Metadata } from 'next';
 import React from 'react';
 
 export const metadata: Metadata = {
-  title: 'Installation - Getting Started with Igniter.js',
+  title: 'Installation - Getting Started with Flame.js',
   description:
-    'Learn how to install Igniter.js. Start with official templates, use the `igniter init` CLI for a custom setup, or add it manually to an existing project.',
+    'Learn how to install Flame.js. Start with official templates, use the `Flame init` CLI for a custom setup, or add it manually to an existing project.',
   keywords: [
-    'Igniter.js',
+    'Flame.js',
     'installation',
     'setup',
-    'igniter init',
+    'Flame init',
     'templates',
     'starters',
     'npm install',
@@ -23,26 +23,26 @@ export const metadata: Metadata = {
     'quick start',
   ],
   openGraph: {
-    title: 'Installation - Getting Started with Igniter.js',
+    title: 'Installation - Getting Started with Flame.js',
     description:
-      'Step-by-step guide to installing Igniter.js. Covers official templates, automated scaffolding with `igniter init`, and manual setup for existing projects.',
+      'Step-by-step guide to installing Flame.js. Covers official templates, automated scaffolding with `Flame init`, and manual setup for existing projects.',
     type: 'article',
-    url: 'https://igniterjs.com/docs/getting-started/installation',
+    url: 'https://Flamejs.com/docs/getting-started/installation',
     images: [
       {
-        url: 'https://igniterjs.com/og/docs-installation.png',
+        url: 'https://Flamejs.com/og/docs-installation.png',
         width: 1200,
         height: 630,
-        alt: 'Installing Igniter.js using templates or CLI',
+        alt: 'Installing Flame.js using templates or CLI',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Installation - Getting Started with Igniter.js',
+    title: 'Installation - Getting Started with Flame.js',
     description:
-      'Step-by-step guide to installing Igniter.js. Covers official templates, automated scaffolding with `igniter init`, and manual setup for existing projects.',
-    images: ['https://igniterjs.com/og/docs-installation.png'],
+      'Step-by-step guide to installing Flame.js. Covers official templates, automated scaffolding with `Flame init`, and manual setup for existing projects.',
+    images: ['https://Flamejs.com/og/docs-installation.png'],
   },
 };
 
@@ -53,3 +53,8 @@ export default function DocsLayout({
 }) {
   return <>{children}</>;
 }
+
+
+
+
+

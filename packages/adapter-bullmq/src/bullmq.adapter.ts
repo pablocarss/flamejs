@@ -1,5 +1,5 @@
 import type { 
-  IgniterJobQueueAdapter,
+  FlameJobQueueAdapter,
   JobSearchResult,
   JobQueueConfig,
   JobStatus,
@@ -20,43 +20,43 @@ import type {
   JobSuccessHookContext,
   JobFailureHookContext,
   JobCompleteHookContext
-} from "@igniter-js/core";
-import { isServer, SchedulePatterns } from "@igniter-js/core";
+} from "@flame-js/core";
+import { isServer, SchedulePatterns } from "@flame-js/core";
 import type { BullMQAdapterOptions, BullMQInstances, BullMQQueue, BullMQJob } from "./types";
-import { createJobsRouter, createJobsRegistry, createJobsProxy } from "@igniter-js/core";
-import type { StandardSchemaV1 } from "@igniter-js/core";
-import type { JobExecutionContext } from "@igniter-js/core";
-import { IgniterError } from "@igniter-js/core";
+import { createJobsRouter, createJobsRegistry, createJobsProxy } from "@flame-js/core";
+import type { StandardSchemaV1 } from "@flame-js/core";
+import type { JobExecutionContext } from "@flame-js/core";
+import { FlameError } from "@flame-js/core";
 
 /**
  * Creates a Job Queue Adapter for BullMQ.
  * 
- * This adapter provides a unified interface for Igniter to interact with BullMQ,
+ * This adapter provides a unified interface for Flame to interact with BullMQ,
  * handling job registration, invocation, search, and worker management with
  * full support for multi-tenancy and advanced scheduling.
  * 
  * @param options - Configuration options for the BullMQ adapter
- * @returns A complete `IgniterJobQueueAdapter` implementation
+ * @returns A complete `FlameJobQueueAdapter` implementation
  * 
  * @example
  * ```typescript
- * import { createBullMQAdapter } from "@igniter-js/core/adapters";
- * import { createRedisStoreAdapter } from "@igniter-js/core/adapters";
- * import type { IgniterAppContext } from "@/igniter.context";
+ * import { createBullMQAdapter } from "@flame-js/core/adapters";
+ * import { createRedisStoreAdapter } from "@flame-js/core/adapters";
+ * import type { FlameAppContext } from "@/Flame.context";
  * 
  * const redisStore = createRedisStoreAdapter(redisClient);
- * const jobQueue = createBullMQAdapter<IgniterAppContext>({ store: redisStore });
+ * const jobQueue = createBullMQAdapter<FlameAppContext>({ store: redisStore });
  * 
- * const igniter = Igniter
- *   .context<IgniterAppContext>()
+ * const Flame = Flame
+ *   .context<FlameAppContext>()
  *   .store(redisStore)
  *   .jobs(jobQueue)
  *   .create();
  * ```
  */
-export function createBullMQAdapter<TContext extends object>(options: BullMQAdapterOptions = {}): IgniterJobQueueAdapter<TContext> {
+export function createBullMQAdapter<TContext extends object>(options: BullMQAdapterOptions = {}): FlameJobQueueAdapter<TContext> {
   if (!isServer) {
-    return {} as IgniterJobQueueAdapter<TContext>;
+    return {} as FlameJobQueueAdapter<TContext>;
   }  
 
   const { Queue, Worker, Job } = require('bullmq');
@@ -176,7 +176,7 @@ export function createBullMQAdapter<TContext extends object>(options: BullMQAdap
    */
   function validateJobExists(jobId: string): void {
     if (!instances.registeredJobs.has(jobId)) {
-      throw new IgniterError(
+      throw new FlameError(
         {
           code: 'BULLMQ_ADAPTER_ERROR',
           message: `Job "${jobId}" is not registered. Please register it first using jobs.register().`,
@@ -199,7 +199,7 @@ export function createBullMQAdapter<TContext extends object>(options: BullMQAdap
     const parts = cronExpression.trim().split(/\s+/);
     
     if (parts.length < 5 || parts.length > 6) {
-      throw new IgniterError(
+      throw new FlameError(
         {
           code: 'BULLMQ_ADAPTER_ERROR',
           message: `Invalid cron expression "${cronExpression}". ` +
@@ -213,7 +213,7 @@ export function createBullMQAdapter<TContext extends object>(options: BullMQAdap
     const validCronChars = /^[0-9*\/,-]+$/;
     for (let i = 0; i < parts.length; i++) {
       if (!validCronChars.test(parts[i])) {
-        throw new IgniterError(
+        throw new FlameError(
           {
             code: 'BULLMQ_ADAPTER_ERROR',
             message: `Invalid cron expression "${cronExpression}". ` +
@@ -232,7 +232,7 @@ export function createBullMQAdapter<TContext extends object>(options: BullMQAdap
     if (minute !== '*' && !minute.includes('/') && !minute.includes(',') && !minute.includes('-')) {
       const min = parseInt(minute);
       if (isNaN(min) || min < 0 || min > 59) {
-        throw new IgniterError(
+        throw new FlameError(
           {
             code: 'BULLMQ_ADAPTER_ERROR',
             message: `Invalid minute value "${minute}" in cron expression. Must be 0-59, *, or use special characters.`,
@@ -245,7 +245,7 @@ export function createBullMQAdapter<TContext extends object>(options: BullMQAdap
     if (hour !== '*' && !hour.includes('/') && !hour.includes(',') && !hour.includes('-')) {
       const hr = parseInt(hour);
       if (isNaN(hr) || hr < 0 || hr > 23) {
-        throw new IgniterError(
+        throw new FlameError(
           {
             code: 'BULLMQ_ADAPTER_ERROR',
             message: `Invalid hour value "${hour}" in cron expression. Must be 0-23, *, or use special characters.`,
@@ -356,7 +356,7 @@ export function createBullMQAdapter<TContext extends object>(options: BullMQAdap
     
     // Handle 'at' vs 'delay' timing
     if (opts.at && opts.delay) {
-      throw new IgniterError(
+      throw new FlameError(
         {
           code: 'BULLMQ_ADAPTER_ERROR',
           message: 'Cannot specify both "at" and "delay" options. Use one or the other.',
@@ -370,7 +370,7 @@ export function createBullMQAdapter<TContext extends object>(options: BullMQAdap
       const targetTime = opts.at.getTime();
       
       if (targetTime <= now) {
-        throw new IgniterError(
+        throw new FlameError(
           {
             code: 'BULLMQ_ADAPTER_ERROR',
             message: `Scheduled time must be in the future. Received: ${opts.at.toISOString()}`,
@@ -642,18 +642,18 @@ export function createBullMQAdapter<TContext extends object>(options: BullMQAdap
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'User-Agent': 'Igniter-Jobs-Webhook/1.0',
+          'User-Agent': 'Flame-Jobs-Webhook/1.0',
         },
         body: JSON.stringify({
           ...payload,
           timestamp: new Date().toISOString(),
-          source: 'igniter-jobs',
+          source: 'Flame-jobs',
           version: '1.0.0',
         }),
       });
 
       if (!response.ok) {
-        throw new IgniterError(
+        throw new FlameError(
           {
             code: 'BULLMQ_ADAPTER_ERROR',
             message: `Webhook returned ${response.status}: ${response.statusText}`,
@@ -690,7 +690,7 @@ export function createBullMQAdapter<TContext extends object>(options: BullMQAdap
                 return await definition.handler(enhancedContext);
               } catch (contextError) {
                 logger?.error(`Failed to create context for job "${jobId}":`, contextError);
-                throw new IgniterError(
+                throw new FlameError(
                   {
                     code: 'BULLMQ_ADAPTER_ERROR',
                     message: `Context creation failed: ${contextError}`,
@@ -753,7 +753,7 @@ export function createBullMQAdapter<TContext extends object>(options: BullMQAdap
       const duplicates = namespaces.filter((ns, index) => namespaces.indexOf(ns) !== index);
       
       if (duplicates.length > 0) {
-        throw new IgniterError(
+        throw new FlameError(
           {
             code: 'BULLMQ_ADAPTER_ERROR',
             message: `Namespace conflicts detected: ${duplicates.join(', ')}. ` +
@@ -843,7 +843,7 @@ export function createBullMQAdapter<TContext extends object>(options: BullMQAdap
             const jobResult = registry.getJobByPath(jobPath);
             
             if (!jobResult) {
-              throw new IgniterError(
+              throw new FlameError(
                 {
                   code: 'BULLMQ_ADAPTER_ERROR',
                   message: `Job "${String(jobId)}" not found in namespace "${namespace}". ` +
@@ -867,7 +867,7 @@ export function createBullMQAdapter<TContext extends object>(options: BullMQAdap
             const jobResult = registry.getJobByPath(jobPath);
             
             if (!jobResult) {
-              throw new IgniterError(
+              throw new FlameError(
                 {
                   code: 'BULLMQ_ADAPTER_ERROR',
                   message: `Job "${String(jobId)}" not found in namespace "${namespace}". ` +
@@ -894,7 +894,7 @@ export function createBullMQAdapter<TContext extends object>(options: BullMQAdap
                 const jobResult = registry.getJobByPath(jobPath);
                 
                 if (!jobResult) {
-                  throw new IgniterError(
+                  throw new FlameError(
                     {
                       code: 'BULLMQ_ADAPTER_ERROR',
                       message: `Job "${String(jobId)}" not found in namespace "${namespace}". ` +
@@ -958,7 +958,7 @@ export function createBullMQAdapter<TContext extends object>(options: BullMQAdap
         try {
           jobDefinition.input.parse(params.input);
         } catch (error) {
-          throw new IgniterError(
+          throw new FlameError(
             {
               code: 'BULLMQ_ADAPTER_ERROR',
               message: `Invalid payload for job "${params.id}": ${error}`,
@@ -1361,7 +1361,7 @@ export function createBullMQAdapter<TContext extends object>(options: BullMQAdap
     ): JobDefinition<TContext, TInput, TResult> {
       // Validate job configuration
       if (!config.name || config.name.trim() === '') {
-        throw new IgniterError(
+        throw new FlameError(
           {
             code: 'BULLMQ_ADAPTER_ERROR',
             message: 'Job name is required and cannot be empty',
@@ -1371,7 +1371,7 @@ export function createBullMQAdapter<TContext extends object>(options: BullMQAdap
       }
 
       if (!config.input) {
-        throw new IgniterError(
+        throw new FlameError(
           {
             code: 'BULLMQ_ADAPTER_ERROR',
             message: 'Job input schema is required',
@@ -1381,7 +1381,7 @@ export function createBullMQAdapter<TContext extends object>(options: BullMQAdap
       }
 
       if (!config.handler || typeof config.handler !== 'function') {
-        throw new IgniterError(
+        throw new FlameError(
           {
             code: 'BULLMQ_ADAPTER_ERROR',
             message: 'Job handler is required and must be a function',
@@ -1480,3 +1480,8 @@ export function createBullMQAdapter<TContext extends object>(options: BullMQAdap
     },
   };
 } 
+
+
+
+
+

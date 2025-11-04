@@ -1,17 +1,17 @@
-# @igniter-js/adapter-redis
+# @flame-js/adapter-redis
 
-[![NPM Version](https://img.shields.io/npm/v/@igniter-js/adapter-redis.svg)](https://www.npmjs.com/package/@igniter-js/adapter-redis)
+[![NPM Version](https://img.shields.io/npm/v/@flame-js/adapter-redis.svg)](https://www.npmjs.com/package/@flame-js/adapter-redis)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-The official Redis adapter for the **Igniter.js Store** system. This package provides a high-performance driver for caching and pub/sub messaging using a Redis data store.
+The official Redis adapter for the **Flame.js Store** system. This package provides a high-performance driver for caching and pub/sub messaging using a Redis data store.
 
 ## Role in the Ecosystem
 
-This adapter acts as the concrete implementation for the abstract Store interface defined in `@igniter-js/core`. By plugging this adapter into your application, you enable powerful features:
+This adapter acts as the concrete implementation for the abstract Store interface defined in `@flame-js/core`. By plugging this adapter into your application, you enable powerful features:
 
 -   **Caching:** A fast, Redis-backed key-value cache for storing the results of expensive operations.
 -   **Pub/Sub:** A message bus for building real-time, event-driven features.
--   **Shared Connection:** The Redis client from this adapter can be shared with other systems, like the `Igniter.js Queues` (BullMQ) adapter, for maximum efficiency.
+-   **Shared Connection:** The Redis client from this adapter can be shared with other systems, like the `Flame.js Queues` (BullMQ) adapter, for maximum efficiency.
 
 ## Installation
 
@@ -19,16 +19,16 @@ To use this adapter, you need to install it along with its peer dependency, `ior
 
 ```bash
 # npm
-npm install @igniter-js/adapter-redis ioredis
+npm install @flame-js/adapter-redis ioredis
 
 # yarn
-yarn add @igniter-js/adapter-redis ioredis
+yarn add @flame-js/adapter-redis ioredis
 
 # pnpm
-pnpm add @igniter-js/adapter-redis ioredis
+pnpm add @flame-js/adapter-redis ioredis
 
 # bun
-bun add @igniter-js/adapter-redis ioredis
+bun add @flame-js/adapter-redis ioredis
 ```
 
 ## Basic Usage
@@ -41,7 +41,7 @@ First, create an instance of the `ioredis` client and pass it to the adapter fac
 
 ```typescript
 // src/services/store.ts
-import { createRedisStoreAdapter } from '@igniter-js/adapter-redis';
+import { createRedisStoreAdapter } from '@flame-js/adapter-redis';
 import { Redis } from 'ioredis';
 
 // It's recommended to configure your Redis connection via environment variables.
@@ -53,26 +53,26 @@ const redis = new Redis(process.env.REDIS_URL);
 export const store = createRedisStoreAdapter({
   client: redis,
   // Optional: A global prefix for all keys stored by this adapter.
-  keyPrefix: 'igniter-app:',
+  keyPrefix: 'Flame-app:',
 });
 ```
 
-### 2. Register with the Igniter Builder
+### 2. Register with the Flame Builder
 
-Next, enable the Store feature in your main `igniter.ts` file by passing your `store` adapter instance to the `.store()` method on the builder.
+Next, enable the Store feature in your main `Flame.ts` file by passing your `store` adapter instance to the `.store()` method on the builder.
 
 ```typescript
-// src/igniter.ts
-import { Igniter } from '@igniter-js/core';
+// src/Flame.ts
+import { Flame } from '@flame-js/core';
 import { store } from './services/store';
 
-export const igniter = Igniter
+export const Flame = Flame
   .context<AppContext>()
   .store(store) // Enable the Store feature
   .create();
 ```
 
-Your application is now configured to use Redis for caching and pub/sub. You can access the store's methods via `igniter.store` or `context.store` within your actions.
+Your application is now configured to use Redis for caching and pub/sub. You can access the store's methods via `Flame.store` or `context.store` within your actions.
 
 **Example of use in an action:**
 
@@ -88,7 +88,7 @@ handler: async ({ context, response }) => {
 }
 ```
 
-For more detailed guides, please refer to the **[Official Igniter.js Wiki](https://igniterjs.com/docs)**.
+For more detailed guides, please refer to the **[Official Flame.js Wiki](https://Flamejs.com/docs)**.
 
 ## Contributing
 
@@ -97,3 +97,8 @@ Contributions are welcome! Please see the main [CONTRIBUTING.md](/CONTRIBUTING.m
 ## License
 
 This package is licensed under the [MIT License](/LICENSE).
+
+
+
+
+

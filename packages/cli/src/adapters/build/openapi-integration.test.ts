@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { introspectRouter } from './introspector';
 import { OpenAPIGenerator } from '../docs/openapi-generator';
-import type { IgniterRouter } from '@igniter-js/core';
+import type { FlameRouter } from '@flame-js/core';
 
 describe('OpenAPI Generator Integration - docs configuration', () => {
   it('should generate OpenAPI spec with docs configuration from router', () => {
@@ -69,7 +69,7 @@ describe('OpenAPI Generator Integration - docs configuration', () => {
           info: {
             title: 'Test API',
             version: '1.0.0',
-            description: 'A comprehensive test API for Igniter.js',
+            description: 'A comprehensive test API for Flame.js',
           },
           servers: [
             { url: 'http://localhost:3000', description: 'Local Development Server' },
@@ -81,7 +81,7 @@ describe('OpenAPI Generator Integration - docs configuration', () => {
           },
         },
       },
-    } as IgniterRouter<any, any, any, any, any>;
+    } as FlameRouter<any, any, any, any, any>;
 
     // Simular o fluxo completo: introspectRouter -> OpenAPIGenerator
     const introspected = introspectRouter(mockRouter);
@@ -103,7 +103,7 @@ describe('OpenAPI Generator Integration - docs configuration', () => {
     expect(spec.info).toBeDefined();
     expect(spec.info.title).toBe('Test API');
     expect(spec.info.version).toBe('1.0.0');
-    expect(spec.info.description).toBe('A comprehensive test API for Igniter.js');
+    expect(spec.info.description).toBe('A comprehensive test API for Flame.js');
     
     expect(spec.servers).toBeDefined();
     expect(spec.servers).toHaveLength(2);
@@ -131,7 +131,7 @@ describe('OpenAPI Generator Integration - docs configuration', () => {
         baseURL: 'http://localhost:3000',
         basePATH: '/api/v1',
       },
-    } as IgniterRouter<any, any, any, any, any>;
+    } as FlameRouter<any, any, any, any, any>;
 
     const introspected = introspectRouter(mockRouter);
     
@@ -145,7 +145,7 @@ describe('OpenAPI Generator Integration - docs configuration', () => {
     console.log('Generated spec with empty docs config:', JSON.stringify(spec.info, null, 2));
     
     // Verificar se valores padrão são usados
-    expect(spec.info.title).toBe('Igniter API');
+    expect(spec.info.title).toBe('Flame API');
     expect(spec.info.version).toBe('1.0.0');
     // Quando não há configuração docs, description não é definida
     expect(spec.info.description).toBeUndefined();
@@ -179,7 +179,7 @@ describe('OpenAPI Generator Integration - docs configuration', () => {
           ],
         },
       },
-    } as IgniterRouter<any, any, any, any, any>;
+    } as FlameRouter<any, any, any, any, any>;
 
     // Reproduzir exatamente o que acontece no comando generate-docs
     const introspected = introspectRouter(mockRouter);
@@ -199,3 +199,8 @@ describe('OpenAPI Generator Integration - docs configuration', () => {
     expect(spec.servers[0].url).toBe('https://blog.example.com/api');
   });
 });
+
+
+
+
+

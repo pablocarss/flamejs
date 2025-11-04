@@ -1,29 +1,29 @@
-# AI Agent Maintenance Manual: `@igniter-js/adapter-opentelemetry`
+# AI Agent Maintenance Manual: `@flame-js/adapter-opentelemetry`
 
 **Version:** 1.0.0
 **For AI Agent Use Only.**
 
-This document provides a comprehensive technical guide for Large Language Model (LLM) based AI agents responsible for maintaining, debugging, and extending the `@igniter-js/adapter-opentelemetry` package. You are an expert TypeScript software engineer; this manual is your single source of truth for this package. Adherence to these instructions is critical.
+This document provides a comprehensive technical guide for Large Language Model (LLM) based AI agents responsible for maintaining, debugging, and extending the `@flame-js/adapter-opentelemetry` package. You are an expert TypeScript software engineer; this manual is your single source of truth for this package. Adherence to these instructions is critical.
 
 ---
 
 ## 1. Package Overview
 
 ### 1.1. Package Name
-`@igniter-js/adapter-opentelemetry`
+`@flame-js/adapter-opentelemetry`
 
 ### 1.2. Purpose
-This package is an **Adapter**. Its sole responsibility is to implement the `IgniterTelemetryProvider` interface (defined in `@igniter-js/core`) using the **OpenTelemetry** standard. It provides a production-ready solution for observability, enabling distributed tracing, metrics collection, and structured event logging for Igniter.js applications. This adapter makes it possible to monitor, debug, and analyze the performance of applications in complex, distributed environments.
+This package is an **Adapter**. Its sole responsibility is to implement the `FlameTelemetryProvider` interface (defined in `@flame-js/core`) using the **OpenTelemetry** standard. It provides a production-ready solution for observability, enabling distributed tracing, metrics collection, and structured event logging for Flame.js applications. This adapter makes it possible to monitor, debug, and analyze the performance of applications in complex, distributed environments.
 
 ---
 
 ## 2. Architecture & Key Concepts
 
-To effectively maintain this package, you must understand its role as a sophisticated wrapper around the OpenTelemetry SDKs, tailored to the Igniter.js lifecycle.
+To effectively maintain this package, you must understand its role as a sophisticated wrapper around the OpenTelemetry SDKs, tailored to the Flame.js lifecycle.
 
 ### 2.1. The Adapter Pattern and the Core Contract
 
-The `IgniterTelemetryProvider` interface, located in `packages/core/src/types/telemetry.interface.ts`, is the **canonical contract** for this package. The object returned by `createOpenTelemetryAdapter` must fully implement this interface. The key methods this adapter provides are:
+The `FlameTelemetryProvider` interface, located in `packages/core/src/types/telemetry.interface.ts`, is the **canonical contract** for this package. The object returned by `createOpenTelemetryAdapter` must fully implement this interface. The key methods this adapter provides are:
 - `startSpan`: To begin a new tracing span.
 - `timing`: To record a duration-based metric (histogram).
 - `increment`: To increment a counter metric.
@@ -37,19 +37,19 @@ This adapter abstracts away the significant complexity of setting up the OpenTel
 - **Resource Attributes:** It sets OpenTelemetry `Resource` attributes, which are metadata tags (e.g., `service.name`, `deployment.environment`) attached to all telemetry emitted by the application.
 - **Sampling:** It configures tracing sampling (e.g., `TraceIdRatioBasedSampler`) to control the volume of traces sent in high-traffic environments.
 
-### 2.3. Integration with the Igniter.js Request Lifecycle
+### 2.3. Integration with the Flame.js Request Lifecycle
 
-The true power of this adapter is unlocked when it's registered with the Igniter Builder via the `.telemetry()` method. This allows it to hook into the core `RequestProcessor`.
+The true power of this adapter is unlocked when it's registered with the Flame Builder via the `.telemetry()` method. This allows it to hook into the core `RequestProcessor`.
 1.  **Span Creation:** For every incoming HTTP request, the `RequestProcessor` calls this adapter's `startSpan` method. This creates a root "span" for the entire request, capturing details like the HTTP method and path.
-2.  **Context Injection:** This is a critical step. The adapter injects the created OpenTelemetry `span` and its `traceContext` directly into the Igniter.js `context`. This makes the current span available inside every `Procedure` and `Action` handler via `context.span`.
+2.  **Context Injection:** This is a critical step. The adapter injects the created OpenTelemetry `span` and its `traceContext` directly into the Flame.js `context`. This makes the current span available inside every `Procedure` and `Action` handler via `context.span`.
 3.  **Child Spans:** Developers can then use `context.span.child('my-operation')` within their handlers to create nested, child spans for fine-grained tracing of specific operations, such as a database query or a call to an external API.
 4.  **Span Finalization:** The `RequestProcessor` ensures that the root span is correctly finalized (finished) at the end of the request, recording its total duration and status (success or error). The `ErrorHandlerProcessor` specifically calls `finishSpanError` to correctly tag failed requests.
 
 ### 2.4. Developer Experience Wrappers
 
 To simplify the use of OpenTelemetry APIs, this adapter provides custom wrapper classes:
--   **`IgniterSpan` (`span.ts`):** A wrapper around the OTel `Span` object. It provides a more fluent and convenient API for developers, such as `.setTag()`, `.setError()`, and `.child()`.
--   **`IgniterTimer` (`timer.ts`):** A utility class returned by the `telemetry.timer()` method. It simplifies the process of measuring the duration of an operation and recording it as a histogram metric upon calling `.finish()`.
+-   **`FlameSpan` (`span.ts`):** A wrapper around the OTel `Span` object. It provides a more fluent and convenient API for developers, such as `.setTag()`, `.setError()`, and `.child()`.
+-   **`FlameTimer` (`timer.ts`):** A utility class returned by the `telemetry.timer()` method. It simplifies the process of measuring the duration of an operation and recording it as a histogram metric upon calling `.finish()`.
 
 ---
 
@@ -60,7 +60,7 @@ To simplify the use of OpenTelemetry APIs, this adapter provides custom wrapper 
     > **Maintenance**: This file should only be modified if a new public factory or type is introduced.
 
 *   `src/opentelemetry.adapter.ts`
-    > **Purpose**: **This is the most critical file.** It contains the implementation of the main `createOpenTelemetryAdapter` factory. All the complex logic for initializing the `NodeSDK`, configuring exporters based on the provided options, and returning an object that implements the `IgniterTelemetryProvider` interface resides here.
+    > **Purpose**: **This is the most critical file.** It contains the implementation of the main `createOpenTelemetryAdapter` factory. All the complex logic for initializing the `NodeSDK`, configuring exporters based on the provided options, and returning an object that implements the `FlameTelemetryProvider` interface resides here.
     > **Maintenance**: Any task involving a change to the adapter's core behavior, such as supporting a new exporter or adding a new top-level configuration, will be implemented in this file.
 
 *   `src/factory.ts`
@@ -68,11 +68,11 @@ To simplify the use of OpenTelemetry APIs, this adapter provides custom wrapper 
     > **Maintenance**: If a new "preset" configuration is needed (e.g., `createDatadogAdapter`), it should be added here.
 
 *   `src/span.ts`
-    > **Purpose**: Defines the `IgniterSpan` wrapper class. This class provides a developer-friendly API over the standard OpenTelemetry `Span` interface.
+    > **Purpose**: Defines the `FlameSpan` wrapper class. This class provides a developer-friendly API over the standard OpenTelemetry `Span` interface.
     > **Maintenance**: If a new helper method for interacting with spans is needed (e.g., a shortcut for adding a specific type of event), it should be added to this class.
 
 *   `src/timer.ts`
-    > **Purpose**: Defines the `IgniterTimer` utility class, which simplifies the process of timing an operation and recording a histogram metric.
+    > **Purpose**: Defines the `FlameTimer` utility class, which simplifies the process of timing an operation and recording a histogram metric.
     > **Maintenance**: Changes to how timing metrics are recorded would be made in this class.
 
 *   `src/types.ts`
@@ -169,4 +169,9 @@ This section provides explicit, step-by-step instructions for performing common 
         -   Write another test that calls `createProductionOpenTelemetryAdapter` **with** `sampleRate: 0.5`. Assert that the underlying factory was called with `sampleRate: 0.5` (proving the override works).
         -   Write a third test that calls it with `sampleRate: 0`. Assert that the underlying factory was called with `sampleRate: 0`.
 
-This systematic, type-first, and test-driven approach is mandatory for maintaining the quality and reliability of the Igniter.js adapters. Always consult the interfaces in `@igniter-js/core` and the types within this package before implementing changes.
+This systematic, type-first, and test-driven approach is mandatory for maintaining the quality and reliability of the Flame.js adapters. Always consult the interfaces in `@flame-js/core` and the types within this package before implementing changes.
+
+
+
+
+

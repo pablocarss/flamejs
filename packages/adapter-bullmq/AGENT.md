@@ -1,39 +1,39 @@
-# AI Agent Maintenance Manual: `@igniter-js/adapter-bullmq`
+# AI Agent Maintenance Manual: `@flame-js/adapter-bullmq`
 
 **Version:** 1.0.0
 **For Agent Use Only.**
 
-This document provides a comprehensive technical guide for Large Language Model (LLM) based AI agents responsible for maintaining, debugging, and extending the `@igniter-js/adapter-bullmq` package. You are an expert TypeScript engineer; this manual is your single source of truth for this package. Adherence to these instructions is critical.
+This document provides a comprehensive technical guide for Large Language Model (LLM) based AI agents responsible for maintaining, debugging, and extending the `@flame-js/adapter-bullmq` package. You are an expert TypeScript engineer; this manual is your single source of truth for this package. Adherence to these instructions is critical.
 
 ---
 
 ## 1. Package Overview
 
 ### 1.1. Package Name
-`@igniter-js/adapter-bullmq`
+`@flame-js/adapter-bullmq`
 
 ### 1.2. Purpose
-This package serves as a concrete **Adapter** that connects the abstract **Igniter.js Queues** system (defined in `@igniter-js/core`) to the [BullMQ](https://bullmq.io/) library. Its sole responsibility is to implement the `IgniterJobQueueAdapter` interface, providing a robust, production-ready solution for background job processing using Redis as the backend.
+This package serves as a concrete **Adapter** that connects the abstract **Flame.js Queues** system (defined in `@flame-js/core`) to the [BullMQ](https://bullmq.io/) library. Its sole responsibility is to implement the `FlameJobQueueAdapter` interface, providing a robust, production-ready solution for background job processing using Redis as the backend.
 
 ---
 
 ## 2. Architecture & Key Concepts
 
-To effectively maintain this package, you must understand its role as a "bridge" between the Igniter.js framework and the BullMQ library.
+To effectively maintain this package, you must understand its role as a "bridge" between the Flame.js framework and the BullMQ library.
 
 ### 2.1. The Adapter Pattern
-This package is a classic example of the **Adapter Pattern**. `@igniter-js/core` defines a standard interface for what a job queue system should do (`IgniterJobQueueAdapter` in `packages/core/src/types/jobs.interface.ts`). This adapter provides the concrete implementation of that interface. This decouples the core framework from the specific queueing technology, meaning another adapter (e.g., for RabbitMQ) could be created without changing the core framework.
+This package is a classic example of the **Adapter Pattern**. `@flame-js/core` defines a standard interface for what a job queue system should do (`FlameJobQueueAdapter` in `packages/core/src/types/jobs.interface.ts`). This adapter provides the concrete implementation of that interface. This decouples the core framework from the specific queueing technology, meaning another adapter (e.g., for RabbitMQ) could be created without changing the core framework.
 
 ### 2.2. Interaction with BullMQ
 This adapter is essentially a sophisticated wrapper around the BullMQ library. When you use the functions provided by this adapter, it translates those calls into the corresponding BullMQ operations:
 
 *   **`jobs.router()` and `jobs.register()`**: These functions from the adapter do **not** immediately interact with BullMQ. They are configuration helpers that allow developers to define their job structures, payloads (with Zod), and handlers in a declarative, type-safe way.
 *   **`jobs.merge()`**: This function consolidates all the defined job routers into a single, structured configuration object.
-*   **`igniter.jobs.<namespace>.schedule()`**: When this method is called from the application, the adapter's `invoke` or `schedule` logic is triggered. This is where a **`Queue`** instance from BullMQ is used to add a new job to Redis via `queue.add()`.
+*   **`Flame.jobs.<namespace>.schedule()`**: When this method is called from the application, the adapter's `invoke` or `schedule` logic is triggered. This is where a **`Queue`** instance from BullMQ is used to add a new job to Redis via `queue.add()`.
 *   **Worker Process**: The adapter can optionally start a BullMQ **`Worker`** instance. This worker listens to the Redis queue, picks up jobs as they become available, and executes the corresponding `handler` function that you defined in `jobs.register()`.
 
 ### 2.3. Redis Connection
-BullMQ requires a Redis connection to operate. To promote efficiency, this adapter does **not** create its own Redis connection. Instead, it **requires an existing Redis connection** to be passed in during initialization, typically from an instance of the `@igniter-js/adapter-redis` store adapter. This allows the Store and Queues systems to share a single connection pool.
+BullMQ requires a Redis connection to operate. To promote efficiency, this adapter does **not** create its own Redis connection. Instead, it **requires an existing Redis connection** to be passed in during initialization, typically from an instance of the `@flame-js/adapter-redis` store adapter. This allows the Store and Queues systems to share a single connection pool.
 
 ---
 
@@ -172,4 +172,9 @@ This section provides explicit, step-by-step instructions for performing common 
     -   **File:** `packages/adapter-bullmq/src/__tests__/bullmq.adapter.test.ts`.
     -   **Action:** Find the test that verifies the default worker behavior. If it doesn't exist, create one. The test should initialize the adapter *without* specifying a concurrency level and then assert that the underlying BullMQ `Worker` was created with `concurrency: 10`.
 
-By following these detailed, methodical steps, you will ensure that all modifications are implemented correctly, are well-tested, and respect the architectural boundaries of the Igniter.js ecosystem. Always prioritize reading the `types` and then the `implementation` before making any changes.
+By following these detailed, methodical steps, you will ensure that all modifications are implemented correctly, are well-tested, and respect the architectural boundaries of the Flame.js ecosystem. Always prioritize reading the `types` and then the `implementation` before making any changes.
+
+
+
+
+

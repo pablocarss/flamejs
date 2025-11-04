@@ -6,16 +6,16 @@
  */
 
 import type { 
-  IgniterTelemetryProvider, 
-  IgniterTelemetrySpan, 
-  IgniterTelemetryConfig,
-  IgniterSpanOptions,
-  IgniterTimer,
-  IgniterSpanContext
+  FlameTelemetryProvider, 
+  FlameTelemetrySpan, 
+  FlameTelemetryConfig,
+  FlameSpanOptions,
+  FlameTimer,
+  FlameSpanContext
 } from "../types/telemetry.interface";
-import type { IgniterStoreAdapter } from "../types/store.interface";
-import { IgniterConsoleLogger } from "../services";
-import { IgniterLogLevel, type IgniterLogger } from "../types";
+import type { FlameStoreAdapter } from "../types/store.interface";
+import { FlameConsoleLogger } from "../services";
+import { FlameLogLevel, type FlameLogger } from "../types";
 import { resolveLogLevel, createLoggerContext } from "../utils/logger";
 
 /**
@@ -23,7 +23,7 @@ import { resolveLogLevel, createLoggerContext } from "../utils/logger";
  */
 export interface ConsoleTelemetryOptions {
   /** Store adapter for publishing events to CLI */
-  store?: IgniterStoreAdapter;
+  store?: FlameStoreAdapter;
   /** Enable Redis pub/sub for CLI integration */
   enableCliIntegration?: boolean;
   /** Channel name for publishing telemetry events */
@@ -33,7 +33,7 @@ export interface ConsoleTelemetryOptions {
 /**
  * Console implementation of telemetry span.
  */
-class ConsoleTelemetrySpan implements IgniterTelemetrySpan {
+class ConsoleTelemetrySpan implements FlameTelemetrySpan {
   public readonly name: string;
   public readonly id: string;
   public readonly traceId: string;
@@ -47,7 +47,7 @@ class ConsoleTelemetrySpan implements IgniterTelemetrySpan {
 
   constructor(
     name: string,
-    options: IgniterSpanOptions = {},
+    options: FlameSpanOptions = {},
     private provider: ConsoleTelemetryProvider
   ) {
     this.name = name;
@@ -61,7 +61,7 @@ class ConsoleTelemetrySpan implements IgniterTelemetrySpan {
     }
 
     try {
-      const logger = new IgniterConsoleLogger({ 
+      const logger = new FlameConsoleLogger({ 
         level: resolveLogLevel(), 
         context: createLoggerContext('TelemetrySpan') 
       });
@@ -102,7 +102,7 @@ class ConsoleTelemetrySpan implements IgniterTelemetrySpan {
     this.tags['error'] = true;
     this.tags['error.message'] = error.message;
     try {
-      const logger = new IgniterConsoleLogger({ 
+      const logger = new FlameConsoleLogger({ 
         level: resolveLogLevel(), 
         context: createLoggerContext('TelemetrySpan') 
       });
@@ -119,7 +119,7 @@ class ConsoleTelemetrySpan implements IgniterTelemetrySpan {
       timestamp: Date.now()
     });
     try {
-      const logger = new IgniterConsoleLogger({ 
+      const logger = new FlameConsoleLogger({ 
         level: resolveLogLevel(), 
         context: createLoggerContext('TelemetrySpan') 
       });
@@ -135,7 +135,7 @@ class ConsoleTelemetrySpan implements IgniterTelemetrySpan {
     
     const statusIcon = this.status === 'completed' ? '✅' : '❌';
     try {
-      const logger = new IgniterConsoleLogger({ 
+      const logger = new FlameConsoleLogger({ 
         level: resolveLogLevel(), 
         context: createLoggerContext('TelemetrySpan') 
       });
@@ -176,14 +176,14 @@ class ConsoleTelemetrySpan implements IgniterTelemetrySpan {
     });
   }
 
-  child(name: string, options?: IgniterSpanOptions): IgniterTelemetrySpan {
+  child(name: string, options?: FlameSpanOptions): FlameTelemetrySpan {
     return new ConsoleTelemetrySpan(name, {
       ...options,
       parent: this
     }, this.provider);
   }
 
-  getContext(): IgniterSpanContext {
+  getContext(): FlameSpanContext {
     return {
       traceId: this.traceId,
       spanId: this.id,
@@ -196,7 +196,7 @@ class ConsoleTelemetrySpan implements IgniterTelemetrySpan {
 /**
  * Console implementation of telemetry timer.
  */
-class ConsoleTelemetryTimer implements IgniterTimer {
+class ConsoleTelemetryTimer implements FlameTimer {
   public readonly name: string;
   public readonly startTime: number;
   public readonly tags: Record<string, string>;
@@ -211,7 +211,7 @@ class ConsoleTelemetryTimer implements IgniterTimer {
     const duration = this.getDuration();
     const allTags = { ...this.tags, ...additionalTags };
     try {
-      const logger = new IgniterConsoleLogger({ 
+      const logger = new FlameConsoleLogger({ 
         level: resolveLogLevel(), 
         context: createLoggerContext('TelemetryTimer') 
       });
@@ -229,23 +229,23 @@ class ConsoleTelemetryTimer implements IgniterTimer {
 /**
  * Console telemetry provider implementation.
  */
-class ConsoleTelemetryProvider implements IgniterTelemetryProvider {
-  public readonly config: IgniterTelemetryConfig;
+class ConsoleTelemetryProvider implements FlameTelemetryProvider {
+  public readonly config: FlameTelemetryConfig;
   public readonly name = 'console';
   public readonly status: 'active' | 'inactive' | 'error' = 'active';
   
-  private activeSpan: IgniterTelemetrySpan | null = null;
-  private spanStack: IgniterTelemetrySpan[] = [];
-  private store?: IgniterStoreAdapter;
+  private activeSpan: FlameTelemetrySpan | null = null;
+  private spanStack: FlameTelemetrySpan[] = [];
+  private store?: FlameStoreAdapter;
   private enableCliIntegration: boolean;
   private channel: string;
-  private logger: IgniterLogger = new IgniterConsoleLogger({
+  private logger: FlameLogger = new FlameConsoleLogger({
     level: resolveLogLevel(),
     context: createLoggerContext('ConsoleTelemetryProvider')
   })
 
   constructor(
-    config: IgniterTelemetryConfig, 
+    config: FlameTelemetryConfig, 
     options: ConsoleTelemetryOptions = {}
   ) {
     this.config = {
@@ -258,7 +258,7 @@ class ConsoleTelemetryProvider implements IgniterTelemetryProvider {
 
     this.store = options.store;
     this.enableCliIntegration = options.enableCliIntegration ?? true;
-    this.channel = options.channel ?? 'igniter:telemetry';
+    this.channel = options.channel ?? 'Flame:telemetry';
 
     this.logger.info('Console telemetry provider initialized', {
       serviceName: this.config.serviceName,
@@ -276,7 +276,7 @@ class ConsoleTelemetryProvider implements IgniterTelemetryProvider {
   // TRACING
   // ==========================================
 
-  startSpan(name: string, options?: IgniterSpanOptions): IgniterTelemetrySpan {
+  startSpan(name: string, options?: FlameSpanOptions): FlameTelemetrySpan {
     if (!this.config.enableTracing) {
       return new ConsoleTelemetrySpan(name, options, this);
     }
@@ -287,15 +287,15 @@ class ConsoleTelemetryProvider implements IgniterTelemetryProvider {
     return span;
   }
 
-  getActiveSpan(): IgniterTelemetrySpan | null {
+  getActiveSpan(): FlameTelemetrySpan | null {
     return this.activeSpan;
   }
 
-  setActiveSpan(span: IgniterTelemetrySpan): void {
+  setActiveSpan(span: FlameTelemetrySpan): void {
     this.activeSpan = span;
   }
 
-  withActiveSpan<T>(span: IgniterTelemetrySpan, fn: () => T): T {
+  withActiveSpan<T>(span: FlameTelemetrySpan, fn: () => T): T {
     const previousSpan = this.activeSpan;
     this.activeSpan = span;
     try {
@@ -337,7 +337,7 @@ class ConsoleTelemetryProvider implements IgniterTelemetryProvider {
     this.logger.debug(`[GAUGE] ${metric}: ${value}`, tags);
   }
 
-  timer(metric: string, tags?: Record<string, string>): IgniterTimer {
+  timer(metric: string, tags?: Record<string, string>): FlameTimer {
     return new ConsoleTelemetryTimer(metric, tags);
   }
 
@@ -462,15 +462,20 @@ class ConsoleTelemetryProvider implements IgniterTelemetryProvider {
  *   environment: 'development'
  * });
  * 
- * const igniter = Igniter
+ * const Flame = Flame
  *   .context<{ db: Database }>()
  *   .telemetry(telemetry)
  *   .create();
  * ```
  */
 export function createConsoleTelemetryAdapter(
-  config: IgniterTelemetryConfig,
+  config: FlameTelemetryConfig,
   options?: ConsoleTelemetryOptions
-): IgniterTelemetryProvider {
+): FlameTelemetryProvider {
   return new ConsoleTelemetryProvider(config, options);
 }
+
+
+
+
+

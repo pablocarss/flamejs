@@ -2,11 +2,11 @@ import { Metadata } from 'next';
 import React from 'react';
 
 export const metadata: Metadata = {
-  title: 'Real-time Subscriptions with `useRealtime` | Igniter.js',
+  title: 'Real-time Subscriptions with `useRealtime` | Flame.js',
   description:
-    'Learn how to use the `useRealtime` hook to subscribe to live data streams from your Igniter.js backend, perfect for notifications, chats, and live activity feeds.',
+    'Learn how to use the `useRealtime` hook to subscribe to live data streams from your Flame.js backend, perfect for notifications, chats, and live activity feeds.',
   keywords: [
-    'Igniter.js',
+    'Flame.js',
     'useRealtime',
     'real-time',
     'live data',
@@ -18,26 +18,26 @@ export const metadata: Metadata = {
     'full-stack',
   ],
   openGraph: {
-    title: 'Real-time Subscriptions with `useRealtime` | Igniter.js',
+    title: 'Real-time Subscriptions with `useRealtime` | Flame.js',
     description:
       'Master real-time data streaming with the `useRealtime` hook. This guide covers subscribing to server-pushed events and managing the connection lifecycle.',
     type: 'article',
-    url: 'https://igniterjs.com/docs/client-side/use-realtime',
+    url: 'https://Flamejs.com/docs/client-side/use-realtime',
     images: [
       {
-        url: 'https://igniterjs.com/og/docs-use-realtime.png', // Assuming an OG image exists
+        url: 'https://Flamejs.com/og/docs-use-realtime.png', // Assuming an OG image exists
         width: 1200,
         height: 630,
-        alt: 'Using the `useRealtime` hook in Igniter.js',
+        alt: 'Using the `useRealtime` hook in Flame.js',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Real-time Subscriptions with `useRealtime` | Igniter.js',
+    title: 'Real-time Subscriptions with `useRealtime` | Flame.js',
     description:
       'Master real-time data streaming with the `useRealtime` hook. This guide covers subscribing to server-pushed events and managing the connection lifecycle.',
-    images: ['https://igniterjs.com/og/docs-use-realtime.png'],
+    images: ['https://Flamejs.com/og/docs-use-realtime.png'],
   },
 };
 
@@ -48,3 +48,8 @@ export default function DocsLayout({
 }) {
   return <>{children}</>;
 }
+
+
+
+
+

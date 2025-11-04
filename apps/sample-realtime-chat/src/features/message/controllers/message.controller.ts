@@ -1,14 +1,14 @@
-import { igniter } from '@/igniter';
+import { Flame } from '@/Flame';
 import { z } from 'zod';
 import { messageProcedure } from '../procedures/message.procedure'
 import { CreateMessageInputSchema, UpdateMessageInputSchema } from '../message.interfaces'
 
-export const messageController = igniter.controller({
+export const messageController = Flame.controller({
   name: 'Message',
   description: 'Endpoints for Messages',
   path: '/messages', // e.g., /users
   actions: {
-    list: igniter.query({
+    list: Flame.query({
       name: 'list',
       description: 'List all Messages',
       path: '/',
@@ -20,7 +20,7 @@ export const messageController = igniter.controller({
       },
     }),
 
-    getById: igniter.query({
+    getById: Flame.query({
       name: 'getById',
       description: 'Get a Message by ID',
       path: '/:id' as const,
@@ -34,7 +34,7 @@ export const messageController = igniter.controller({
       },
     }),
 
-    create: igniter.mutation({
+    create: Flame.mutation({
       name: 'create',
       description: 'Create a new Message',
       path: '/',
@@ -47,7 +47,7 @@ export const messageController = igniter.controller({
       },
     }),
 
-    update: igniter.mutation({
+    update: Flame.mutation({
       name: 'update',
       description: 'Update a Message by ID',
       path: '/:id' as const,
@@ -60,7 +60,7 @@ export const messageController = igniter.controller({
       },
     }),
 
-    delete: igniter.mutation({
+    delete: Flame.mutation({
       name: 'delete',
       description: 'Delete a Message by ID',
       path: '/:id' as const,
@@ -73,3 +73,8 @@ export const messageController = igniter.controller({
     }),
   },
 })
+
+
+
+
+

@@ -1,4 +1,4 @@
-export type IgniterCommonErrorCode =
+export type FlameCommonErrorCode =
   | "ERR_UNKNOWN_ERROR"
   | "ERR_BAD_REQUEST"
   | "ERR_UNAUTHORIZED"
@@ -6,14 +6,14 @@ export type IgniterCommonErrorCode =
   | "ERR_NOT_FOUND"
   | "ERR_REDIRECT";
 
-export type IgniterResponseSuccess<TData = unknown> = {
+export type FlameResponseSuccess<TData = unknown> = {
   data: TData;
 };
 
-export type IgniterResponseBadRequest<TBadRequestData = unknown> =
-  IgniterResponseError<"ERR_BAD_REQUEST", TBadRequestData>;
+export type FlameResponseBadRequest<TBadRequestData = unknown> =
+  FlameResponseError<"ERR_BAD_REQUEST", TBadRequestData>;
 
-export type IgniterResponseRedirect = IgniterResponseError<
+export type FlameResponseRedirect = FlameResponseError<
   "ERR_REDIRECT",
   {
     destination: string;
@@ -21,17 +21,17 @@ export type IgniterResponseRedirect = IgniterResponseError<
   }
 >;
 
-export type IgniterResponseNotFound<TNotFoundData = unknown> =
-  IgniterResponseError<"ERR_NOT_FOUND", TNotFoundData>;
+export type FlameResponseNotFound<TNotFoundData = unknown> =
+  FlameResponseError<"ERR_NOT_FOUND", TNotFoundData>;
 
-export type IgniterResponseUnauthorized<TUnauthorizedData = unknown> =
-  IgniterResponseError<"ERR_UNAUTHORIZED", TUnauthorizedData>;
+export type FlameResponseUnauthorized<TUnauthorizedData = unknown> =
+  FlameResponseError<"ERR_UNAUTHORIZED", TUnauthorizedData>;
 
-export type IgniterResponseForbidden<TForbiddenData = unknown> =
-  IgniterResponseError<"ERR_FORBIDDEN", TForbiddenData>;
+export type FlameResponseForbidden<TForbiddenData = unknown> =
+  FlameResponseError<"ERR_FORBIDDEN", TForbiddenData>;
 
 
-  export type IgniterResponse<TData = unknown, TError = unknown> =
+  export type FlameResponse<TData = unknown, TError = unknown> =
     | {
         data: TData;
         error: null;
@@ -42,15 +42,15 @@ export type IgniterResponseForbidden<TForbiddenData = unknown> =
       };
 
   /**
-   * Represents an error response within the Igniter system.
+   * Represents an error response within the Flame system.
    * This class encapsulates error details including a code, an optional message, and optional data.
    * It is designed to be thrown or returned to indicate a specific problem.
    *
    * @template TCode The specific error code type, defaulting to "ERR_UNKNOWN_ERROR".
    * @template TData The type of additional data associated with the error, defaulting to `unknown`.
    */
-  export class IgniterResponseError<
-    TCode extends IgniterCommonErrorCode = "ERR_UNKNOWN_ERROR",
+  export class FlameResponseError<
+    TCode extends FlameCommonErrorCode = "ERR_UNKNOWN_ERROR",
     TData = unknown,
   > {
     public code: TCode;
@@ -58,7 +58,7 @@ export type IgniterResponseForbidden<TForbiddenData = unknown> =
     public data?: TData;
 
     /**
-     * Creates an instance of IgniterResponseError.
+     * Creates an instance of FlameResponseError.
      *
      * @param error An object containing the error details.
      * @param error.code The unique error code.
@@ -114,6 +114,11 @@ export type IgniterResponseForbidden<TForbiddenData = unknown> =
      */
     toString(): string {
       const messagePart = this.error.message ? `: ${this.error.message}` : '';
-      return `IgniterResponseError [${this.error.code}]${messagePart}`;
+      return `FlameResponseError [${this.error.code}]${messagePart}`;
     }
 }
+
+
+
+
+
